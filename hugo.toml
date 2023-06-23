@@ -1,5 +1,5 @@
 baseURL = "https://actuallysomecat.github.io/"
-title = "some cat"
+title = "[ some cat ]"
 languageCode = "en"
 DefaultContentLanguage = "en" # Change this to change the site's language
 theme = "hugo.386"
