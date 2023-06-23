@@ -1,0 +1,18 @@
+<footer class="container">
+    <hr class="soften">
+	<!-- moving copyright info to About page
+    <p>
+        {{- partial "copyright.html" . -}}
+    </p>
+    -->
+    <p class="text-center">
+        {{ with .Site.Params.facebook }}<a href="{{ . }}">Facebook</a> {{ end }}
+        {{ with .Site.Params.twitter }}<a href="{{ . }}">Twitter</a> {{ end }}
+        {{ with .Site.Params.linkedin }}<a href="{{ . }}">Linkedin</a> {{ end }}
+        {{ with .Site.Params.github }}<a href="{{ . }}">GitHub</a> {{ end }}
+        {{ with .Site.Params.gitlab }}<a href="{{ . }}">GitLab</a>{{ end }}
+        <br>
+        <a rel="me" href="https://toot.cat/@somecat">Fedi</a>
+    </p>
+</footer>
+

@@ -1,0 +1,20 @@
+[home]
+other = "Home"
+
+[posts]
+other = "Posts"
+
+[postslist]
+other = "Posts"
+
+[categories]
+other = "Categories"
+
+[tags]
+other = "Tags"
+
+[backtohome]
+other = "HOME"
+
+[builton]
+other = "Built on"
