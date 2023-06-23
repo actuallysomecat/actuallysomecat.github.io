@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pixelart on some cat</title>
+    <link>https://actuallysomecat.github.io/tags/pixelart/</link>
+    <description>Recent content in pixelart on some cat</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 22 Jun 2023 19:11:52 +0000</lastBuildDate><atom:link href="https://actuallysomecat.github.io/tags/pixelart/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ear_twitch_test_1</title>
+      <link>https://actuallysomecat.github.io/post/ear_twitch_test_1/</link>
+      <pubDate>Thu, 22 Jun 2023 19:11:52 +0000</pubDate>
+      
+      <guid>https://actuallysomecat.github.io/post/ear_twitch_test_1/</guid>
+      <description>ear twitch test gif with vertical scroll</description>
+    </item>
+    
+    <item>
+      <title>Gif_test4</title>
+      <link>https://actuallysomecat.github.io/post/gif_test4/</link>
+      <pubDate>Thu, 22 Jun 2023 17:38:31 +0000</pubDate>
+      
+      <guid>https://actuallysomecat.github.io/post/gif_test4/</guid>
+      <description>meow(?)
+meow.</description>
+    </item>
+    
+  </channel>
+</rss>
