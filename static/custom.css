@@ -29,25 +29,25 @@ a {
 	color: #DFAF5F !important;
 }
 
-a:hover {
-	color: #DFAF00 !important;
-}
-
 a:visited {
 	color: #FFDF87 !important;
+}
+
+a:hover {
+	color: #DFAF00 !important;
 }
 
 .bs-docs-sidenav > li > a {
 	color: #AF5F00 !important;
 }
 
+.bs-docs-sidenav > li > a:visited {
+	color: #AF5F00 !important;
+}
+
 .bs-docs-sidenav > li > a:hover {
 	background-color: #AF5F00 !important;
 	color: #DFAF5F !important;
-}
-
-.bs-docs-sidenav > li > a:visited {
-	color: #AF5F00 !important;
 }
 
 .nav-collapse, .collapse > .nav {
