@@ -1,12 +1,18 @@
 ---
-title: ""
+title: "About"
+description: "some cat"
 date: 1970-01-01T00:00:00+00:00
 draft: false
 ---
 
-some cat.
+---
 
-[i'm over here on the fediverse](https://toot.cat/@somecat/)
+i'm [over here](https://toot.cat/@somecat/) on the fediverse
+
+
+some toots of some stuff i did, do, or am doing:
+- [#PixelArt](https://toot.cat/@somecat/tagged/PixelArt)
+- [#MusicProduction](https://toot.cat/@somecat/tagged/MusicProduction)
 
 ---
 > **attribution**:

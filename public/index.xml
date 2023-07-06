@@ -6,7 +6,17 @@
     <description>Recent content on [ some cat ]</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Jun 2023 23:20:57 +0000</lastBuildDate><atom:link href="https://actuallysomecat.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://actuallysomecat.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>minor update</title>
+      <link>https://actuallysomecat.github.io/post/minor_update/</link>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://actuallysomecat.github.io/post/minor_update/</guid>
+      <description>added two tag lists on About. will add more later. once i have more toots that are tagged u_u;
+this is all a temporary site anyway. i will be remaking entirely once i get a domain and vps.</description>
+    </item>
+    
     <item>
       <title>testing</title>
       <link>https://actuallysomecat.github.io/post/testing/</link>
@@ -54,14 +64,14 @@ meow.</description>
     </item>
     
     <item>
-      <title></title>
+      <title>About</title>
       <link>https://actuallysomecat.github.io/about/</link>
       <pubDate>Thu, 01 Jan 1970 00:00:00 +0000</pubDate>
       
       <guid>https://actuallysomecat.github.io/about/</guid>
-      <description>some cat.
-i&amp;rsquo;m over here on the fediverse
-attribution:
+      <description>i&amp;rsquo;m over here on the fediverse
+some toots of some stuff i did, do, or am doing:
+#PixelArt #MusicProduction attribution:
 base theme: hugo.386 by Max le Fou | © JM Fergeau
 some emoji: meowni.ca</description>
     </item>

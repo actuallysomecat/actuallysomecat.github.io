@@ -4,6 +4,9 @@ other = "Home"
 [posts]
 other = "Posts"
 
+[about]
+other = "About"
+
 [postslist]
 other = "Posts"
 
@@ -11,7 +14,7 @@ other = "Posts"
 other = "Categories"
 
 [tags]
-other = "Tags"
+other = "Site Tags"
 
 [backtohome]
 other = "HOME"
