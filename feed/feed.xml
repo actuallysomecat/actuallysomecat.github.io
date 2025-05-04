@@ -92,7 +92,8 @@ this can automatically update a chosen frontmatter key when the file content has
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;to push the &lt;code class=&quot;language-text&quot;&gt;_site&lt;/code&gt; dir to the repo (which is configured to be a github pages repo, using the main branch)&lt;/p&gt;
 &lt;h2 id=&quot;notes-and-thoughts&quot;&gt;notes and thoughts&lt;/h2&gt;
-&lt;p&gt;there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.&lt;/p&gt;
+&lt;p&gt;there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.&lt;br&gt;
+i could also use github actions but i do not want to.&lt;/p&gt;
 
 &lt;details class=&quot;callout&quot; data-callout=&quot;info&quot; data-callout-fold=&quot;-&quot;&gt;
 &lt;summary class=&quot;callout-title&quot;&gt;
@@ -207,8 +208,8 @@ some css:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;meow&lt;/p&gt;
 &lt;h2 id=&quot;a-test&quot;&gt;a test&lt;/h2&gt;
-&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#section-2/&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
+&lt;p&gt;this is a link to the &lt;code class=&quot;language-text&quot;&gt;meow world&lt;/code&gt; post, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;test&lt;/a&gt;&lt;br&gt;
+the above link in the markdown is &lt;code class=&quot;language-text&quot;&gt;[[meow world|test]]&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&quot;callout&quot;&gt;callout&lt;/h3&gt;
 
 &lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
@@ -220,45 +221,7 @@ some css:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;test callout&lt;br&gt;
 with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world/&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;p&gt;.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;br&gt;
-.&lt;/p&gt;
-&lt;h2 id=&quot;section-2&quot;&gt;section 2&lt;/h2&gt;
-&lt;p&gt;back to the &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#a-test&quot;&gt;top section&lt;/a&gt;&lt;/p&gt;
-</content>
+&lt;/div&gt;&lt;/div&gt;</content>
   </entry>
   <entry>
     <title>meow world</title>
