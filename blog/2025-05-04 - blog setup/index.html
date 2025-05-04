@@ -359,7 +359,10 @@
 
 	--text-color-h1: var(--ctp-latte-text);
 	--text-color-h2: var(--ctp-latte-text);
-	--text-color-h2: var(--ctp-latte-text);
+	--text-color-h3: var(--ctp-latte-text);
+	--text-color-h4: var(--ctp-latte-text);
+
+	--background-color-headings: var(--ctp-latte-crust);
 
 	--link-bg-start: transparent;
 	--link-bg-hover: var(--ctp-latte-blue); 
@@ -383,7 +386,9 @@
 	--text-color-h1: var(--ctp-mocha-red);
 	--text-color-h2: var(--ctp-mocha-peach);
 	--text-color-h3: var(--ctp-mocha-yellow);
+	--text-color-h4: var(--ctp-mocha-text);
 
+	--background-color-headings: var(--ctp-mocha-mantle);
 	--link-bg-start: transparent;
 	--link-bg-hover: var(--ctp-mocha-mauve);
 
@@ -510,9 +515,30 @@ h1 {
 }
 h2 {
 	color: var(--text-color-h2);
+	width: 100%;
+	background-color: var(--background-color-headings);
+	border-radius: 4px;
+	padding-left: 1rem;
+	padding-bottom: 0.25rem;
+	padding-top: 0.2rem;
 }
 h3 {
 	color: var(--text-color-h3);
+	width: 100%;
+	background-color: var(--background-color-headings);
+	border-radius: 4px;
+	padding-left: 1rem;
+	padding-bottom: 0.25rem;
+	padding-top: 0.2rem;
+}
+h4 {
+	color: var(--text-color-h4);
+	width: 100%;
+	background-color: var(--background-color-headings);
+	border-radius: 4px;
+	padding-left: 1rem;
+	padding-bottom: 0.25rem;
+	padding-top: 0.2rem;
 }
 
 .links-nextprev {
@@ -1587,7 +1613,7 @@ this can automatically update a chosen frontmatter key when the file content has
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T20:57:24.586Z -->
+		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T21:22:19.249Z -->
 		
 
 		<script>
