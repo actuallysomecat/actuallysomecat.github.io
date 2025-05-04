@@ -1583,7 +1583,10 @@ quickadd uses the template for a new draft to create the file itself and apply t
 <p>github link: <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a><br>
 this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is nulled when a post is promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, no modified date, yet i can still keep track of modified dates while in the draft phase, and modified date automatically changes if i edit a post after publishing it).</p>
 <h2 id="hosting">hosting</h2>
-<p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package. the <code class="language-text">package.json</code> scripts section has <code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO> -b main"</code> to push the <code class="language-text">_site</code> dir to the repo (which is configured to be a github pages repo, using the main branch)</p>
+<p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package. the <code class="language-text">package.json</code> scripts section has</p>
+<pre class="language-text"><code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO> -b main"
+</code></pre>
+<p>to push the <code class="language-text">_site</code> dir to the repo (which is configured to be a github pages repo, using the main branch)</p>
 <h2 id="notes-and-thoughts">notes and thoughts</h2>
 <p>there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.</p>
 
@@ -1613,7 +1616,7 @@ this can automatically update a chosen frontmatter key when the file content has
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T21:38:45.101Z -->
+		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T21:47:51.518Z -->
 		
 
 		<script>
