@@ -1549,13 +1549,13 @@ for adding a table of contents into posts, triggered via putting <code class="la
 <h4 id="templater">templater</h4>
 <p>github link: <a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">templater</a><br>
 templater is very powerful and key to starting my drafts and &quot;publishing&quot; them, combined with QuickAdd (below).<br>
-i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg <code class="language-text">2025-01-01 - title</code>, and one to simply move a draft from my <code class="language-text">drafts/</code> folder into the base <code class="language-text">blog/</code> and update the frontmatter date and filename accordingly (eg the previous draft if &quot;published&quot; the next day becomes <code class="language-text">2025-01-02 - title</code> with matching <code class="language-text">date:</code> and <code class="language-text">modified:</code> frontmatter).</p>
+i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg <code class="language-text">2025-01-01 - title</code>), and one to simply move a draft from my <code class="language-text">drafts/</code> folder into the base <code class="language-text">blog/</code> and update the frontmatter date and filename accordingly (eg the previous draft if &quot;published&quot; the next day it becomes <code class="language-text">2025-01-02 - title</code> with matching <code class="language-text">date:</code> and a null <code class="language-text">modified:</code> frontmatter).</p>
 <h4 id="quickadd">quickadd</h4>
 <p>github link: <a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">quickadd</a><br>
 quickadd uses the template for a new draft to create the file itself and apply the template (which prompts for the data).</p>
 <h4 id="update-modified-date">update modified date</h4>
 <p>github link: <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a><br>
-this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is updated to &quot;publish&quot; date when promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, yet i can still keep track of modified dates while in the draft phase).</p>
+this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is nulled when a post is promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, no modified date, yet i can still keep track of modified dates while in the draft phase, and modified date automatically changes if i edit a post after publishing it).</p>
 <h2 id="hosting">hosting</h2>
 <p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package. the <code class="language-text">package.json</code> scripts section has <code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO> -b main"</code> to push the <code class="language-text">_site</code> dir to the repo (which is configured to be a github pages repo, using the main branch)</p>
 <h2 id="notes-and-thoughts">notes and thoughts</h2>
@@ -1573,7 +1573,7 @@ this can automatically update a chosen frontmatter key when the file content has
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" id="cbx_0" disabled="true"><label for="cbx_0"> make this setup a barebones 11ty+obsidian blog starter template?</label></li>
 <li class="task-list-item"><input type="checkbox" id="cbx_1" disabled="true"><label for="cbx_1"> post the templater template for drafting new posts?</label></li>
-<li class="task-list-item"><input type="checkbox" id="cbx_2" disabled="true"><label for="cbx_2"> improve this post?</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_2" checked="true" disabled="true"><label for="cbx_2"> improve this post a bit</label></li>
 </ul>
 </div></details>
 </article>
@@ -1587,7 +1587,7 @@ this can automatically update a chosen frontmatter key when the file content has
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T20:48:19.946Z -->
+		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-04T20:57:24.586Z -->
 		
 
 		<script>
