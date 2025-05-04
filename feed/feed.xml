@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>some cat blog</title>
+  <subtitle>some blog of some cat</subtitle>
+  <link href="https://actuallysomecat.github.io/feed/feed.xml" rel="self" />
+  <link href="https://actuallysomecat.github.io/blog" />
+  <updated>2025-05-04T09:11:00Z</updated>
+  <id>https://actuallysomecat.github.io/blog</id>
+  <author>
+    <name>cat</name>
+  </author>
+  <entry>
+    <title>blog setup</title>
+    <link href="https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/" />
+    <updated>2025-05-04T09:11:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/</id>
+    <content type="html">&lt;nav class=&quot;table-of-contents&quot;&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#intro&quot;&gt;intro&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#11ty&quot;&gt;11ty&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#plugins&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#theme&quot;&gt;theme&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#obsidian&quot;&gt;obsidian&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#plugins-1&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#hosting&quot;&gt;hosting&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#notes-and-thoughts&quot;&gt;notes and thoughts&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;&lt;h2 id=&quot;intro&quot;&gt;intro&lt;/h2&gt;
+&lt;p&gt;i wanted to be able to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;make posts in &lt;a href=&quot;https://obsidian.md&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;obsidian&lt;/a&gt; in a &amp;quot;normal (for me)&amp;quot; way (wikilinks, image embeds, callouts, etc)&lt;/li&gt;
+&lt;li&gt;have the obsidian vault be a part of the (dev) repo for an 11ty blog&lt;/li&gt;
+&lt;li&gt;make it work&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;at times it felt like this was going to be a &amp;quot;pick two&amp;quot; kind of situation but it&#39;s more or less working (for) now, with potentially more future expansion.&lt;/p&gt;
+&lt;p&gt;below are some notes and links and explanations about this setup.&lt;/p&gt;
+&lt;h2 id=&quot;11ty&quot;&gt;11ty&lt;/h2&gt;
+&lt;p&gt;this is an &lt;a href=&quot;https://11ty.dev&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;11ty&lt;/a&gt; project, based on the &lt;a href=&quot;https://github.com/11ty/eleventy-base-blog&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;11ty base blog&lt;/a&gt; starter.&lt;/p&gt;
+&lt;h3 id=&quot;plugins&quot;&gt;plugins&lt;/h3&gt;
+&lt;p&gt;my style of obsidian use was facilitated through a combination of several markdown-it related plugins (listed here in no particular order):&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it&quot;&gt;markdown-it&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/markdown-it/markdown-it&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it&lt;/a&gt;&lt;br&gt;
+for markdown.&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-wikilinks&quot;&gt;markdown-it-wikilinks&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/jsepia/markdown-it-wikilinks&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-wikilinks&lt;/a&gt;&lt;br&gt;
+for converting obsidian style wikilinks (eg &lt;code class=&quot;language-text&quot;&gt;[[some post]]&lt;/code&gt;), including aliasing (eg &lt;code class=&quot;language-text&quot;&gt;[[some post|some alias]]&lt;/code&gt;).&lt;br&gt;
+external links are typical &lt;code class=&quot;language-text&quot;&gt;[github](https://github.com)&lt;/code&gt; style&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-attrs&quot;&gt;markdown-it-attrs&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/arve0/markdown-it-attrs&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-attrs&lt;/a&gt;&lt;br&gt;
+for adding attributes to elements via markdown.&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-link-attributes&quot;&gt;markdown-it-link-attributes&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/crookedneighbor/markdown-it-link-attributes&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-link-attributes&lt;/a&gt;&lt;br&gt;
+for adding link attributes (&lt;code class=&quot;language-text&quot;&gt;target=&quot;_blank&quot;&lt;/code&gt;, classes, etc)&lt;br&gt;
+pretty sure the plugin before this could handle this also, but i think it would require i manually add the attributes to links in obsidian every time (or do some more templating and link processing on the 11ty side) and i do not want to do that.&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-obsidian-images&quot;&gt;markdown-it-obsidian-images&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/glitchassassin/markdown-it-obsidian-images&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-images&lt;/a&gt;&lt;br&gt;
+for making the obsidian markdown image embeds work (&lt;code class=&quot;language-text&quot;&gt;![[image]]&lt;/code&gt;)&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-obsidian-callouts&quot;&gt;markdown-it-obsidian-callouts&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/ebullient/markdown-it-obsidian-callouts&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-callouts&lt;/a&gt;&lt;br&gt;
+for making the obsidian markdown callouts work, with optional styling via css.&lt;/p&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;tip&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-flame&quot;&gt;&lt;path d=&quot;M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;see also&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;h4 id=&quot;markdown-it-prism&quot;&gt;markdown-it-prism&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/jGleitz/markdown-it-prism&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-prism&lt;/a&gt;&lt;br&gt;
+for prism syntax highlighting within markdown code fences&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-task-checkbox&quot;&gt;markdown-it-task-checkbox&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/linsir/markdown-it-task-checkbox&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-task-checkbox&lt;/a&gt;&lt;br&gt;
+markdown-it plugin for adding github style task lists with classes and ids.&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-mark&quot;&gt;markdown-it-mark&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/markdown-it/markdown-it-mark&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-mark&lt;/a&gt;&lt;br&gt;
+for adding &lt;code class=&quot;language-text&quot;&gt;&amp;lt;mark&gt;&lt;/code&gt; tags around markdown highlights (like &lt;code class=&quot;language-text&quot;&gt;==example==&lt;/code&gt;)&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-toc-done-right&quot;&gt;markdown-it-toc-done-right&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/nagaozen/markdown-it-toc-done-right&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-toc-done-right&lt;/a&gt;&lt;br&gt;
+for adding a table of contents into posts, triggered via putting &lt;code class=&quot;language-text&quot;&gt;[toc]&lt;/code&gt; in the markdown of a post.&lt;/p&gt;
+&lt;h3 id=&quot;theme&quot;&gt;theme&lt;/h3&gt;
+&lt;p&gt;the theme is using bits of the &lt;a href=&quot;https://github.com/catppuccin/palette&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;catppuccin palettes&lt;/a&gt; (some latte and mocha) and the &lt;a href=&quot;https://github.com/PrismJS/prism-themes&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;laserwave prism theme&lt;/a&gt; for codeblocks.&lt;/p&gt;
+&lt;h2 id=&quot;obsidian&quot;&gt;obsidian&lt;/h2&gt;
+&lt;p&gt;i really like obsidian and it was important to me that i not have to compromise too much on &amp;quot;my obsidian way&amp;quot; of doing things to make the blog posts. the collection of plugins above for eleventy (plus relevant options configuration) mostly covered that. the only major compromise i had to make was with the table of contents insertion, handled by the eleventy plugin above (markdown-it-toc-done-right), which requires me to put &lt;code class=&quot;language-text&quot;&gt;[toc]&lt;/code&gt; in the markdown to trigger the generation of it in eleventy. there are obsidian plugins to generate a table of contents within the markdown, and/or templater could be leveraged for that as well, but i wanted to use the eleventy plugin to handle it.&lt;/p&gt;
+&lt;h3 id=&quot;plugins-2&quot;&gt;plugins&lt;/h3&gt;
+&lt;p&gt;i use a few obsidian plugins to make this all easier or possible. a few of them are strictly &amp;quot;user experience&amp;quot; sort of things that have no relevancy in the actual obsidian to eleventy pipeline, so they will not be listed. the relevant ones, in no particular order, are:&lt;/p&gt;
+&lt;h4 id=&quot;templater&quot;&gt;templater&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/SilentVoid13/Templater&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;templater&lt;/a&gt;&lt;br&gt;
+templater is very powerful and key to starting my drafts and &amp;quot;publishing&amp;quot; them, combined with QuickAdd (below).&lt;br&gt;
+i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg &lt;code class=&quot;language-text&quot;&gt;2025-01-01 - title&lt;/code&gt;, and one to simply move a draft from my &lt;code class=&quot;language-text&quot;&gt;drafts/&lt;/code&gt; folder into the base &lt;code class=&quot;language-text&quot;&gt;blog/&lt;/code&gt; and update the frontmatter date and filename accordingly (eg the previous draft if &amp;quot;published&amp;quot; the next day becomes &lt;code class=&quot;language-text&quot;&gt;2025-01-02 - title&lt;/code&gt; with matching &lt;code class=&quot;language-text&quot;&gt;date:&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;modified:&lt;/code&gt; frontmatter).&lt;/p&gt;
+&lt;h4 id=&quot;quickadd&quot;&gt;quickadd&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/chhoumann/quickadd&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;quickadd&lt;/a&gt;&lt;br&gt;
+quickadd uses the template for a new draft to create the file itself and apply the template (which prompts for the data).&lt;/p&gt;
+&lt;h4 id=&quot;update-modified-date&quot;&gt;update modified date&lt;/h4&gt;
+&lt;p&gt;github link: &lt;a href=&quot;https://github.com/alangrainger/obsidian-frontmatter-modified-date&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;update modified date&lt;/a&gt;&lt;br&gt;
+this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the &lt;code class=&quot;language-text&quot;&gt;modified: &lt;/code&gt; frontmatter to change when the &lt;em&gt;content&lt;/em&gt; of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is updated to &amp;quot;publish&amp;quot; date when promoted from draft to proper blog post (this way i don&#39;t have modified dates on published posts that are prior to publishing date, yet i can still keep track of modified dates while in the draft phase).&lt;/p&gt;
+&lt;h2 id=&quot;hosting&quot;&gt;hosting&lt;/h2&gt;
+&lt;p&gt;i am pushing the built site to a &lt;a href=&quot;https://pages.github.com/&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;github pages&lt;/a&gt; configured repo, using the &lt;a href=&quot;https://github.com/tschaub/gh-pages&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;gh-pages&lt;/a&gt; npm package. the &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; scripts section has &lt;code class=&quot;language-text&quot;&gt;&quot;deploy&quot;: &quot;gh-pages -d _site -r &amp;lt;GIT REPO&gt; -b main&quot;&lt;/code&gt; to push the &lt;code class=&quot;language-text&quot;&gt;_site&lt;/code&gt; dir to the repo (which is configured to be a github pages repo, using the main branch)&lt;/p&gt;
+&lt;h2 id=&quot;notes-and-thoughts&quot;&gt;notes and thoughts&lt;/h2&gt;
+&lt;p&gt;there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.&lt;/p&gt;
+
+&lt;details class=&quot;callout&quot; data-callout=&quot;info&quot; data-callout-fold=&quot;-&quot;&gt;
+&lt;summary class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;TODO (maybe)&lt;/div&gt;
+&lt;div class=&quot;callout-fold&quot;&gt;&lt;/div&gt;
+&lt;/summary&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;&lt;/p&gt;
+&lt;ul class=&quot;task-list&quot;&gt;
+&lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;cbx_0&quot; disabled=&quot;true&quot;&gt;&lt;label for=&quot;cbx_0&quot;&gt; make this setup a barebones 11ty+obsidian blog starter template?&lt;/label&gt;&lt;/li&gt;
+&lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;cbx_1&quot; disabled=&quot;true&quot;&gt;&lt;label for=&quot;cbx_1&quot;&gt; post the templater template for drafting new posts?&lt;/label&gt;&lt;/li&gt;
+&lt;li class=&quot;task-list-item&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;cbx_2&quot; disabled=&quot;true&quot;&gt;&lt;label for=&quot;cbx_2&quot;&gt; improve this post?&lt;/label&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/details&gt;</content>
+  </entry>
+  <entry>
+    <title>testing</title>
+    <link href="https://actuallysomecat.github.io/blog/testing/" />
+    <updated>2025-05-01T00:00:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/testing/</id>
+    <content type="html">&lt;p&gt;meow.&lt;/p&gt;
+&lt;h2 id=&quot;code-blocks&quot;&gt;code blocks&lt;/h2&gt;
+&lt;p&gt;code blocks (fences) with syntax highlighting (via prism).&lt;br&gt;
+some css:&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;meow&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #AAA&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;some html&lt;/p&gt;
+&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;html&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;body&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;span&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;meowing&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;meow&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;span&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;body&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;html&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;callouts&quot;&gt;callouts&lt;/h2&gt;
+&lt;p&gt;callouts are written in obsidian in standard callout form and use lucide icons, like&lt;/p&gt;
+&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&gt; [!info] info callout test
+&gt; info callout
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;some callouts&lt;/p&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;info callout test&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;info callout&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;details class=&quot;callout&quot; data-callout=&quot;tip&quot; data-callout-fold=&quot;+&quot; open=&quot;&quot;&gt;
+&lt;summary class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-flame&quot;&gt;&lt;path d=&quot;M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;tip callout test (collapsable, default open)&lt;/div&gt;
+&lt;div class=&quot;callout-fold&quot;&gt;&lt;/div&gt;
+&lt;/summary&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;tip callout&lt;/p&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;details class=&quot;callout&quot; data-callout=&quot;warning&quot; data-callout-fold=&quot;-&quot;&gt;
+&lt;summary class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-alert-triangle&quot;&gt;&lt;path d=&quot;m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 9v4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 17h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;warning callout test (collapsable, default closed)&lt;/div&gt;
+&lt;div class=&quot;callout-fold&quot;&gt;&lt;/div&gt;
+&lt;/summary&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;warning callout&lt;/p&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;div class=&quot;callout&quot; data-callout=&quot;success&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-check&quot;&gt;&lt;path d=&quot;M20 6 9 17l-5-5&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;success callout test&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;success callout&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;callout&quot; data-callout=&quot;error&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-zap&quot;&gt;&lt;polygon points=&quot;13 2 3 14 12 14 11 22 21 10 12 10 13 2&quot;&gt;&lt;/polygon&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;error callout test&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;error callout&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;callout&quot; data-callout=&quot;bug&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-bug&quot;&gt;&lt;path d=&quot;m8 2 1.88 1.88&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14.12 3.88 16 2&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M9 7.13v-1a3.003 3.003 0 1 1 6 0v1&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 20v-9&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M6.53 9C4.6 8.8 3 7.1 3 5&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M6 13H2&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M3 21c0-2.1 1.7-3.9 3.8-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M20.97 5c0 2.1-1.6 3.8-3.5 4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M22 13h-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M17.2 17c2.1.1 3.8 1.9 3.8 4&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;bug callout test&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;bug callout&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;(more callouts available)&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>meow meow</title>
+    <link href="https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/" />
+    <updated>2025-04-25T12:00:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/</id>
+    <content type="html">&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;meow&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;meow&lt;/p&gt;
+&lt;h2 id=&quot;a-test&quot;&gt;a test&lt;/h2&gt;
+&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#section-2&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
+&lt;h3 id=&quot;callout&quot;&gt;callout&lt;/h3&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;Info&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;test callout&lt;br&gt;
+with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/meow%20world&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;br&gt;
+.&lt;/p&gt;
+&lt;h2 id=&quot;section-2&quot;&gt;section 2&lt;/h2&gt;
+&lt;p&gt;back to the &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#a-test&quot;&gt;top section&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>meow world</title>
+    <link href="https://actuallysomecat.github.io/blog/meow%20world/" />
+    <updated>2025-04-24T16:25:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/meow%20world/</id>
+    <content type="html">&lt;p&gt;meowmeowmeow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://actuallysomecat.github.io/blog/meow%20world/content/blog/assets/images/currently.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;i am currently in eleventy&lt;/p&gt;
+</content>
+  </entry>
+</feed>

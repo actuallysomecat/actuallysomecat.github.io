@@ -1,0 +1,150 @@
+/**
+ * this file is originally https://github.com/ebullient/markdown-it-obsidian-callouts/blob/main/style/index.css
+/**
+ * This css file is generated.
+ * Make changes to `scss` version.
+ */
+/**
+ * Color about
+ */
+
+:root {
+  --bold-modifier: 200;
+  --line-height-tight: 1.3;
+  --callout-border-width: 1px;
+  --callout-border-opacity: 0.5;
+  --callout-padding: 12px 12px 12px 24px;
+  --callout-radius: 4px;
+  --callout-title-color: inherit;
+  --callout-title-padding: 0;
+  --callout-title-size: inherit;
+  --callout-title-weight: 600;
+  --callout-content-padding: 0;
+  --callout-content-background: transparent;
+  --callout-blend-mode: darken;
+  /* TODO: replace these with the ctp-latte-*-rgb colors(?) */
+  /* blue (catppuccin latte blue) */
+  --callout-info: 30, 102, 245;
+  --callout-todo: 30, 102, 245;
+  --callout-default: 30, 102, 245;
+  /* red (catppuccin latte maroon) */
+  --callout-bug: 230, 69, 83;
+  --callout-error: 230, 69, 83;
+  --callout-fail: 230, 69, 83;
+  /* green (catppuccin latte green) */
+  --callout-success: 64, 160, 43;
+  /* purple (catppuccin latte mauve) */
+  --callout-example: 136, 57, 239;
+  /* cyan (catppuccin latte teal) */
+  --callout-important: 23, 146, 153;
+  --callout-summary: 23, 146, 153;
+  --callout-tip: 23, 146, 153;
+  /* orange (catppuccin latte yellow) */
+  --callout-question: 223, 142, 29;
+  --callout-warning: 223, 142, 29;
+  /* grey (catppuccin latte overlay0) */
+  --callout-quote: 156, 160, 176;
+  --callout-collapse-icon: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgZD0ibTkgMThsNi02bC02LTYiLz48L3N2Zz4=");
+}
+
+.callout {
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(var(--callout-color), var(--callout-border-opacity));
+  border-width: var(--callout-border-width);
+  border-radius: var(--callout-radius);
+  margin: 1em 0;
+  background-color: rgba(var(--callout-color), 0.15);
+  padding: var(--callout-padding);
+  --callout-color: var(--callout-default);
+  /* --callout-icon: lucide-pencil; */
+}
+details.callout .callout-title {
+  margin: 0;
+  cursor: pointer;
+}
+details.callout .callout-title .callout-fold {
+  background-color: rgb(var(--callout-color));
+  mask-image: var(--callout-collapse-icon);
+  mask-size: 100%;
+  -webkit-mask-image: var(--callout-collapse-icon);
+  -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
+  transition: 100ms ease-in-out;
+}
+
+details[close].callout > .callout-title > .callout-fold {
+  transform: rotate(-90deg);
+}
+
+details[open].callout > .callout-title > .callout-fold {
+  transform: rotate(90deg);
+}
+
+.callout .callout-title {
+  padding: var(--callout-title-padding);
+  display: flex;
+  gap: 4px;
+  font-size: var(--callout-title-size);
+  color: rgb(var(--callout-color));
+  line-height: var(--line-height-tight);
+  align-items: flex-start;
+}
+.callout .callout-title .callout-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+.callout .callout-title .callout-title-inner {
+  --font-weight: var(--callout-title-weight);
+  font-weight: var(--font-weight);
+  color: var(--callout-title-color);
+}
+.callout .callout-title .callout-title-inner b,
+.callout .callout-title .callout-title-inner strong {
+  --font-weight: calc(var(--callout-title-weight) + var(--bold-modifier));
+  font-weight: var(--font-weight);
+}
+.callout .callout-content {
+  overflow-x: auto;
+  padding: var(--callout-content-padding);
+  background-color: var(--callout-content-background);
+}
+.callout[data-callout=todo] {
+  --callout-color: var(--callout-todo);
+  /* --callout-icon: lucide-check-circle-2; */
+}
+.callout[data-callout=success], .callout[data-callout=check], .callout[data-callout=done] {
+  --callout-color: var(--callout-success);
+  /* --callout-icon: lucide-check; */
+}
+.callout[data-callout=warning], .callout[data-callout=caution], .callout[data-callout=attention] {
+  --callout-color: var(--callout-warning);
+  /* --callout-icon: lucide-alert-triangle; */
+}
+.callout[data-callout=bug] {
+  --callout-color: var(--callout-bug);
+}
+.callout[data-callout=danger], .callout[data-callout=error] {
+  --callout-color: var(--callout-error);
+  /* --callout-icon: lucide-zap; */
+}
+.callout[data-callout=tip], .callout[data-callout=hint] {
+  --callout-color: var(--callout-tip);
+  /* --callout-icon: lucide-flame; */
+}
+.callout[data-callout=example] {
+  --callout-color: var(--callout-example);
+  /* --callout-icon: lucide-list; */
+}
+.callout[data-callout=abstract], .callout[data-callout=summary], .callout[data-callout=tldr] {
+  --callout-color: var(--callout-summary);
+  /* --callout-icon: lucide-clipboard-list; */
+}
+.callout[data-callout=quote], .callout[data-callout=cite] {
+  --callout-color: var(--callout-quote);
+  /* --callout-icon: quote-glyph; */
+}
+
+/*# sourceMappingURL=index.css.map */
