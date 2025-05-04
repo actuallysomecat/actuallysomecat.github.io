@@ -3,19 +3,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>some cat blog</title>
   <subtitle>some blog of some cat</subtitle>
-  <link href="https://actuallysomecat.github.io/blog/feed/feed.xml" rel="self" />
-  <link href="https://actuallysomecat.github.io/blog/blog" />
+  <link href="https://actuallysomecat.github.io/feed/feed.xml" rel="self" />
+  <link href="https://actuallysomecat.github.io/blog" />
   <updated>2025-05-04T09:11:00Z</updated>
-  <id>https://actuallysomecat.github.io/blog/blog</id>
+  <id>https://actuallysomecat.github.io/blog</id>
   <author>
     <name>cat</name>
   </author>
   <entry>
     <title>blog setup</title>
-    <link href="https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/" />
+    <link href="https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/" />
     <updated>2025-05-04T09:11:00Z</updated>
-    <id>https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/</id>
-    <content type="html">&lt;nav class=&quot;table-of-contents&quot;&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#intro&quot;&gt;intro&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#11ty&quot;&gt;11ty&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#plugins&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#theme&quot;&gt;theme&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#obsidian&quot;&gt;obsidian&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#plugins-1&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#hosting&quot;&gt;hosting&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/#notes-and-thoughts&quot;&gt;notes and thoughts&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;&lt;h2 id=&quot;intro&quot;&gt;intro&lt;/h2&gt;
+    <id>https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/</id>
+    <content type="html">&lt;nav class=&quot;table-of-contents&quot;&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#intro&quot;&gt;intro&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#11ty&quot;&gt;11ty&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#plugins&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#theme&quot;&gt;theme&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#obsidian&quot;&gt;obsidian&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#plugins-1&quot;&gt;plugins&lt;/a&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#hosting&quot;&gt;hosting&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#notes-and-thoughts&quot;&gt;notes and thoughts&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;&lt;h2 id=&quot;intro&quot;&gt;intro&lt;/h2&gt;
 &lt;p&gt;i wanted to be able to&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;make posts in &lt;a href=&quot;https://obsidian.md&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;obsidian&lt;/a&gt; in a &amp;quot;normal (for me)&amp;quot; way (wikilinks, image embeds, callouts, etc)&lt;/li&gt;
@@ -56,7 +56,7 @@ for making the obsidian markdown callouts work, with optional styling via css.&l
 &lt;/div&gt;
 &lt;div class=&quot;callout-title-inner&quot;&gt;see also&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;h4 id=&quot;markdown-it-prism&quot;&gt;markdown-it-prism&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/jGleitz/markdown-it-prism&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-prism&lt;/a&gt;&lt;br&gt;
 for prism syntax highlighting within markdown code fences&lt;/p&gt;
@@ -108,9 +108,9 @@ this can automatically update a chosen frontmatter key when the file content has
   </entry>
   <entry>
     <title>testing</title>
-    <link href="https://actuallysomecat.github.io/blog/blog/testing/" />
+    <link href="https://actuallysomecat.github.io/blog/testing/" />
     <updated>2025-05-01T00:00:00Z</updated>
-    <id>https://actuallysomecat.github.io/blog/blog/testing/</id>
+    <id>https://actuallysomecat.github.io/blog/testing/</id>
     <content type="html">&lt;p&gt;meow.&lt;/p&gt;
 &lt;h2 id=&quot;code-blocks&quot;&gt;code blocks&lt;/h2&gt;
 &lt;p&gt;code blocks (fences) with syntax highlighting (via prism).&lt;br&gt;
@@ -194,17 +194,17 @@ some css:&lt;/p&gt;
   </entry>
   <entry>
     <title>meow meow</title>
-    <link href="https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/" />
+    <link href="https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/" />
     <updated>2025-04-25T12:00:00Z</updated>
-    <id>https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/</id>
+    <id>https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/</id>
     <content type="html">&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token property&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;meow&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;meow&lt;/p&gt;
 &lt;h2 id=&quot;a-test&quot;&gt;a test&lt;/h2&gt;
-&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/#section-2&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
+&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#section-2&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
 &lt;h3 id=&quot;callout&quot;&gt;callout&lt;/h3&gt;
 
 &lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
@@ -215,7 +215,7 @@ some css:&lt;/p&gt;
 &lt;div class=&quot;callout-title-inner&quot;&gt;Info&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;test callout&lt;br&gt;
-with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/meow%20world&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
+with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/meow%20world&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;p&gt;.&lt;br&gt;
 .&lt;br&gt;
 .&lt;br&gt;
@@ -253,16 +253,16 @@ with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog
 .&lt;br&gt;
 .&lt;/p&gt;
 &lt;h2 id=&quot;section-2&quot;&gt;section 2&lt;/h2&gt;
-&lt;p&gt;back to the &lt;a href=&quot;https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/#a-test&quot;&gt;top section&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;back to the &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#a-test&quot;&gt;top section&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
   <entry>
     <title>meow world</title>
-    <link href="https://actuallysomecat.github.io/blog/blog/meow%20world/" />
+    <link href="https://actuallysomecat.github.io/blog/meow%20world/" />
     <updated>2025-04-24T16:25:00Z</updated>
-    <id>https://actuallysomecat.github.io/blog/blog/meow%20world/</id>
+    <id>https://actuallysomecat.github.io/blog/meow%20world/</id>
     <content type="html">&lt;p&gt;meowmeowmeow&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://actuallysomecat.github.io/blog/blog/meow%20world/content/blog/assets/images/currently.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://actuallysomecat.github.io/blog/meow%20world/content/blog/assets/images/currently.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;i am currently in eleventy&lt;/p&gt;
 </content>
   </entry>

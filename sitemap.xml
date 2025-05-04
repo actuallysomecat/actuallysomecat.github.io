@@ -2,12 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/about/</loc>
-		<lastmod>2025-04-21</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://actuallysomecat.github.io/blog/blog/</loc>
+		<loc>https://actuallysomecat.github.io/about/</loc>
 		<lastmod>2025-04-21</lastmod>
 	</url>
 	
@@ -17,32 +12,37 @@
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/tags/</loc>
+		<loc>https://actuallysomecat.github.io/</loc>
 		<lastmod>2025-04-21</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/blog/meow%20world/</loc>
+		<loc>https://actuallysomecat.github.io/tags/</loc>
+		<lastmod>2025-04-21</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://actuallysomecat.github.io/blog/meow%20world/</loc>
 		<lastmod>2025-04-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/blog/2025-04-25%20-%20meow%20meow/</loc>
+		<loc>https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/</loc>
 		<lastmod>2025-04-25</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/blog/testing/</loc>
+		<loc>https://actuallysomecat.github.io/blog/testing/</loc>
 		<lastmod>2025-05-01</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/blog/2025-05-04%20-%20blog%20setup/</loc>
+		<loc>https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/</loc>
 		<lastmod>2025-05-04</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://actuallysomecat.github.io/blog/feed/feed.xml</loc>
+		<loc>https://actuallysomecat.github.io/feed/feed.xml</loc>
 		<lastmod>2025-05-04</lastmod>
 	</url>
 </urlset>
