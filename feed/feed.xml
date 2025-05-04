@@ -261,8 +261,7 @@ with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog
     <link href="https://actuallysomecat.github.io/blog/meow%20world/" />
     <updated>2025-04-24T16:25:00Z</updated>
     <id>https://actuallysomecat.github.io/blog/meow%20world/</id>
-    <content type="html">&lt;p&gt;[toc]{.visually-hidden}&lt;br&gt;
-meowmeowmeow&lt;/p&gt;
+    <content type="html">&lt;nav class=&quot;table-of-contents&quot;&gt;&lt;/nav&gt;&lt;p&gt;meowmeowmeow&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://actuallysomecat.github.io/blog/meow%20world/content/blog/assets/images/currently.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;i am currently in eleventy&lt;/p&gt;
 </content>
