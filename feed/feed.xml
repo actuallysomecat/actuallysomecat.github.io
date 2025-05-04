@@ -203,8 +203,8 @@ some css:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;meow&lt;/p&gt;
 &lt;h2 id=&quot;a-test&quot;&gt;a test&lt;/h2&gt;
-&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/#section-2/&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
+&lt;p&gt;see also: this link to meow world, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;test&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or jump to &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#section-2/&quot;&gt;section 2&lt;/a&gt; of this post&lt;/p&gt;
 &lt;h3 id=&quot;callout&quot;&gt;callout&lt;/h3&gt;
 
 &lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
