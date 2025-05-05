@@ -4,15 +4,14 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- light/dark theme via localStorage or prefers-color-scheme -->
-		<title>tagged &#39;test&#39;</title>
-		<meta name="description" content="some blog of some cat">
+		<title>blog - obsidian templates and use</title>
+		<meta name="description" content="about the templates i use in obsidian to create drafts and posts">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="some cat blog">
 		<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
 		<link rel="me" href="https://toot.cat/@somecat">
-		<style>.postlist { counter-reset: start-from 4 }
-/* This is an arbitrary CSS string added to the bundle */
+		<style>/* This is an arbitrary CSS string added to the bundle */
 :root {
   --ctp-latte-rosewater: #dc8a78;
   --ctp-latte-rosewater-rgb: 220 138 120;
@@ -1482,49 +1481,188 @@ export { HeadingAnchors }
 		
 		<main id="skip">
 			<heading-anchors>
-				 <!-- Delete this block, which will also remove the component CSS from the bundle -->
+				<h1 id="blog-obsidian-templates-and-use">blog - obsidian templates and use</h1>
 
-<!-- Stop deleting -->
+<dl class="post-metadata">
+	<dt>posted:</dt>
+	<dd>
+		<time datetime="2025-05-05" aria-label="Published on 05 May 2025">2025.05.05</time>
+	</dd>
 
-<h1 id="things-tagged-test">things tagged “test”</h1>
+	
 
+	<dt>tags:</dt>
+	<dd>
+		<ul class="tags-list">
+				<li>
+					<a href="/tags/blog/" class="post-tag">blog</a>
+				</li>
+				<li>
+					<a href="/tags/obsidian/" class="post-tag">obsidian</a>
+				</li>
+				<li>
+					<a href="/tags/templates/" class="post-tag">templates</a>
+				</li>
+		</ul>
+	</dd>
+</dl>
 
+<article class="post-content">
+	<nav class="table-of-contents">
+		
+	</nav>
+	<nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#quickadd-setup">QuickAdd setup</a></li><li><a href="#new-draft-template">new draft template</a><ul><li><a href="#title">title</a></li><li><a href="#date">date</a></li><li><a href="#modified">modified</a></li><li><a href="#description">description</a></li><li><a href="#tags">tags</a></li><li><a href="#frontmatter-result">frontmatter result</a></li></ul></li><li><a href="#promoting-drafts-to-posts">promoting drafts to posts</a></li><li><a href="#outro">outro</a></li><li><a href="#links">links</a></li></ul></nav><h2 id="intro">intro</h2>
+<p>by using the obsidian plugins <a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">QuickAdd</a> and <a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Templater</a>, i can quickly make draft posts and later promote them to regular blog posts.</p>
 
-<ol reversed="" class="postlist">
-	<li class="postlist-item">
-		<a href="/blog/testing/" class="postlist-link">
-			<span class="postlist-link-text">
-				
-					testing
-				
-			</span>
-		</a>
-		<time class="postlist-date" datetime="2025-05-01">2025.05.01</time>
-	</li>
-	<li class="postlist-item">
-		<a href="/blog/2025-04-25 - meow meow/" class="postlist-link">
-			<span class="postlist-link-text">
-				
-					meow meow
-				
-			</span>
-		</a>
-		<time class="postlist-date" datetime="2025-04-25">2025.04.25</time>
-	</li>
-	<li class="postlist-item">
-		<a href="/blog/meow world/" class="postlist-link">
-			<span class="postlist-link-text">
-				
-					meow world
-				
-			</span>
-		</a>
-		<time class="postlist-date" datetime="2025-04-24">2025.04.24</time>
-	</li>
-</ol>
+<div class="callout" data-callout="warning">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+</div>
+<div class="callout-title-inner">warning</div>
+</div>
+<div class="callout-content"><p>this is my &quot;opinionated&quot; way to do it, a bit silly, and there are other ways to do it, but <em>c'est la vie</em>.</p>
+</div></div><h2 id="quickadd-setup">QuickAdd setup</h2>
+<p>in QuickAdd i use a template (detailed below) with the following options:</p>
+<p class="img-embed"><picture><source type="image/avif" srcset="/img/-yZ7zSO-wj-571.avif 571w"><source type="image/webp" srcset="/img/-yZ7zSO-wj-571.webp 571w"><img loading="lazy" decoding="async" src="/img/-yZ7zSO-wj-571.png" alt="cropped screenshot of a QuickAdd action setup for making my drafts" width="571" height="727"></picture></p>
+<p>this creates a new draft in <code class="language-text">/blog/drafts/</code>, using a template creatively named <code class="language-text">_obsidian_templates/blog_post_draft.md</code>.</p>
+<p>executing this action prompts for a filename (the bit after the date and separator), resulting in something like <code class="language-text">/blog/drafts/2025-05-05 - some post.md</code>.</p>
+<p>the draft opens in a new focused tab in obsidian, after some prompts.</p>
+<p>the filename then gets used by the template to determine the frontmatter <code class="language-text">title</code> (more information in the next section).</p>
+<h2 id="new-draft-template">new draft template</h2>
+<p>this template (<code class="language-text">blog_post_draft.md</code>) used by QuickAdd (above) has the following frontmatter block:</p>
+<pre class="language-js"><code class="language-js"><span class="token operator">--</span><span class="token operator">-</span>
+<span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span>title<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">></span>
+<span class="token literal-property property">date</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">'YYYY-MM-DDTHH:mm'</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">></span>
+<span class="token literal-property property">modified</span><span class="token operator">:</span> 
+<span class="token literal-property property">description</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token constant">VALUE</span><span class="token operator">:</span>description<span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token literal-property property">tags</span><span class="token operator">:</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">*</span>
+	<span class="token keyword">let</span> tagsArray <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">{{VALUE:tags}}</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">tag</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  - </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>tag<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	tR <span class="token operator">+=</span> tagsArray<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">%</span><span class="token operator">></span>
+<span class="token operator">--</span><span class="token operator">-</span>
+</code></pre>
+<p>breaking it down:</p>
+<h3 id="title">title</h3>
+<p><code class="language-js"><span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span>title<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">></span></code></p>
+<p>this takes the filename and turns it into the <code class="language-text">title</code>.<br>
+the split and slice and join is to split it all by instances of <code class="language-text">-</code> (space dash space), slice off the first section, then join the remaining pieces with <code class="language-text">-</code> (space dash space).</p>
+<p>the reason i'm doing this is because i want all of my drafts and posts to have a filename of <code class="language-text">YYYY-MM-DD - title.md</code> (my preference, supported by the way i have QuickAdd create the files), but i also want to be able to have a space dash space in the title itself, if desired, and i don't want the date to be in the <code class="language-text">title</code>.</p>
+<p>this means that something like<br>
+<code class="language-text">2025-05-05 - a post - part two.md</code><br>
+would result in frontmatter like<br>
+<code class="language-text">title: a post - part two</code></p>
+<p>it's a personal choice and method for how i like to do filenames and titles.</p>
 
-<p>See <a href="/tags/">all tags</a>.</p>
+<div class="callout" data-callout="question">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+</div>
+<div class="callout-title-inner">what about regex?</div>
+</div>
+<div class="callout-content"><p>no.</p>
+</div></div><h3 id="date">date</h3>
+<p><code class="language-js"><span class="token literal-property property">date</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">'YYYY-MM-DDTHH:mm'</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">></span></code></p>
+<p>this just inserts the current datetime in the <code class="language-text">date</code> field.</p>
+<h3 id="modified">modified</h3>
+<p>this is left null on draft creation.<br>
+it gets populated automatically with the obsidian plugin <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a> as the content of the draft (or published post) is modified over time, in the same format as the <code class="language-text">date</code>.</p>
+<h3 id="description">description</h3>
+<p><code class="language-js"><span class="token literal-property property">description</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token constant">VALUE</span><span class="token operator">:</span>description<span class="token punctuation">}</span><span class="token punctuation">}</span></code></p>
+<p>this is one of the prompted fields, filled in at time of draft creation. just a string.</p>
+<h3 id="tags">tags</h3>
+<pre class="language-js"><code class="language-js"><span class="token literal-property property">tags</span><span class="token operator">:</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">*</span>
+	<span class="token keyword">let</span> tagsArray <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">{{VALUE:tags}}</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">tag</span> <span class="token operator">=></span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  - </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>tag<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	tR <span class="token operator">+=</span> tagsArray<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">%</span><span class="token operator">></span>
+</code></pre>
+<p>another prompted field, then some transformation.</p>
+<p>tags are entered comma separated in the prompt, then transformed from a standard array format into a one-per-line list format.</p>
+<p>so, entering <code class="language-text">meow, test</code> into the prompt becomes <code class="language-text">tags: [meow, test]</code> which then becomes</p>
+<pre class="language-js"><code class="language-js"><span class="token literal-property property">tags</span><span class="token operator">:</span>
+  <span class="token operator">-</span> meow
+  <span class="token operator">-</span> test
+</code></pre>
+<p>again this is all just personal preference and to ease compatibility and lower friction (read: cause me less hassle) for everything else.</p>
+<h3 id="frontmatter-result">frontmatter result</h3>
+<p>for the draft of this post, the raw frontmatter after creation might be like:</p>
+<pre class="language-text"><code class="language-text">---
+title: blog - obsidian templates and use
+date: 2025-05-05T12:00
+modified: 
+description: about the templates i use in obsidian to create drafts and posts
+tags:
+  - blog
+  - obsidian
+  - templates
+---
+</code></pre>
+<p>(the <code class="language-text">modified</code> value will get automatically updated as the post is worked on)</p>
+<h2 id="promoting-drafts-to-posts">promoting drafts to posts</h2>
+<p>again, this is all very silly, but:</p>
+<p>with a draft open and focused, i run the following template (<code class="language-text">_move_draft_to_blog.md</code>) via key combo (<code class="language-text">alt + e</code>):</p>
+<pre class="language-js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">*</span>
+<span class="token comment">// update the frontmatter with the current date</span>
+tp<span class="token punctuation">.</span>hooks<span class="token punctuation">.</span><span class="token function">on_all_templates_executed</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> file <span class="token operator">=</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span><span class="token function">find_tfile</span><span class="token punctuation">(</span>tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// the (t)file</span>
+  <span class="token keyword">await</span> tp<span class="token punctuation">.</span>app<span class="token punctuation">.</span>fileManager<span class="token punctuation">.</span><span class="token function">processFrontMatter</span><span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">frontmatter</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    frontmatter<span class="token punctuation">[</span><span class="token string">"date"</span><span class="token punctuation">]</span> <span class="token operator">=</span> tp<span class="token punctuation">.</span>date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">"YYYY-MM-DDTHH:mm"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// update 'date:'</span>
+    frontmatter<span class="token punctuation">[</span><span class="token string">"modified"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// null 'modified:'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+<span class="token comment">// move the post into '/blog/' with appropriate filename</span>
+<span class="token keyword">await</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token string">"/blog/"</span> <span class="token operator">+</span> tp<span class="token punctuation">.</span>date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" - "</span> <span class="token operator">+</span> tp<span class="token punctuation">.</span>frontmatter<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">%</span><span class="token operator">></span>
+</code></pre>
+<p>this:</p>
+<ul>
+<li>moves the file from <code class="language-text">/blog/drafts/</code> into <code class="language-text">/blog/</code>, renamed with the current date (like <code class="language-text">2025-05-05 - title.md</code>)</li>
+<li>updates the <code class="language-text">date</code> value to the current date</li>
+<li>nulls the <code class="language-text">modified</code> value</li>
+</ul>
+<p>the point of this is so that if i start a draft last week and promote it to a post today, it will be named and dated with today's date and a blank modified date.</p>
+<p>this is so that a post's filename and <code class="language-text">date</code> will be when it was published, not when it was drafted, and so that the <code class="language-text">modified</code> won't be a time before the post was published (and <code class="language-text">modified</code> won't be present at all on the blog, initially, as it doesn't show when null)</p>
+<p>modifying the post after it's officially a post will of course update the <code class="language-text">modified</code> value automatically, thanks to the obsidian plugin for handling that.</p>
+
+<div class="callout" data-callout="question">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+</div>
+<div class="callout-title-inner">why not just manually move the file instead of doing this?</div>
+</div>
+<div class="callout-content"><p>i need the filename, <code class="language-text">date</code>, and <code class="language-text">modified</code> to change and don't want to manually do it (read: automatically forget to do it)</p>
+</div></div><h2 id="outro">outro</h2>
+<p>silly, sure, but a working kind of silly and working in a way i like.</p>
+<p>i launch the QuickAdd action, fill in the info when prompted, start writing the draft.<br>
+i launch the templater action to promote it to a post with updated filename and date.<br>
+done.</p>
+<p>i could likely do the draft to post promotion part through QuickAdd as well but to be honest i got it working this way and stopped messing with it.<br>
+that being said:</p>
+
+<div class="callout" data-callout="note">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>
+</div>
+<div class="callout-title-inner">Note</div>
+</div>
+<div class="callout-content"><p>this method might change in the future and if so i will make a new post about whatever new silliness i'm doing then.</p>
+</div></div><h2 id="links">links</h2>
+<p>obsidian plugins mentioned (github links):</p>
+<ul>
+<li><a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">QuickAdd</a></li>
+<li><a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Templater</a></li>
+<li><a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Update modified date</a></li>
+</ul>
+
+</article>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← previous<br> <a href="/blog/2025-05-04 - blog setup/">blog setup</a></li>
+</ul>
 
 			</heading-anchors>
 		</main>
@@ -1533,7 +1671,7 @@ export { HeadingAnchors }
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/tags/test/` was built on 2025-05-05T23:50:38.148Z -->
+		<!-- This page `/blog/2025-05-05 - blog - obsidian templates and use/` was built on 2025-05-05T23:50:38.102Z -->
 		
 
 		<script>

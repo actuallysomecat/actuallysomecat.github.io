@@ -446,6 +446,16 @@ header > a.home-link:visited {
 	display: inline;
 }
 
+/* image stuff */
+.img-embed {
+	display: flex;
+	justify-content: center;
+	margin: 0 auto;
+	width: 600px;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 /* nav menu */
 #menu {
 	position: relative;
