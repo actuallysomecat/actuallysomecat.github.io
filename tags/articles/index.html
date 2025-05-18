@@ -345,7 +345,10 @@
 			/* Defaults */
 :root {
 	--font-family: -apple-system, system-ui, sans-serif;
-	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
 }
 
 /* Theme colors */
@@ -372,25 +375,25 @@
 	--background-color-headings: var(--ctp-latte-crust);
 
 	--link-bg-start: transparent;
-	--link-bg-hover: var(--ctp-latte-blue); 
-	
+	--link-bg-hover: var(--ctp-latte-blue);
+
 	--background-color: var(--ctp-latte-base);
 	--toggle-bg: var(--text-color-link);
 	--toggle-circle: var(--background-color);
 
-  /* shared emoji/icon variables */
-  --emoji-hover-zoom: 4;
-  --emoji-hover-zoom-duration: 20s;
-  --emoji-hover-unzoom-duration: 0.15s;
+	/* shared emoji/icon variables */
+	--emoji-hover-zoom: 4;
+	--emoji-hover-zoom-duration: 20s;
+	--emoji-hover-unzoom-duration: 0.15s;
 	--emoji-hover-zoom-delay: 0.5s;
 	--emoji-hover-unzoom-delay: 0.1s;
-  /* custom emoji specifics */
-  --emoji-icon-size: 1.5em;
-  --emoji-icon-vertical-align: -0.3em;
-  /* unicode emoji specifics */
-  --unicode-emoji-size: 1.2em;
-  --unicode-line-height: 0em;
-  --unicode-emoji-vertical-align: 0;
+	/* custom emoji specifics */
+	--emoji-icon-size: 1.5em;
+	--emoji-icon-vertical-align: -0.3em;
+	/* unicode emoji specifics */
+	--unicode-emoji-size: 1.2em;
+	--unicode-line-height: 0em;
+	--unicode-emoji-vertical-align: 0;
 }
 
 /* dark (catppuccin mocha) */
@@ -398,12 +401,12 @@
 	--color-gray-20: var(--ctp-mocha-surface2);
 	--color-gray-50: var(--ctp-mocha-surface1);
 	--color-gray-90: var(--ctp-mocha-text);
-	
+
 	--text-color: var(--ctp-mocha-text);
 	--text-color-link: var(--ctp-mocha-blue);
 	--text-color-link-active: var(--ctp-mocha-mauve);
 	--text-color-link-visited: var(--ctp-mocha-green);
-	
+
 	--text-color-h1: var(--ctp-mocha-red);
 	--text-color-h2: var(--ctp-mocha-peach);
 	--text-color-h3: var(--ctp-mocha-yellow);
@@ -464,7 +467,7 @@ img {
 	height: auto;
 }
 img[width][height] {
-  	height: auto;
+	height: auto;
 }
 .pswp__img {
 	max-width: none;
@@ -478,7 +481,7 @@ img[width][height] {
 	background-image: none;
 	transition: none;
 }
-  
+
 img[src$=".svg"] {
 	width: 100%;
 	height: auto;
@@ -493,78 +496,58 @@ iframe {
 	aspect-ratio: 16/9;
 }
 
-/* FOR PRIVATE */
-
 /* emoji (both custom and unicode, in respective spans) */
 .unicode-emoji--span {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  font-size: var(--unicode-emoji-size);
-  line-height: var(--unicode-line-height);
-  transform: scale(1);
-  transform-origin: center center;
-  z-index: 10;
-  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
-	
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	font-size: var(--unicode-emoji-size);
+	line-height: var(--unicode-line-height);
+	transform: scale(1);
+	transform-origin: center center;
+	z-index: 10;
+	transition: transform var(--emoji-hover-unzoom-duration) ease-out;
 }
 .custom-emoji--span {
-  display: inline-block;
-  position: relative;
-  width: var(--emoji-icon-size);
-  height: var(--emoji-icon-size);
-  vertical-align: var(--emoji-icon-vertical-align);
-  transform: scale(1);
-  transform-origin: center center;
-  z-index: 10;
-  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+	display: inline-block;
+	position: relative;
+	width: var(--emoji-icon-size);
+	height: var(--emoji-icon-size);
+	vertical-align: var(--emoji-icon-vertical-align);
+	transform: scale(1);
+	transform-origin: center center;
+	z-index: 10;
+	transition: transform var(--emoji-hover-unzoom-duration) ease-out;
 }
 .custom-emoji--img {
-  display: block;
-  width: 100%;
-  height: 100%;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
-
-/* FOR PUBLIC */
-
-/* .unicode-emoji--span {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  font-size: var(--unicode-emoji-size);
-  line-height: var(--unicode-line-height);
-}
-.custom-emoji--span {
-  display: inline-block;
-  position: relative;
-  width: var(--emoji-icon-size);
-  height: var(--emoji-icon-size);
-  vertical-align: var(--emoji-icon-vertical-align);
-}
-.custom-emoji--img {
-  display: block;
-  width: 100%;
-  height: 100%;
-} */
-
-/* FOR PRIVATE */
 
 /* the hover effect (two stage scale) */
 @media (hover: hover) {
-  .unicode-emoji--span:hover,
-  .custom-emoji--span:hover {
-    z-index: 9999;
-    animation: twoStageScale 20s backwards;
-  }
+	.unicode-emoji--span:hover,
+	.custom-emoji--span:hover {
+		z-index: 9999;
+		animation: twoStageScale 20s forwards;
+	}
 }
 /* two stage (scale, idle scale) keyframes */
 @keyframes twoStageScale {
-  0% { transform: scale(1); }
-  2.5% { transform: scale(1.8); }
-  27% { transform: scale(1.8); }
-  100% { transform: scale(15); }
+	0% {
+		transform: scale(1);
+	}
+	2.5% {
+		transform: scale(1.8);
+	}
+	27% {
+		transform: scale(1.8);
+	}
+	100% {
+		transform: scale(15);
+	}
 }
 
 p:last-child {
@@ -587,8 +570,12 @@ a[href] {
 	text-underline-offset: 2px;
 	text-decoration-color: inherit;
 	background-position-y: 0%;
-	background-image: linear-gradient( var(--link-bg-start) 50%, var(--link-bg-hover) 50% );
-	transition: background 200ms ease, color var(--color-transition-duration) ease, text-decoration-color 200ms ease;
+	background-image: linear-gradient(
+		var(--link-bg-start) 50%,
+		var(--link-bg-hover) 50%
+	);
+	transition: background 200ms ease, color var(--color-transition-duration) ease,
+		text-decoration-color 200ms ease;
 	background-size: auto 200%;
 	will-change: background-position, text-decoration-color;
 	/* ... right? */
@@ -653,7 +640,7 @@ h4 {
 .links-nextprev {
 	display: flex;
 	justify-content: space-between;
-	gap: .5em 1em;
+	gap: 0.5em 1em;
 	list-style: "";
 	border-top: 2px dashed var(--color-gray-20);
 	padding: 1em 0;
@@ -679,7 +666,7 @@ code {
 	font-family: var(--font-family-monospace);
 }
 pre:not([class*="language-"]) {
-	margin: .5em 0;
+	margin: 0.5em 0;
 	line-height: 1.375; /* 22px /16 */
 	-moz-tab-size: var(--syntax-tab-size);
 	-o-tab-size: var(--syntax-tab-size);
@@ -697,7 +684,7 @@ pre:not([class*="language-"]) {
 code {
 	word-break: break-all;
 }
-pre[class*='language-'] {
+pre[class*="language-"] {
 	border: 1px solid #2a4555;
 	border-radius: 4px;
 	padding: 1.5em 1em;
@@ -723,14 +710,14 @@ header > a.home-link,
 header > a.home-link:hover,
 header > a.home-link:active,
 header > a.home-link:visited {
-  background: none;
-  color: var(--text-color-link);
+	background: none;
+	color: var(--text-color-link);
 }
 .home-link:link:not(:hover) {
 	text-decoration: none;
 }
 #theme-toggle-checkbox {
-	display:none;
+	display: none;
 }
 #theme-toggle-label {
 	position: relative;
@@ -810,8 +797,8 @@ header > a.home-link:visited {
 	font-size: 1.1875em; /* 19px /16 */
 	font-weight: 700;
 	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
+	padding-left: 0.25em;
+	padding-right: 0.5em;
 }
 .postlist-link:visited {
 	color: var(--text-color-link-visited);
@@ -827,7 +814,10 @@ header > a.home-link:visited {
 	display: inline-block;
 	white-space: nowrap;
 	width: auto;
-	background-image: linear-gradient( var(--link-bg-start) 50%, var(--link-bg-hover) 50% );
+	background-image: linear-gradient(
+		var(--link-bg-start) 50%,
+		var(--link-bg-hover) 50%
+	);
 	background-size: auto 200%;
 	background-repeat: no-repeat;
 	background-position-y: -1%;
@@ -859,11 +849,15 @@ header > a.home-link:visited {
 	text-decoration-thickness: 2px;
 	text-underline-offset: 3px;
 	text-decoration-color: var(--text-color-link);
-	background-image: linear-gradient( var(--link-bg-start) 50%, var(--link-bg-hover) 50% );
+	background-image: linear-gradient(
+		var(--link-bg-start) 50%,
+		var(--link-bg-hover) 50%
+	);
 	background-size: auto 200%;
 	background-repeat: no-repeat;
 	background-position-y: 0%;
-	transition: background 200ms ease, color 200ms ease, text-decoration-color 200ms ease 200ms;
+	transition: background 200ms ease, color 200ms ease,
+		text-decoration-color 200ms ease 200ms;
 }
 .post-tag a:hover,
 .post-tag a:active {
@@ -967,7 +961,7 @@ header > a.home-link:visited {
 	width: 100%;
 }
 #menu ul.sub-menus a {
-	color: #FFFFFF;
+	color: #ffffff;
 	font-size: 16px;
 }
 #menu li:hover ul.sub-menus {
@@ -998,6 +992,7 @@ header > a.home-link:visited {
 }
 
 @media screen and (max-width: 768px) {
+	/* lol phones exist oops */
 	.postlist-link-text {
 		white-space: normal;
 		word-wrap: break-word;
@@ -1056,7 +1051,6 @@ header > a.home-link:visited {
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	} */
-
 }
 
 @media screen and (min-width: 769px) {
@@ -1067,6 +1061,7 @@ header > a.home-link:visited {
 		display: none;
 	}
 }
+
 			/**
  * this file is originally https://github.com/ebullient/markdown-it-obsidian-callouts/blob/main/style/index.css
 /**
@@ -1670,7 +1665,7 @@ export { HeadingAnchors }
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/tags/articles/` was built on 2025-05-18T21:37:35.586Z -->
+		<!-- This page `/tags/articles/` was built on 2025-05-18T21:47:41.330Z -->
 		
 
 		<!-- theme toggle -->
