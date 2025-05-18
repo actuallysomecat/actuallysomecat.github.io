@@ -390,7 +390,7 @@ for making the obsidian markdown callouts work, with optional styling via css.&l
 &lt;/div&gt;
 &lt;div class=&quot;callout-title-inner&quot;&gt;see also&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: [[testing]]&lt;/p&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/testing/&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;h4 id=&quot;markdown-it-prism&quot;&gt;markdown-it-prism&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/jGleitz/markdown-it-prism&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-prism&lt;/a&gt;&lt;br&gt;
 for prism syntax highlighting within markdown code fences&lt;/p&gt;
@@ -542,7 +542,7 @@ some css:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;meow&lt;/p&gt;
 &lt;h2 id=&quot;a-test&quot;&gt;a test&lt;/h2&gt;
-&lt;p&gt;this is a link to the &lt;code class=&quot;language-text&quot;&gt;meow world&lt;/code&gt; post, aliased as [[meow world|test]]&lt;br&gt;
+&lt;p&gt;this is a link to the &lt;code class=&quot;language-text&quot;&gt;meow world&lt;/code&gt; post, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;test&lt;/a&gt;&lt;br&gt;
 the above link in the markdown is &lt;code class=&quot;language-text&quot;&gt;[[meow world|test]]&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&quot;callout&quot;&gt;callout&lt;/h3&gt;
 
@@ -554,7 +554,7 @@ the above link in the markdown is &lt;code class=&quot;language-text&quot;&gt;[[
 &lt;div class=&quot;callout-title-inner&quot;&gt;Info&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;test callout&lt;br&gt;
-with an internal link to [[meow world]]&lt;/p&gt;
+with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world/&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</content>
   </entry>
   <entry>
