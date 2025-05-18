@@ -552,10 +552,12 @@ iframe {
 /* FOR PRIVATE */
 
 /* the hover effect (two stage scale) */
-.unicode-emoji--span:hover,
-.custom-emoji--span:hover {
-  z-index: 9999;
-	animation: twoStageScale 20s backwards;
+@media (hover: hover) {
+  .unicode-emoji--span:hover,
+  .custom-emoji--span:hover {
+    z-index: 9999;
+    animation: twoStageScale 20s backwards;
+  }
 }
 /* two stage (scale, idle scale) keyframes */
 @keyframes twoStageScale {
@@ -996,6 +998,22 @@ header > a.home-link:visited {
 }
 
 @media screen and (max-width: 768px) {
+	.postlist-link-text {
+		white-space: normal;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		align-items: left;
+	}
+	.postlist-item {
+		align-items: center;
+	}
+	.postlist-item:before {
+		display: inline-flex;
+		align-items: center;
+		justify-content: left;
+		text-align: right;
+		margin-left: -1.5rem;
+	}
 	#menu ul.nav-links {
 		display: none;
 		flex-direction: column;
@@ -1692,7 +1710,7 @@ export { HeadingAnchors }
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/tags/obsidian/` was built on 2025-05-18T20:40:54.850Z -->
+		<!-- This page `/tags/obsidian/` was built on 2025-05-18T21:37:35.260Z -->
 		
 
 		<!-- theme toggle -->

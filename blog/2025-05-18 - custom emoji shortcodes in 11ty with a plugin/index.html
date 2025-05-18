@@ -554,10 +554,12 @@ iframe {
 /* FOR PRIVATE */
 
 /* the hover effect (two stage scale) */
-.unicode-emoji--span:hover,
-.custom-emoji--span:hover {
-  z-index: 9999;
-	animation: twoStageScale 20s backwards;
+@media (hover: hover) {
+  .unicode-emoji--span:hover,
+  .custom-emoji--span:hover {
+    z-index: 9999;
+    animation: twoStageScale 20s backwards;
+  }
 }
 /* two stage (scale, idle scale) keyframes */
 @keyframes twoStageScale {
@@ -998,6 +1000,22 @@ header > a.home-link:visited {
 }
 
 @media screen and (max-width: 768px) {
+	.postlist-link-text {
+		white-space: normal;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		align-items: left;
+	}
+	.postlist-item {
+		align-items: center;
+	}
+	.postlist-item:before {
+		display: inline-flex;
+		align-items: center;
+		justify-content: left;
+		text-align: right;
+		margin-left: -1.5rem;
+	}
 	#menu ul.nav-links {
 		display: none;
 		flex-direction: column;
@@ -1733,7 +1751,7 @@ you'll get something like:</p>
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-18 - custom emoji shortcodes in 11ty with a plugin/` was built on 2025-05-18T20:40:54.545Z -->
+		<!-- This page `/blog/2025-05-18 - custom emoji shortcodes in 11ty with a plugin/` was built on 2025-05-18T21:37:34.948Z -->
 		
 
 		<!-- theme toggle -->
