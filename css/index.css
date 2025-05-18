@@ -33,6 +33,20 @@
 	--background-color: var(--ctp-latte-base);
 	--toggle-bg: var(--text-color-link);
 	--toggle-circle: var(--background-color);
+
+  /* shared emoji/icon variables */
+  --emoji-hover-zoom: 4;
+  --emoji-hover-zoom-duration: 20s;
+  --emoji-hover-unzoom-duration: 0.15s;
+	--emoji-hover-zoom-delay: 0.5s;
+	--emoji-hover-unzoom-delay: 0.1s;
+  /* custom emoji specifics */
+  --emoji-icon-size: 1.5em;
+  --emoji-icon-vertical-align: -0.3em;
+  /* unicode emoji specifics */
+  --unicode-emoji-size: 1.2em;
+  --unicode-line-height: 0em;
+  --unicode-emoji-vertical-align: 0;
 }
 
 /* dark (catppuccin mocha) */
@@ -101,16 +115,30 @@ mark {
 }
 
 /* Fluid images via https://www.zachleat.com/web/fluid-images/ */
-img{
-  max-width: 100%;
+img {
+	max-width: 100%;
+	height: auto;
 }
 img[width][height] {
-  height: auto;
+  	height: auto;
 }
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
+.photoswipe-gallery a.photoswipe-item {
+	background-image: none;
+	transition: none;
+}
+.photoswipe-gallery a.photoswipe-item:hover {
+	background-image: none;
+	transition: none;
+}
+  
 img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
+	width: 100%;
+	height: auto;
+	max-width: none;
 }
 video,
 iframe {
@@ -119,6 +147,78 @@ iframe {
 }
 iframe {
 	aspect-ratio: 16/9;
+}
+
+/* FOR PRIVATE */
+
+/* emoji (both custom and unicode, in respective spans) */
+.unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+	
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* FOR PUBLIC */
+
+/* .unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+} */
+
+/* FOR PRIVATE */
+
+/* the hover effect (two stage scale) */
+.unicode-emoji--span:hover,
+.custom-emoji--span:hover {
+  z-index: 9999;
+	animation: twoStageScale 20s backwards;
+}
+/* two stage (scale, idle scale) keyframes */
+@keyframes twoStageScale {
+  0% { transform: scale(1); }
+  2.5% { transform: scale(1.8); }
+  27% { transform: scale(1.8); }
+  100% { transform: scale(15); }
 }
 
 p:last-child {
@@ -322,6 +422,14 @@ header > a.home-link:visited {
 	margin-top: 1rem;
 	padding-top: 1rem;
 }
+.post-content img {
+	max-width: 100%;
+	height: auto;
+}
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
 
 /* Posts list */
 .postlist {
@@ -447,14 +555,14 @@ header > a.home-link:visited {
 }
 
 /* image stuff */
-.img-embed {
+/* .img-embed {
 	display: flex;
 	justify-content: center;
 	margin: 0 auto;
 	width: 600px;
 	border-radius: 10px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* nav menu */
 #menu {
@@ -578,14 +686,14 @@ header > a.home-link:visited {
 		display: flex;
 	}
 	/* image stuff */
-	.img-embed {
+	/* .img-embed {
 		display: flex;
 		justify-content: center;
-		margin: 0 auto;
 		width: 100%;
+		margin: 0 auto;
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
+	} */
 
 }
 

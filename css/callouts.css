@@ -146,5 +146,23 @@ details[open].callout > .callout-title > .callout-fold {
   --callout-color: var(--callout-quote);
   /* --callout-icon: quote-glyph; */
 }
+.callout[data-callout=heart] {
+  --callout-color: var(--callout-fail);
+  /* --callout-title-icon: quote-glyph; */
+  
+}
+.callout[data-callout=heart] svg {
+  color: var(--callout-fail);
+  display: none;
+}
+.callout[data-callout="heart"] .callout-title-icon::before {
+  content: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23E64553%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20class=%27lucide%20lucide-heart-icon%20lucide-heart%27%3E%3Cpath%20d=%27M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%27/%3E%3C/svg%3E");
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.callout[data-callout="heart"] .callout-title-inner {
+  display: none; /* this doesn't work because the heart svg above disappears too */
+}
 
 /*# sourceMappingURL=index.css.map */

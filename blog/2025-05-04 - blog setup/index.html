@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-	<head>
+<!DOCTYPE html><html lang="en"><head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- light/dark theme via localStorage or prefers-color-scheme -->
@@ -381,6 +379,20 @@
 	--background-color: var(--ctp-latte-base);
 	--toggle-bg: var(--text-color-link);
 	--toggle-circle: var(--background-color);
+
+  /* shared emoji/icon variables */
+  --emoji-hover-zoom: 4;
+  --emoji-hover-zoom-duration: 20s;
+  --emoji-hover-unzoom-duration: 0.15s;
+	--emoji-hover-zoom-delay: 0.5s;
+	--emoji-hover-unzoom-delay: 0.1s;
+  /* custom emoji specifics */
+  --emoji-icon-size: 1.5em;
+  --emoji-icon-vertical-align: -0.3em;
+  /* unicode emoji specifics */
+  --unicode-emoji-size: 1.2em;
+  --unicode-line-height: 0em;
+  --unicode-emoji-vertical-align: 0;
 }
 
 /* dark (catppuccin mocha) */
@@ -449,16 +461,30 @@ mark {
 }
 
 /* Fluid images via https://www.zachleat.com/web/fluid-images/ */
-img{
-  max-width: 100%;
+img {
+	max-width: 100%;
+	height: auto;
 }
 img[width][height] {
-  height: auto;
+  	height: auto;
 }
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
+.photoswipe-gallery a.photoswipe-item {
+	background-image: none;
+	transition: none;
+}
+.photoswipe-gallery a.photoswipe-item:hover {
+	background-image: none;
+	transition: none;
+}
+  
 img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
+	width: 100%;
+	height: auto;
+	max-width: none;
 }
 video,
 iframe {
@@ -467,6 +493,78 @@ iframe {
 }
 iframe {
 	aspect-ratio: 16/9;
+}
+
+/* FOR PRIVATE */
+
+/* emoji (both custom and unicode, in respective spans) */
+.unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+	
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* FOR PUBLIC */
+
+/* .unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+} */
+
+/* FOR PRIVATE */
+
+/* the hover effect (two stage scale) */
+.unicode-emoji--span:hover,
+.custom-emoji--span:hover {
+  z-index: 9999;
+	animation: twoStageScale 20s backwards;
+}
+/* two stage (scale, idle scale) keyframes */
+@keyframes twoStageScale {
+  0% { transform: scale(1); }
+  2.5% { transform: scale(1.8); }
+  27% { transform: scale(1.8); }
+  100% { transform: scale(15); }
 }
 
 p:last-child {
@@ -670,6 +768,14 @@ header > a.home-link:visited {
 	margin-top: 1rem;
 	padding-top: 1rem;
 }
+.post-content img {
+	max-width: 100%;
+	height: auto;
+}
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
 
 /* Posts list */
 .postlist {
@@ -795,14 +901,14 @@ header > a.home-link:visited {
 }
 
 /* image stuff */
-.img-embed {
+/* .img-embed {
 	display: flex;
 	justify-content: center;
 	margin: 0 auto;
 	width: 600px;
 	border-radius: 10px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* nav menu */
 #menu {
@@ -926,14 +1032,14 @@ header > a.home-link:visited {
 		display: flex;
 	}
 	/* image stuff */
-	.img-embed {
+	/* .img-embed {
 		display: flex;
 		justify-content: center;
-		margin: 0 auto;
 		width: 100%;
+		margin: 0 auto;
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
+	} */
 
 }
 
@@ -1093,6 +1199,24 @@ details[open].callout > .callout-title > .callout-fold {
   --callout-color: var(--callout-quote);
   /* --callout-icon: quote-glyph; */
 }
+.callout[data-callout=heart] {
+  --callout-color: var(--callout-fail);
+  /* --callout-title-icon: quote-glyph; */
+  
+}
+.callout[data-callout=heart] svg {
+  color: var(--callout-fail);
+  display: none;
+}
+.callout[data-callout="heart"] .callout-title-icon::before {
+  content: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23E64553%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20class=%27lucide%20lucide-heart-icon%20lucide-heart%27%3E%3Cpath%20d=%27M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%27/%3E%3C/svg%3E");
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.callout[data-callout="heart"] .callout-title-inner {
+  display: none; /* this doesn't work because the heart svg above disappears too */
+}
 
 /*# sourceMappingURL=index.css.map */
 /*
@@ -1228,7 +1352,9 @@ pre[class*="language-"] {
 .token.namespace {
 	opacity: 0.7;
 }</style>
-		<script type="module">// Thank you to https://github.com/daviddarnes/heading-anchors
+		
+		<script type="module">
+			// Thank you to https://github.com/daviddarnes/heading-anchors
 // Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
 
 let globalInstanceIndex = 0;
@@ -1455,9 +1581,14 @@ class HeadingAnchors extends HTMLElement {
 HeadingAnchors.register();
 
 export { HeadingAnchors }
-</script>
+
+		</script>
+		
+		<link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
+		
 	</head>
 	<body>
+	
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<header>
 			
@@ -1465,7 +1596,7 @@ export { HeadingAnchors }
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="menu-inner">
 					<input type="checkbox" id="menu-toggle" hidden="">
-        			<label for="menu-toggle" class="menu-icon">&#9776;</label>
+        			<label for="menu-toggle" class="menu-icon">☰</label>
 					<div class="menu-left"></div>
 					<ul class="nav-links">
 						<li><a href="/">home</a></li>
@@ -1501,8 +1632,8 @@ export { HeadingAnchors }
 		</script>
 		
 		<main id="skip">
-			<heading-anchors>
-				<h1 id="blog-setup">blog setup</h1>
+				<heading-anchors>
+					<h1 id="blog-setup">blog setup</h1>
 
 <dl class="post-metadata">
 	<dt>posted:</dt>
@@ -1513,7 +1644,7 @@ export { HeadingAnchors }
 	
 		<dt>modified:</dt>
 		<dd>
-			<time datetime="2025-05-04" aria-label="Updated on 04 May 2025">2025.05.04</time>
+			<time datetime="2025-05-18" aria-label="Updated on 18 May 2025">2025.05.18</time>
 		</dd>
 	
 
@@ -1543,14 +1674,15 @@ export { HeadingAnchors }
 	<nav class="table-of-contents">
 		
 	</nav>
-	<nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#11ty">11ty</a><ul><li><a href="#plugins">plugins</a><ul></ul></li><li><a href="#theme">theme</a></li></ul></li><li><a href="#obsidian">obsidian</a><ul><li><a href="#plugins-1">plugins</a><ul></ul></li></ul></li><li><a href="#hosting">hosting</a></li><li><a href="#notes-and-thoughts">notes and thoughts</a></li></ul></nav><h2 id="intro">intro</h2>
+	<div class="photoswipe-gallery">
+		<nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#11ty">11ty</a><ul><li><a href="#plugins">plugins</a><ul></ul></li><li><a href="#theme">theme</a></li></ul></li><li><a href="#obsidian">obsidian</a><ul><li><a href="#plugins-1">plugins</a><ul></ul></li></ul></li><li><a href="#hosting">hosting</a></li><li><a href="#notes-and-thoughts">notes and thoughts</a></li></ul></nav><h2 id="intro">intro</h2>
 <p>i wanted to be able to</p>
 <ul>
-<li>make posts in <a href="https://obsidian.md" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">obsidian</a> in a &quot;normal (for me)&quot; way (wikilinks, image embeds, callouts, etc)</li>
+<li>make posts in <a href="https://obsidian.md" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">obsidian</a> in a "normal (for me)" way (wikilinks, image embeds, callouts, etc)</li>
 <li>have the obsidian vault be a part of the (dev) repo for an 11ty blog</li>
 <li>make it work</li>
 </ul>
-<p>at times it felt like this was going to be a &quot;pick two&quot; kind of situation but it's more or less working (for) now, with potentially more future expansion.</p>
+<p>at times it felt like this was going to be a "pick two" kind of situation but it's more or less working (for) now, with potentially more future expansion.</p>
 <p>below are some notes and links and explanations about this setup.</p>
 <h2 id="11ty">11ty</h2>
 <p>this is an <a href="https://11ty.dev" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty</a> project, based on the <a href="https://github.com/11ty/eleventy-base-blog" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty base blog</a> starter.</p>
@@ -1584,7 +1716,7 @@ for making the obsidian markdown callouts work, with optional styling via css.</
 </div>
 <div class="callout-title-inner">see also</div>
 </div>
-<div class="callout-content"><p>this test post with some callouts and codeblocks: <a href="/blog/testing/">testing</a></p>
+<div class="callout-content"><p>this test post with some callouts and codeblocks: [[testing]]</p>
 </div></div><h4 id="markdown-it-prism">markdown-it-prism</h4>
 <p>github link: <a href="https://github.com/jGleitz/markdown-it-prism" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-prism</a><br>
 for prism syntax highlighting within markdown code fences</p>
@@ -1593,7 +1725,7 @@ for prism syntax highlighting within markdown code fences</p>
 markdown-it plugin for adding github style task lists with classes and ids.</p>
 <h4 id="markdown-it-mark">markdown-it-mark</h4>
 <p>github link: <a href="https://github.com/markdown-it/markdown-it-mark" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-mark</a><br>
-for converting markdown highlights to <code class="language-text">&lt;mark></code> markup.<br>
+for converting markdown highlights to <code class="language-text">&lt;mark&gt;</code> markup.<br>
 <code class="language-text">==example==</code> becomes <mark>example</mark></p>
 <h4 id="markdown-it-toc-done-right">markdown-it-toc-done-right</h4>
 <p>github link: <a href="https://github.com/nagaozen/markdown-it-toc-done-right" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-toc-done-right</a><br>
@@ -1601,13 +1733,13 @@ for adding a table of contents into posts, triggered via putting <code class="la
 <h3 id="theme">theme</h3>
 <p>the theme is using bits of the <a href="https://github.com/catppuccin/palette" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">catppuccin palettes</a> (some latte and mocha) and the <a href="https://github.com/PrismJS/prism-themes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">laserwave prism theme</a> for codeblocks.</p>
 <h2 id="obsidian">obsidian</h2>
-<p>i really like obsidian and it was important to me that i not have to compromise too much on &quot;my obsidian way&quot; of doing things to make the blog posts. the collection of plugins above for eleventy (plus relevant options configuration) mostly covered that.</p>
+<p>i really like obsidian and it was important to me that i not have to compromise too much on "my obsidian way" of doing things to make the blog posts. the collection of plugins above for eleventy (plus relevant options configuration) mostly covered that.</p>
 <h3 id="plugins-2">plugins</h3>
-<p>i use a few obsidian plugins to make this all easier or possible. a few of them are strictly &quot;user experience&quot; sort of things that have no relevancy in the actual obsidian to eleventy pipeline, so they will not be listed. the relevant ones, in no particular order, are:</p>
+<p>i use a few obsidian plugins to make this all easier or possible. a few of them are strictly "user experience" sort of things that have no relevancy in the actual obsidian to eleventy pipeline, so they will not be listed. the relevant ones, in no particular order, are:</p>
 <h4 id="templater">templater</h4>
 <p>github link: <a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">templater</a><br>
-templater is very powerful and key to starting my drafts and &quot;publishing&quot; them, combined with QuickAdd (below).<br>
-i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg <code class="language-text">2025-01-01 - title</code>), and one to simply move a draft from my <code class="language-text">drafts/</code> folder into the base <code class="language-text">blog/</code> and update the frontmatter date and filename accordingly (eg the previous draft if &quot;published&quot; the next day becomes <code class="language-text">2025-01-02 - title</code> with matching <code class="language-text">date:</code> and a null <code class="language-text">modified:</code> frontmatter).</p>
+templater is very powerful and key to starting my drafts and "publishing" them, combined with QuickAdd (below).<br>
+i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg <code class="language-text">2025-01-01 - title</code>), and one to simply move a draft from my <code class="language-text">drafts/</code> folder into the base <code class="language-text">blog/</code> and update the frontmatter date and filename accordingly (eg the previous draft if "published" the next day becomes <code class="language-text">2025-01-02 - title</code> with matching <code class="language-text">date:</code> and a null <code class="language-text">modified:</code> frontmatter).</p>
 <h4 id="quickadd">quickadd</h4>
 <p>github link: <a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">quickadd</a><br>
 quickadd uses the template for a new draft to create the file itself and apply the template (which prompts for the data).</p>
@@ -1616,7 +1748,7 @@ quickadd uses the template for a new draft to create the file itself and apply t
 this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is nulled when a post is promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, no modified date, yet i can still keep track of modified dates while in the draft phase, and modified date automatically changes if i edit a post after publishing it).</p>
 <h2 id="hosting">hosting</h2>
 <p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package. the <code class="language-text">package.json</code> scripts section has</p>
-<pre class="language-text"><code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO> -b main"
+<pre class="language-text"><code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO&gt; -b main"
 </code></pre>
 <p>to push the <code class="language-text">_site</code> dir to the repo (which is configured to be a github pages repo, using the main branch)</p>
 <h2 id="notes-and-thoughts">notes and thoughts</h2>
@@ -1638,20 +1770,35 @@ i could also use github actions but i do not want to.</p>
 <li class="task-list-item"><input type="checkbox" id="cbx_2" checked="true" disabled="true"><label for="cbx_2"> improve this post a bit</label></li>
 </ul>
 </div></details>
+	</div>
 </article>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← previous<br> <a href="/blog/testing/">testing</a></li><li class="links-nextprev-next">next →<br><a href="/blog/2025-05-05 - blog - obsidian templates and use/">blog - obsidian templates and use</a></li>
 </ul>
+<!-- photoswipe -->
+<script type="module">
+	import PhotoSwipeLightbox from '/assets/photoswipe/photoswipe-lightbox.esm.js';
+	import PhotoSwipe from '/assets/photoswipe/photoswipe.esm.js';
+	
+	const lightbox = new PhotoSwipeLightbox({
+		gallery: ".photoswipe-gallery",
+		children: "a.photoswipe-item",
+		showHideAnimationType: 'none',
+		pswpModule: PhotoSwipe,
+	});
 
-			</heading-anchors>
+	lightbox.init();
+</script>
+				</heading-anchors>
 		</main>
 
 		<footer>
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-06T07:09:31.130Z -->
+		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-18T19:54:14.870Z -->
 		
 
+		<!-- theme toggle -->
 		<script>
 			function toggleTheme() {
 				const themeCheckbox = document.getElementById("theme-toggle-checkbox");
@@ -1660,5 +1807,8 @@ i could also use github actions but i do not want to.</p>
 				localStorage.setItem('theme', newTheme);
 			}
 		</script>
-	</body>
-</html>
+
+
+	
+
+</body></html>

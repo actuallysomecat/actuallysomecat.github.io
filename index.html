@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-	<head>
+<!DOCTYPE html><html lang="en"><head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- light/dark theme via localStorage or prefers-color-scheme -->
@@ -22,7 +20,7 @@
 		
 		
 		<meta property="og:image" content="/og-images/8d1367b2.png">
-		<style>.postlist { counter-reset: start-from 6 }
+		<style>.postlist { counter-reset: start-from 9 }
 /* This is an arbitrary CSS string added to the bundle */
 :root {
   --ctp-latte-rosewater: #dc8a78;
@@ -382,6 +380,20 @@
 	--background-color: var(--ctp-latte-base);
 	--toggle-bg: var(--text-color-link);
 	--toggle-circle: var(--background-color);
+
+  /* shared emoji/icon variables */
+  --emoji-hover-zoom: 4;
+  --emoji-hover-zoom-duration: 20s;
+  --emoji-hover-unzoom-duration: 0.15s;
+	--emoji-hover-zoom-delay: 0.5s;
+	--emoji-hover-unzoom-delay: 0.1s;
+  /* custom emoji specifics */
+  --emoji-icon-size: 1.5em;
+  --emoji-icon-vertical-align: -0.3em;
+  /* unicode emoji specifics */
+  --unicode-emoji-size: 1.2em;
+  --unicode-line-height: 0em;
+  --unicode-emoji-vertical-align: 0;
 }
 
 /* dark (catppuccin mocha) */
@@ -450,16 +462,30 @@ mark {
 }
 
 /* Fluid images via https://www.zachleat.com/web/fluid-images/ */
-img{
-  max-width: 100%;
+img {
+	max-width: 100%;
+	height: auto;
 }
 img[width][height] {
-  height: auto;
+  	height: auto;
 }
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
+.photoswipe-gallery a.photoswipe-item {
+	background-image: none;
+	transition: none;
+}
+.photoswipe-gallery a.photoswipe-item:hover {
+	background-image: none;
+	transition: none;
+}
+  
 img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
+	width: 100%;
+	height: auto;
+	max-width: none;
 }
 video,
 iframe {
@@ -468,6 +494,78 @@ iframe {
 }
 iframe {
 	aspect-ratio: 16/9;
+}
+
+/* FOR PRIVATE */
+
+/* emoji (both custom and unicode, in respective spans) */
+.unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+	
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+  transform: scale(1);
+  transform-origin: center center;
+  z-index: 10;
+  transition: transform var(--emoji-hover-unzoom-duration) ease-out;
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* FOR PUBLIC */
+
+/* .unicode-emoji--span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: var(--unicode-emoji-size);
+  line-height: var(--unicode-line-height);
+}
+.custom-emoji--span {
+  display: inline-block;
+  position: relative;
+  width: var(--emoji-icon-size);
+  height: var(--emoji-icon-size);
+  vertical-align: var(--emoji-icon-vertical-align);
+}
+.custom-emoji--img {
+  display: block;
+  width: 100%;
+  height: 100%;
+} */
+
+/* FOR PRIVATE */
+
+/* the hover effect (two stage scale) */
+.unicode-emoji--span:hover,
+.custom-emoji--span:hover {
+  z-index: 9999;
+	animation: twoStageScale 20s backwards;
+}
+/* two stage (scale, idle scale) keyframes */
+@keyframes twoStageScale {
+  0% { transform: scale(1); }
+  2.5% { transform: scale(1.8); }
+  27% { transform: scale(1.8); }
+  100% { transform: scale(15); }
 }
 
 p:last-child {
@@ -671,6 +769,14 @@ header > a.home-link:visited {
 	margin-top: 1rem;
 	padding-top: 1rem;
 }
+.post-content img {
+	max-width: 100%;
+	height: auto;
+}
+.pswp__img {
+	max-width: none;
+	width: auto;
+}
 
 /* Posts list */
 .postlist {
@@ -796,14 +902,14 @@ header > a.home-link:visited {
 }
 
 /* image stuff */
-.img-embed {
+/* .img-embed {
 	display: flex;
 	justify-content: center;
 	margin: 0 auto;
 	width: 600px;
 	border-radius: 10px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* nav menu */
 #menu {
@@ -927,14 +1033,14 @@ header > a.home-link:visited {
 		display: flex;
 	}
 	/* image stuff */
-	.img-embed {
+	/* .img-embed {
 		display: flex;
 		justify-content: center;
-		margin: 0 auto;
 		width: 100%;
+		margin: 0 auto;
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
+	} */
 
 }
 
@@ -1094,6 +1200,24 @@ details[open].callout > .callout-title > .callout-fold {
   --callout-color: var(--callout-quote);
   /* --callout-icon: quote-glyph; */
 }
+.callout[data-callout=heart] {
+  --callout-color: var(--callout-fail);
+  /* --callout-title-icon: quote-glyph; */
+  
+}
+.callout[data-callout=heart] svg {
+  color: var(--callout-fail);
+  display: none;
+}
+.callout[data-callout="heart"] .callout-title-icon::before {
+  content: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23E64553%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20class=%27lucide%20lucide-heart-icon%20lucide-heart%27%3E%3Cpath%20d=%27M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%27/%3E%3C/svg%3E");
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.callout[data-callout="heart"] .callout-title-inner {
+  display: none; /* this doesn't work because the heart svg above disappears too */
+}
 
 /*# sourceMappingURL=index.css.map */
 /*
@@ -1229,7 +1353,9 @@ pre[class*="language-"] {
 .token.namespace {
 	opacity: 0.7;
 }</style>
-		<script type="module">// Thank you to https://github.com/daviddarnes/heading-anchors
+		
+		<script type="module">
+			// Thank you to https://github.com/daviddarnes/heading-anchors
 // Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
 
 let globalInstanceIndex = 0;
@@ -1456,9 +1582,14 @@ class HeadingAnchors extends HTMLElement {
 HeadingAnchors.register();
 
 export { HeadingAnchors }
-</script>
+
+		</script>
+		
+		<link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
+		
 	</head>
 	<body>
+	
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<header>
 			
@@ -1466,7 +1597,7 @@ export { HeadingAnchors }
 				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="menu-inner">
 					<input type="checkbox" id="menu-toggle" hidden="">
-        			<label for="menu-toggle" class="menu-icon">&#9776;</label>
+        			<label for="menu-toggle" class="menu-icon">☰</label>
 					<div class="menu-left"></div>
 					<ul class="nav-links">
 						<li><a href="/" aria-current="page">home</a></li>
@@ -1502,8 +1633,8 @@ export { HeadingAnchors }
 		</script>
 		
 		<main id="skip">
-			<heading-anchors>
-				 <!-- Delete this block, which will also remove the component CSS from the bundle -->
+				<heading-anchors>
+					 <!-- Delete this block, which will also remove the component CSS from the bundle -->
 
 <!-- Stop deleting -->
 
@@ -1516,56 +1647,57 @@ export { HeadingAnchors }
 
 <ol reversed="" class="postlist">
 	<li class="postlist-item">
-		<a href="/blog/2025-05-05 - blog - obsidian templates and use/" class="postlist-link">
+		<a href="/blog/2025-05-18 - custom emoji shortcodes in 11ty with a plugin/" class="postlist-link">
 			<span class="postlist-link-text">
 				
-					blog - obsidian templates and use
+					custom emoji shortcodes in 11ty with a plugin
+				
+			</span>
+		</a>
+		<time class="postlist-date" datetime="2025-05-18">2025.05.18</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/blog/drafts/2025-05-10 - testingtestingtesting/" class="postlist-link">
+			<span class="postlist-link-text">
+				
+					testingtestingtesting
+				
+			</span>
+		</a>
+		<time class="postlist-date" datetime="2025-05-10">2025.05.10</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/blog/test/" class="postlist-link">
+			<span class="postlist-link-text">
+				
+					test
 				
 			</span>
 		</a>
 		<time class="postlist-date" datetime="2025-05-05">2025.05.05</time>
 	</li>
-	<li class="postlist-item">
-		<a href="/blog/2025-05-04 - blog setup/" class="postlist-link">
-			<span class="postlist-link-text">
-				
-					blog setup
-				
-			</span>
-		</a>
-		<time class="postlist-date" datetime="2025-05-04">2025.05.04</time>
-	</li>
-	<li class="postlist-item">
-		<a href="/blog/testing/" class="postlist-link">
-			<span class="postlist-link-text">
-				
-					testing
-				
-			</span>
-		</a>
-		<time class="postlist-date" datetime="2025-05-01">2025.05.01</time>
-	</li>
 </ol>
 
 
 
-<p>2 more posts can be found in <a href="/blog/">the archive</a>.</p>
+<p>5 more posts can be found in <a href="/blog/">the archive</a>.</p>
 
 
 
 
 
 
-			</heading-anchors>
+				</heading-anchors>
 		</main>
 
 		<footer>
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/` was built on 2025-05-06T07:09:31.175Z -->
+		<!-- This page `/` was built on 2025-05-18T19:54:14.942Z -->
 		
 
+		<!-- theme toggle -->
 		<script>
 			function toggleTheme() {
 				const themeCheckbox = document.getElementById("theme-toggle-checkbox");
@@ -1574,5 +1706,8 @@ export { HeadingAnchors }
 				localStorage.setItem('theme', newTheme);
 			}
 		</script>
-	</body>
-</html>
+
+
+	
+
+</body></html>
