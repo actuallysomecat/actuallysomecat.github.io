@@ -5,11 +5,19 @@
   <subtitle>some blog of some cat</subtitle>
   <link href="https://actuallysomecat.github.io/feed/feed.xml" rel="self" />
   <link href="https://actuallysomecat.github.io/" />
-  <updated>2025-05-18T14:51:00Z</updated>
+  <updated>2025-05-18T15:47:00Z</updated>
   <id>https://actuallysomecat.github.io/</id>
   <author>
     <name>cat</name>
   </author>
+  <entry>
+    <title>draft test oops</title>
+    <link href="https://actuallysomecat.github.io/blog/drafts/2025-05-18%20-%20draft%20test%20oops/" />
+    <updated>2025-05-18T15:47:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/drafts/2025-05-18%20-%20draft%20test%20oops/</id>
+    <content type="html">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;meow&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+  </entry>
   <entry>
     <title>custom emoji shortcodes in 11ty with a plugin</title>
     <link href="https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin/" />
@@ -64,7 +72,7 @@ you&#39;ll get something like:&lt;/p&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this is my &quot;opinionated&quot; way to do it, a bit silly, and there are other ways to do it, but &lt;em&gt;c&#39;est la vie&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;h2 id=&quot;quickadd-setup&quot;&gt;QuickAdd setup&lt;/h2&gt;
 &lt;p&gt;in QuickAdd i use a template (detailed below) with the following options:&lt;br&gt;
-&lt;a href=&quot;/blog/assets/images/obsidian-quickadd-draft.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;571&quot; data-pswp-height=&quot;727&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/img/-yZ7zSO-wj-571.avif 571w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/img/-yZ7zSO-wj-571.webp 571w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/img/-yZ7zSO-wj-571.png&quot; alt=&quot;cropped screenshot of a QuickAdd action setup for making my drafts&quot; data-pswp-original=&quot;/blog/assets/images/obsidian-quickadd-draft.png&quot; class=&quot;img-embed&quot; width=&quot;571&quot; height=&quot;727&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;/blog/assets/images/obsidian-quickadd-draft.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;571&quot; data-pswp-height=&quot;727&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Cobsidian-quickadd-draft.png&amp;amp;width=571&amp;amp;format=avif&amp;amp;via=transform 571w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Cobsidian-quickadd-draft.png&amp;amp;width=571&amp;amp;format=webp&amp;amp;via=transform 571w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Cobsidian-quickadd-draft.png&amp;amp;width=571&amp;amp;format=png&amp;amp;via=transform&quot; alt=&quot;cropped screenshot of a QuickAdd action setup for making my drafts&quot; data-pswp-original=&quot;/blog/assets/images/obsidian-quickadd-draft.png&quot; class=&quot;img-embed&quot; width=&quot;571&quot; height=&quot;727&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;this creates a new draft in &lt;code class=&quot;language-text&quot;&gt;/blog/drafts/&lt;/code&gt;, using a template creatively named &lt;code class=&quot;language-text&quot;&gt;_obsidian_templates/blog_post_draft.md&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;executing this action prompts for a filename (the bit after the date and separator), resulting in something like &lt;code class=&quot;language-text&quot;&gt;/blog/drafts/2025-05-05 - some post.md&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;the draft opens in a new focused tab in obsidian, after some prompts.&lt;/p&gt;
@@ -423,8 +431,8 @@ with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog
     <updated>2025-04-24T16:25:00Z</updated>
     <id>https://actuallysomecat.github.io/blog/meow%20world/</id>
     <content type="html">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;meowmeowmeow&lt;br&gt;
-&lt;a href=&quot;/blog/assets/images/1721511548.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;143&quot; data-pswp-height=&quot;142&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/img/Q8SJxaJALX-143.avif 143w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/img/Q8SJxaJALX-143.webp 143w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/img/Q8SJxaJALX-143.png&quot; alt=&quot;1721511548&quot; data-pswp-original=&quot;/blog/assets/images/1721511548.png&quot; class=&quot;img-embed&quot; width=&quot;143&quot; height=&quot;142&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&quot;/blog/assets/images/currently.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;1000&quot; data-pswp-height=&quot;1000&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/img/SyV8Aa3r3W-1000.avif 1000w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/img/SyV8Aa3r3W-1000.webp 1000w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/img/SyV8Aa3r3W-1000.png&quot; alt=&quot;currently&quot; data-pswp-original=&quot;/blog/assets/images/currently.png&quot; class=&quot;img-embed&quot; width=&quot;1000&quot; height=&quot;1000&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;/blog/assets/images/1721511548.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;143&quot; data-pswp-height=&quot;142&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5C1721511548.png&amp;amp;width=143&amp;amp;format=avif&amp;amp;via=transform 143w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5C1721511548.png&amp;amp;width=143&amp;amp;format=webp&amp;amp;via=transform 143w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5C1721511548.png&amp;amp;width=143&amp;amp;format=png&amp;amp;via=transform&quot; alt=&quot;1721511548&quot; data-pswp-original=&quot;/blog/assets/images/1721511548.png&quot; class=&quot;img-embed&quot; width=&quot;143&quot; height=&quot;142&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;/blog/assets/images/currently.png&quot; class=&quot;photoswipe-item&quot; data-pswp-width=&quot;1000&quot; data-pswp-height=&quot;1000&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Ccurrently.png&amp;amp;width=1000&amp;amp;format=avif&amp;amp;via=transform 1000w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Ccurrently.png&amp;amp;width=1000&amp;amp;format=webp&amp;amp;via=transform 1000w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://actuallysomecat.github.io/.11ty/image/?src=content%5Cblog%5Cassets%5Cimages%5Ccurrently.png&amp;amp;width=1000&amp;amp;format=png&amp;amp;via=transform&quot; alt=&quot;currently&quot; data-pswp-original=&quot;/blog/assets/images/currently.png&quot; class=&quot;img-embed&quot; width=&quot;1000&quot; height=&quot;1000&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;i am currently in eleventy&lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;</content>
   </entry>
