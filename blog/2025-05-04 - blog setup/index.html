@@ -19,7 +19,7 @@
 			
 		
 		
-		<meta property="og:image" content="/og-images/b564a9f4.png">
+		<meta property="og:image" content="/og-images/45d61932.png">
 		<style>/* This is an arbitrary CSS string added to the bundle */
 :root {
   --ctp-latte-rosewater: #dc8a78;
@@ -1070,9 +1070,6 @@ header > a.home-link:visited {
  * This css file is generated.
  * Make changes to `scss` version.
  */
-/**
- * Color about
- */
 
 :root {
   --bold-modifier: 200;
@@ -1088,7 +1085,6 @@ header > a.home-link:visited {
   --callout-content-padding: 0;
   --callout-content-background: transparent;
   --callout-blend-mode: darken;
-  /* TODO: replace these with the ctp-latte-*-rgb colors(?) */
   /* blue (catppuccin latte blue) */
   --callout-info: 30, 102, 245;
   --callout-todo: 30, 102, 245;
@@ -1179,42 +1175,33 @@ details[open].callout > .callout-title > .callout-fold {
 }
 .callout[data-callout=todo] {
   --callout-color: var(--callout-todo);
-  /* --callout-icon: lucide-check-circle-2; */
 }
 .callout[data-callout=success], .callout[data-callout=check], .callout[data-callout=done] {
   --callout-color: var(--callout-success);
-  /* --callout-icon: lucide-check; */
 }
 .callout[data-callout=warning], .callout[data-callout=caution], .callout[data-callout=attention] {
   --callout-color: var(--callout-warning);
-  /* --callout-icon: lucide-alert-triangle; */
 }
 .callout[data-callout=bug] {
   --callout-color: var(--callout-bug);
 }
 .callout[data-callout=danger], .callout[data-callout=error] {
   --callout-color: var(--callout-error);
-  /* --callout-icon: lucide-zap; */
 }
 .callout[data-callout=tip], .callout[data-callout=hint] {
   --callout-color: var(--callout-tip);
-  /* --callout-icon: lucide-flame; */
 }
 .callout[data-callout=example] {
   --callout-color: var(--callout-example);
-  /* --callout-icon: lucide-list; */
 }
 .callout[data-callout=abstract], .callout[data-callout=summary], .callout[data-callout=tldr] {
   --callout-color: var(--callout-summary);
-  /* --callout-icon: lucide-clipboard-list; */
 }
 .callout[data-callout=quote], .callout[data-callout=cite] {
   --callout-color: var(--callout-quote);
-  /* --callout-icon: quote-glyph; */
 }
 .callout[data-callout=heart] {
   --callout-color: var(--callout-fail);
-  /* --callout-title-icon: quote-glyph; */
   
 }
 .callout[data-callout=heart] svg {
@@ -1222,13 +1209,15 @@ details[open].callout > .callout-title > .callout-fold {
   display: none;
 }
 .callout[data-callout="heart"] .callout-title-icon::before {
+  /* smh */
   content: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23E64553%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20class=%27lucide%20lucide-heart-icon%20lucide-heart%27%3E%3Cpath%20d=%27M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%27/%3E%3C/svg%3E");
   display: inline-block;
   width: 32px;
   height: 32px;
 }
 .callout[data-callout="heart"] .callout-title-inner {
-  display: none; /* this doesn't work because the heart svg above disappears too */
+  /* smh */
+  display: none;
 }
 
 /*# sourceMappingURL=index.css.map */
@@ -1743,6 +1732,9 @@ for converting markdown highlights to <code class="language-text">&lt;mark&gt;</
 <h4 id="markdown-it-toc-done-right">markdown-it-toc-done-right</h4>
 <p>github link: <a href="https://github.com/nagaozen/markdown-it-toc-done-right" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-toc-done-right</a><br>
 for adding a table of contents into posts, triggered via putting <code class="language-text">[toc]</code> in the markdown of a post.</p>
+<h4 id="markdown-it-emoji-customizer">markdown-it-emoji-customizer</h4>
+<p>github link: <a href="https://github.com/actuallysomecat/markdown-it-emoji-customizer" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-emoji-customizer</a><br>
+for custom emoji shortcodes and unicode emoji shortcodes (related: <a href="#obsidian-icon-shortcodes">obsidian-icon-shortcodes</a>, below)</p>
 <h3 id="theme">theme</h3>
 <p>the theme is using bits of the <a href="https://github.com/catppuccin/palette" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">catppuccin palettes</a> (some latte and mocha) and the <a href="https://github.com/PrismJS/prism-themes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">laserwave prism theme</a> for codeblocks.</p>
 <h2 id="obsidian">obsidian</h2>
@@ -1759,11 +1751,11 @@ quickadd uses the template for a new draft to create the file itself and apply t
 <h4 id="update-modified-date">update modified date</h4>
 <p>github link: <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a><br>
 this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is nulled when a post is promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, no modified date, yet i can still keep track of modified dates while in the draft phase, and modified date automatically changes if i edit a post after publishing it).</p>
+<h4 id="obsidian-icon-shortcodes">obsidian-icon-shortcodes</h4>
+<p>github link: <a href="https://github.com/aidenlx/obsidian-icon-shortcodes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">obsidian-icon-shortcodes</a><br>
+this is for shortcodes in Obsidian (<code class="language-text">:shortcode:</code>). has autocomplete popup, supports custom emoji in 'packs'.</p>
 <h2 id="hosting">hosting</h2>
-<p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package. the <code class="language-text">package.json</code> scripts section has</p>
-<pre class="language-text"><code class="language-text">"deploy": "gh-pages -d _site -r &lt;GIT REPO&gt; -b main"
-</code></pre>
-<p>to push the <code class="language-text">_site</code> dir to the repo (which is configured to be a github pages repo, using the main branch)</p>
+<p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package.</p>
 <h2 id="notes-and-thoughts">notes and thoughts</h2>
 <p>there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.<br>
 i could also use github actions but i do not want to.</p>
@@ -1779,7 +1771,7 @@ i could also use github actions but i do not want to.</p>
 <div class="callout-content"><p></p>
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" id="cbx_0" disabled="true"><label for="cbx_0"> make this setup a barebones 11ty+obsidian blog starter template?</label></li>
-<li class="task-list-item"><input type="checkbox" id="cbx_1" disabled="true"><label for="cbx_1"> post the templater template for drafting new posts?</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_1" checked="true" disabled="true"><label for="cbx_1"> post the templater template for drafting new posts?</label></li>
 <li class="task-list-item"><input type="checkbox" id="cbx_2" checked="true" disabled="true"><label for="cbx_2"> improve this post a bit</label></li>
 </ul>
 </div></details>
@@ -1808,7 +1800,7 @@ i could also use github actions but i do not want to.</p>
 			<p><em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-19T00:25:58.065Z -->
+		<!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-19T05:06:58.064Z -->
 		
 
 		<!-- theme toggle -->
