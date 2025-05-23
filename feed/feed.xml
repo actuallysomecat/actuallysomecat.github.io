@@ -11,7 +11,7 @@
     <name>cat</name>
   </author>
   <entry>
-    <title>custom emoji shortcodes in 11ty with a plugin</title>
+    <title>custom emoji in 11ty with a plugin</title>
     <link href="https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin/" />
     <updated>2025-05-18T14:51:00Z</updated>
     <id>https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin/</id>
@@ -229,9 +229,6 @@ for adding attributes to elements via markdown.&lt;/p&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/crookedneighbor/markdown-it-link-attributes&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-link-attributes&lt;/a&gt;&lt;br&gt;
 for adding link attributes (&lt;code class=&quot;language-text&quot;&gt;target=&quot;_blank&quot;&lt;/code&gt;, classes, etc)&lt;br&gt;
 pretty sure the plugin before this could handle this also, but i think it would require i manually add the attributes to links in obsidian every time (or do some more templating and link processing on the 11ty side) and i do not want to do that.&lt;/p&gt;
-&lt;h4 id=&quot;markdown-it-obsidian-images&quot;&gt;markdown-it-obsidian-images&lt;/h4&gt;
-&lt;p&gt;github link: &lt;a href=&quot;https://github.com/glitchassassin/markdown-it-obsidian-images&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-images&lt;/a&gt;&lt;br&gt;
-for making the obsidian markdown image embeds work (&lt;code class=&quot;language-text&quot;&gt;![[image]]&lt;/code&gt;)&lt;/p&gt;
 &lt;h4 id=&quot;markdown-it-obsidian-callouts&quot;&gt;markdown-it-obsidian-callouts&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/ebullient/markdown-it-obsidian-callouts&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-callouts&lt;/a&gt;&lt;br&gt;
 for making the obsidian markdown callouts work, with optional styling via css.&lt;/p&gt;
