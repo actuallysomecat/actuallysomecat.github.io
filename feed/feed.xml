@@ -231,17 +231,9 @@ for adding link attributes (&lt;code class=&quot;language-text&quot;&gt;target=&
 pretty sure the plugin before this could handle this also, but i think it would require i manually add the attributes to links in obsidian every time (or do some more templating and link processing on the 11ty side) and i do not want to do that.&lt;/p&gt;
 &lt;h4 id=&quot;markdown-it-obsidian-callouts&quot;&gt;markdown-it-obsidian-callouts&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/ebullient/markdown-it-obsidian-callouts&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-callouts&lt;/a&gt;&lt;br&gt;
-for making the obsidian markdown callouts work, with optional styling via css.&lt;/p&gt;
-
-&lt;div class=&quot;callout&quot; data-callout=&quot;tip&quot;&gt;
-&lt;div class=&quot;callout-title&quot;&gt;
-&lt;div class=&quot;callout-title-icon&quot;&gt;
-&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-flame&quot;&gt;&lt;path d=&quot;M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
-&lt;/div&gt;
-&lt;div class=&quot;callout-title-inner&quot;&gt;see also&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;h4 id=&quot;markdown-it-prism&quot;&gt;markdown-it-prism&lt;/h4&gt;
+for making the obsidian markdown callouts work, with optional styling via css.&lt;br&gt;
+see also: this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-prism&quot;&gt;markdown-it-prism&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/jGleitz/markdown-it-prism&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-prism&lt;/a&gt;&lt;br&gt;
 for prism syntax highlighting within markdown code fences&lt;/p&gt;
 &lt;h4 id=&quot;markdown-it-task-checkbox&quot;&gt;markdown-it-task-checkbox&lt;/h4&gt;
@@ -257,17 +249,9 @@ for adding a table of contents into posts, triggered via putting &lt;code class=
 &lt;h4 id=&quot;markdown-it-emoji-customzier&quot;&gt;markdown-it-emoji-customzier&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/actuallysomecat/markdown-it-emoji-customizer&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-emoji-customizer&lt;/a&gt;&lt;br&gt;
 for converting custom emoji shortcodes (&lt;code class=&quot;language-text&quot;&gt;:neocat:&lt;/code&gt; etc) to &lt;code class=&quot;language-text&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt; tags, as well as unicode emoji shortcodes (&lt;code class=&quot;language-text&quot;&gt;:cat:&lt;/code&gt; etc) to unicode-emoji-wrapped-in-&lt;code class=&quot;language-text&quot;&gt;&amp;lt;span&amp;gt;&lt;/code&gt;. has options. &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_3c.png&quot; alt=&quot;emoji: neocat_3c&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;br&gt;
-intended to work with (but doesn&#39;t require!) the &lt;code class=&quot;language-text&quot;&gt;obsidian-icon-shortcodes&lt;/code&gt; Obsidian plugin (&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#obsidian-icon-shortcodes&quot;&gt;mentioned in next section&lt;/a&gt;)&lt;/p&gt;
-
-&lt;div class=&quot;callout&quot; data-callout=&quot;tip&quot;&gt;
-&lt;div class=&quot;callout-title&quot;&gt;
-&lt;div class=&quot;callout-title-icon&quot;&gt;
-&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-flame&quot;&gt;&lt;path d=&quot;M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
-&lt;/div&gt;
-&lt;div class=&quot;callout-title-inner&quot;&gt;see also&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin&quot;&gt;this post&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;h4 id=&quot;markdown-it-wiklinks-plus&quot;&gt;markdown-it-wiklinks-plus&lt;/h4&gt;
+intended to work with (but doesn&#39;t require!) the &lt;code class=&quot;language-text&quot;&gt;obsidian-icon-shortcodes&lt;/code&gt; Obsidian plugin (&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#obsidian-icon-shortcodes&quot;&gt;mentioned in next section&lt;/a&gt;)&lt;br&gt;
+see also: &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin&quot;&gt;this post&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&quot;markdown-it-wiklinks-plus&quot;&gt;markdown-it-wiklinks-plus&lt;/h4&gt;
 &lt;p&gt;github link: (&lt;em&gt;not yet&lt;/em&gt;)*&lt;br&gt;
 diy plugin for converting wikilinks (&lt;code class=&quot;language-text&quot;&gt;[[some post]]&lt;/code&gt;) and wikilinks image embeds (&lt;code class=&quot;language-text&quot;&gt;![[image.png]]&lt;/code&gt;) using markdown-it tokens rather than regex. i was originally using two other existing plugins (which used regex...) for both of those things but they were conflicting with each other so i rolled my own using markdown-it tokens. has many options.&lt;br&gt;
 *(not available yet because i want to do more testing with 11ty/obsidian setups that aren&#39;t like mine)&lt;/p&gt;
