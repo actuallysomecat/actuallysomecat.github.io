@@ -5,11 +5,128 @@
   <subtitle>some blog of some cat</subtitle>
   <link href="https://actuallysomecat.github.io/feed/feed.xml" rel="self" />
   <link href="https://actuallysomecat.github.io/" />
-  <updated>2025-05-18T14:51:00Z</updated>
+  <updated>2025-05-29T14:01:00Z</updated>
   <id>https://actuallysomecat.github.io/</id>
   <author>
     <name>cat</name>
   </author>
+  <entry>
+    <title>wikilinks + image embeds in 11ty via plugin</title>
+    <link href="https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/" />
+    <updated>2025-05-29T14:01:00Z</updated>
+    <id>https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/</id>
+    <content type="html">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;Contents:&lt;/p&gt;
+&lt;nav class=&quot;table-of-contents&quot;&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#the-situation&quot;&gt;the situation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#the-format&quot;&gt;the format&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#about-pipes&quot;&gt;about pipes&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#features&quot;&gt;features&lt;/a&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#default-alt-text&quot;&gt;default alt text&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#options&quot;&gt;options&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#my-use&quot;&gt;my use&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#final-thoughts&quot;&gt;final thoughts&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;&lt;hr&gt;
+&lt;p&gt;hey &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_peek.png&quot; alt=&quot;emoji: neocat_peek&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt; i did a thing again: &lt;a href=&quot;https://github.com/actuallysomecat/markdown-it-wikilinks-plus&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-wikilinks-plus&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;it&#39;s another plugin for &lt;a href=&quot;https://11ty.dev&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;11ty&lt;/a&gt; with markdown-it!&lt;/p&gt;
+&lt;h2 id=&quot;the-situation&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#the-situation&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; the situation&lt;/h2&gt;
+&lt;p&gt;so this blog is made with 11ty and i use &lt;a href=&quot;https://obsidian.md&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;Obsidian&lt;/a&gt; as my cms basically.&lt;br&gt;
+i write posts in obsidian and my obsidian vault is part of the 11ty environment. &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_comfy.png&quot; alt=&quot;emoji: neocat_comfy&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;in obsidian, i use the default &lt;code class=&quot;language-text&quot;&gt;shortest path when possible&lt;/code&gt; option for new links (in obsidian &lt;code class=&quot;language-text&quot;&gt;settings &amp;gt; Files and links &amp;gt; New link format&lt;/code&gt;) and my filenaming conventions for posts and image embeds means i never really have to worry about duplicate filenames so my links and image embeds are always just &lt;code class=&quot;language-text&quot;&gt;[[name of note]]&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;![[name of image .png]]&lt;/code&gt; or whatever, simple. it works for me.&lt;/p&gt;
+&lt;p&gt;at first i was using two 11ty/markdown-it plugins for handling wikilinks and image embeds, but they were both doing regex on somewhat-similar things so hmm &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_think.png&quot; alt=&quot;emoji: neocat_think&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;so this is a plugin that uses the &lt;a href=&quot;https://markdown-it.github.io/markdown-it/&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it api&lt;/a&gt; (token and parsing stuff) rather than regex to detect  wikilinks and image embeds and convert them to html, with some options! &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_approve.png&quot; alt=&quot;emoji: neocat_approve&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;the-format&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#the-format&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; the format&lt;/h2&gt;
+&lt;p&gt;in obsidian, wikilinks can have a &lt;strong&gt;link label&lt;/strong&gt; (the text of the link) by putting it after a pipe in the link.&lt;br&gt;
+also, image embeds can have &lt;strong&gt;alt text&lt;/strong&gt; and/or &lt;strong&gt;display dimensions&lt;/strong&gt; by putting a pipe after the image filename:&lt;/p&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;examples&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;[[some page|see here]]&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;link to &lt;code class=&quot;language-text&quot;&gt;some page&lt;/code&gt; with link text &lt;code class=&quot;language-text&quot;&gt;see here&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;![[image.png|some cat]]&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;image embed with alt text &lt;code class=&quot;language-text&quot;&gt;some cat&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;![[image.png|200x200]]&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;image embed with display dimensions 200x200 (in obsidian)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;![[image.png|some cat|200x200]]&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;combo!&lt;/em&gt; alt text and dimensions!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;h3 id=&quot;about-pipes&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#about-pipes&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; about pipes&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_think.png&quot; alt=&quot;emoji: neocat_think&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt; &quot;but cat, what about if i wanna put some pipes in my link label?&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;go ahead! &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_approve.png&quot; alt=&quot;emoji: neocat_approve&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;for wikilinks, this plugin uses the &lt;em&gt;first&lt;/em&gt; pipe as a divider between the link target and the link label and includes any other pipes (if any) as part of the link label text!&lt;/p&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;example&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;for a wikilink like &lt;code class=&quot;language-text&quot;&gt;[[some page|label | with | pipes]]&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;link label would be &lt;code class=&quot;language-text&quot;&gt;label | with | pipes&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_thinking.png&quot; alt=&quot;emoji: neocat_thinking&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt; &quot;but cat, what about--&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;you can put them in the image embed alt text too! &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_approve.png&quot; alt=&quot;emoji: neocat_approve&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;the plugin checks the &lt;em&gt;last&lt;/em&gt; pipe section in image embeds to see if it&#39;s dimensions or not.&lt;/p&gt;
+&lt;p&gt;if the last pipe section is &lt;strong&gt;not&lt;/strong&gt; dimensions, everything &lt;em&gt;after&lt;/em&gt; the &lt;em&gt;first&lt;/em&gt; pipe is the alt text!&lt;br&gt;
+if the last pipe section &lt;strong&gt;is&lt;/strong&gt; dimensions, everything &lt;em&gt;between&lt;/em&gt; the first and last pipe is the alt text!&lt;/p&gt;
+
+&lt;div class=&quot;callout&quot; data-callout=&quot;info&quot;&gt;
+&lt;div class=&quot;callout-title&quot;&gt;
+&lt;div class=&quot;callout-title-icon&quot;&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-info&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 16v-4&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M12 8h.01&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-title-inner&quot;&gt;example&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;for an image embed like &lt;code class=&quot;language-text&quot;&gt;[[image.png|alt | with | pipes|200x200]]&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;`alt=&quot;alt | with | pipes&quot;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;style=&quot;width: 200px; height: 200px;&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;h2 id=&quot;features&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#features&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; features&lt;/h2&gt;
+&lt;p&gt;the plugin can convert wikilinks to &lt;code class=&quot;language-text&quot;&gt;&amp;lt;a&amp;gt;&lt;/code&gt; links (with link label) and convert image embeds to &lt;code class=&quot;language-text&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt; (with &lt;strong&gt;alt text&lt;/strong&gt; and/or &lt;strong&gt;dimensions&lt;/strong&gt;, if either or both are included).&lt;br&gt;
+dimensions get used as an inline &lt;code class=&quot;language-text&quot;&gt;style&lt;/code&gt; attribute (&lt;code class=&quot;language-text&quot;&gt;width&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;height&lt;/code&gt;) on the &lt;code class=&quot;language-text&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;it can also insert an &lt;strong&gt;alt text&lt;/strong&gt; attribute for image embeds that don&#39;t have any! &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_laptop_notice.png&quot; alt=&quot;emoji: neocat_laptop_notice&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id=&quot;default-alt-text&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#default-alt-text&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; default alt text&lt;/h3&gt;
+&lt;p&gt;the &lt;code class=&quot;language-text&quot;&gt;imageEmbed.defaultAltText&lt;/code&gt; option can be either a &lt;strong&gt;boolean&lt;/strong&gt; or a &lt;strong&gt;string&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;if it&#39;s &lt;code class=&quot;language-text&quot;&gt;true&lt;/code&gt;, any image embeds that are &lt;em&gt;missing&lt;/em&gt; alt text will get the image name as the alt text. not a great placeholder tbh.&lt;/p&gt;
+&lt;p&gt;if it&#39;s a &lt;code class=&quot;language-text&quot;&gt;string&lt;/code&gt;, any image embeds that are &lt;em&gt;missing&lt;/em&gt; alt text will get the provided string as the alt text. this might be useful if you want some easy to find placeholder to do stuff with. this also means it can take an empty string (&lt;code class=&quot;language-text&quot;&gt;&#39;&#39;&lt;/code&gt;) to give image embeds with no alt text an &lt;code class=&quot;language-text&quot;&gt;alt=&quot;&quot;&lt;/code&gt;, which could be useful. &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_think.png&quot; alt=&quot;emoji: neocat_think&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;options&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#options&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; options&lt;/h2&gt;
+&lt;p&gt;yep! &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_happy.png&quot; alt=&quot;emoji: neocat_happy&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;for wikilinks and/or image embeds, there are &lt;a href=&quot;https://github.com/actuallysomecat/markdown-it-wikilinks-plus?tab=readme-ov-file#options&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;options&lt;/a&gt; for, among other things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;setting the absolute base URL and relative base URL&lt;/li&gt;
+&lt;li&gt;forcing all the links/embeds to be absolute pathing&lt;/li&gt;
+&lt;li&gt;doing custom post processing of targets and link labels and alt text&lt;/li&gt;
+&lt;li&gt;adding a uri suffix&lt;/li&gt;
+&lt;li&gt;adding custom html attributes&lt;/li&gt;
+&lt;li&gt;allowing link label formatting
+&lt;ul&gt;
+&lt;li&gt;like &lt;code class=&quot;language-text&quot;&gt;[[some page|a *neat* link]]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;my-use&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#my-use&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; my use&lt;/h2&gt;
+&lt;p&gt;in my options, i force all links and image embeds to be absolute pathing and give my absolute base URL (&lt;code class=&quot;language-text&quot;&gt;/blog/&lt;/code&gt; for wikilinks, &lt;code class=&quot;language-text&quot;&gt;/blog/assets/images/&lt;/code&gt; for image embeds), give the wikilinks a &lt;code class=&quot;language-text&quot;&gt;class: &#39;internal-link&#39;&lt;/code&gt; and image embeds a &lt;code class=&quot;language-text&quot;&gt;class: &#39;image-embed&#39;&lt;/code&gt;, and give image embeds a &lt;code class=&quot;language-text&quot;&gt;defaultAltText: &#39;&#39;&lt;/code&gt; so any images without alt text get a &lt;code class=&quot;language-text&quot;&gt;alt=&quot;&quot;&lt;/code&gt; attribute.&lt;br&gt;
+works for me &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_comfy.png&quot; alt=&quot;emoji: neocat_comfy&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;final-thoughts&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#final-thoughts&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; final thoughts&lt;/h2&gt;
+&lt;p&gt;meow &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_heart.png&quot; alt=&quot;emoji: neocat_heart&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+  </entry>
   <entry>
     <title>custom emoji in 11ty with a plugin</title>
     <link href="https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin/" />
@@ -232,7 +349,7 @@ pretty sure the plugin before this could handle this also, but i think it would 
 &lt;h4 id=&quot;markdown-it-obsidian-callouts&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#markdown-it-obsidian-callouts&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; markdown-it-obsidian-callouts&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/ebullient/markdown-it-obsidian-callouts&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-obsidian-callouts&lt;/a&gt;&lt;br&gt;
 for making the obsidian markdown callouts work, with optional styling via css.&lt;br&gt;
-see also: this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/testing&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
+see also: this test post with some callouts and codeblocks: &lt;a href=&quot;https://actuallysomecat.github.io/blog/testing&quot; class=&quot;internal-link&quot;&gt;testing&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&quot;markdown-it-prism&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#markdown-it-prism&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; markdown-it-prism&lt;/h4&gt;
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/jGleitz/markdown-it-prism&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-prism&lt;/a&gt;&lt;br&gt;
 for prism syntax highlighting within markdown code fences&lt;/p&gt;
@@ -250,7 +367,7 @@ for adding a table of contents into posts, triggered via putting &lt;code class=
 &lt;p&gt;github link: &lt;a href=&quot;https://github.com/actuallysomecat/markdown-it-emoji-customizer&quot; class=&quot;external-link&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; aria-label=&quot;External link (opens in new tab)&quot;&gt;markdown-it-emoji-customizer&lt;/a&gt;&lt;br&gt;
 for converting custom emoji shortcodes (&lt;code class=&quot;language-text&quot;&gt;:neocat:&lt;/code&gt; etc) to &lt;code class=&quot;language-text&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt; tags, as well as unicode emoji shortcodes (&lt;code class=&quot;language-text&quot;&gt;:cat:&lt;/code&gt; etc) to unicode-emoji-wrapped-in-&lt;code class=&quot;language-text&quot;&gt;&amp;lt;span&amp;gt;&lt;/code&gt;. has options. &lt;span class=&quot;custom-emoji--span&quot;&gt;&lt;img src=&quot;https://actuallysomecat.github.io/img/emoji/neocat/neocat_3c.png&quot; alt=&quot;emoji: neocat_3c&quot; class=&quot;custom-emoji--img&quot;&gt;&lt;/span&gt;&lt;br&gt;
 intended to work with (but doesn&#39;t require!) the &lt;code class=&quot;language-text&quot;&gt;obsidian-icon-shortcodes&lt;/code&gt; Obsidian plugin (&lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#obsidian-icon-shortcodes&quot;&gt;mentioned in next section&lt;/a&gt;)&lt;br&gt;
-see also: &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin&quot;&gt;this post&lt;/a&gt;&lt;/p&gt;
+see also: &lt;a href=&quot;https://actuallysomecat.github.io/blog/2025-05-18%20-%20custom%20emoji%20shortcodes%20in%2011ty%20with%20a%20plugin&quot; class=&quot;internal-link&quot;&gt;this post&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&quot;markdown-it-wiklinks-plus&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-04%20-%20blog%20setup/#markdown-it-wiklinks-plus&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; markdown-it-wiklinks-plus&lt;/h4&gt;
 &lt;p&gt;github link: (&lt;em&gt;not yet&lt;/em&gt;)*&lt;br&gt;
 diy plugin for converting wikilinks (&lt;code class=&quot;language-text&quot;&gt;[[some post]]&lt;/code&gt;) and wikilinks image embeds (&lt;code class=&quot;language-text&quot;&gt;![[image.png]]&lt;/code&gt;) using markdown-it tokens rather than regex. i was originally using two other existing plugins (which used regex...) for both of those things but they were conflicting with each other so i rolled my own using markdown-it tokens. has many options.&lt;br&gt;
@@ -396,7 +513,7 @@ some css:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;meow&lt;/p&gt;
 &lt;h2 id=&quot;a-test&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#a-test&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; a test&lt;/h2&gt;
-&lt;p&gt;this is a link to the &lt;code class=&quot;language-text&quot;&gt;meow world&lt;/code&gt; post, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;test&lt;/a&gt;&lt;br&gt;
+&lt;p&gt;this is a link to the &lt;code class=&quot;language-text&quot;&gt;meow world&lt;/code&gt; post, aliased as &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot; class=&quot;internal-link&quot;&gt;test&lt;/a&gt;&lt;br&gt;
 the above link in the markdown is &lt;code class=&quot;language-text&quot;&gt;[[meow world|test]]&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&quot;callout&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-04-25%20-%20meow%20meow/#callout&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; callout&lt;/h3&gt;
 
@@ -408,7 +525,7 @@ the above link in the markdown is &lt;code class=&quot;language-text&quot;&gt;[[
 &lt;div class=&quot;callout-title-inner&quot;&gt;Info&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;test callout&lt;br&gt;
-with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
+with an internal link to &lt;a href=&quot;https://actuallysomecat.github.io/blog/meow%20world&quot; class=&quot;internal-link&quot;&gt;meow world&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</content>
   </entry>
   <entry>

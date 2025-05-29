@@ -1,0 +1,530 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wikilinks + image embeds in 11ty via plugin</title>
+    <meta name="description" content="a markdown-it 11ty plugin">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="some cat blog">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="me" href="https://toot.cat/@somecat">
+    <link rel="stylesheet" href="/scss/main.css">
+    <script type="module">
+    
+      
+        
+      
+      
+    
+    
+    <meta property="og:image" content="/og-images/c353147e.png" />
+    
+<script type="module">
+      // Thank you to https://github.com/daviddarnes/heading-anchors
+// Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
+
+let globalInstanceIndex = 0;
+
+class HeadingAnchors extends HTMLElement {
+	static register(tagName) {
+		if ("customElements" in window) {
+			customElements.define(tagName || "heading-anchors", HeadingAnchors);
+		}
+	}
+
+	static attributes = {
+		exclude: "data-ha-exclude",
+		prefix: "prefix",
+		content: "content",
+	}
+
+	static classes = {
+		anchor: "ha",
+		placeholder: "ha-placeholder",
+		srOnly: "ha-visualhide",
+	}
+
+	static defaultSelector = "h2,h3,h4,h5,h6";
+
+	static css = `
+.${HeadingAnchors.classes.srOnly} {
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+.${HeadingAnchors.classes.anchor} {
+	position: absolute;
+	left: var(--ha_offsetx);
+	top: var(--ha_offsety);
+	text-decoration: none;
+	opacity: 0;
+}
+.${HeadingAnchors.classes.placeholder} {
+	opacity: .3;
+}
+.${HeadingAnchors.classes.anchor}:is(:focus-within, :hover) {
+	opacity: 1;
+}
+.${HeadingAnchors.classes.anchor},
+.${HeadingAnchors.classes.placeholder} {
+	display: inline-block;
+	padding: 0 .25em;
+
+	/* Disable selection of visually hidden label */
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+@supports (anchor-name: none) {
+	.${HeadingAnchors.classes.anchor} {
+		position: absolute;
+		left: anchor(left);
+		top: anchor(top);
+	}
+}`;
+
+	get supports() {
+		return "replaceSync" in CSSStyleSheet.prototype;
+	}
+
+	get supportsAnchorPosition() {
+		return CSS.supports("anchor-name: none");
+	}
+
+	constructor() {
+		super();
+
+		if(!this.supports) {
+			return;
+		}
+
+		let sheet = new CSSStyleSheet();
+		sheet.replaceSync(HeadingAnchors.css);
+		document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+
+		this.headingStyles = {};
+		this.instanceIndex = globalInstanceIndex++;
+	}
+
+	connectedCallback() {
+		if (!this.supports) {
+			return;
+		}
+
+		this.headings.forEach((heading, index) => {
+			if(!heading.hasAttribute(HeadingAnchors.attributes.exclude)) {
+				let anchor = this.getAnchorElement(heading);
+				let placeholder = this.getPlaceholderElement();
+
+				// Prefers anchor position approach for better accessibility
+				// https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
+				if(this.supportsAnchorPosition) {
+					let anchorName = `--ha_${this.instanceIndex}_${index}`;
+					placeholder.style.setProperty("anchor-name", anchorName);
+					anchor.style.positionAnchor = anchorName;
+				}
+
+				heading.appendChild(placeholder);
+				heading.after(anchor);
+			}
+		});
+	}
+
+	// Polyfill-only
+	positionAnchorFromPlaceholder(placeholder) {
+		if(!placeholder) {
+			return;
+		}
+
+		let heading = placeholder.closest("h1,h2,h3,h4,h5,h6");
+		if(!heading.nextElementSibling) {
+			return;
+		}
+
+		// TODO next element could be more defensive
+		this.positionAnchor(heading.nextElementSibling);
+	}
+
+	// Polyfill-only
+	positionAnchor(anchor) {
+		if(!anchor || !anchor.previousElementSibling) {
+			return;
+		}
+
+		// TODO previous element could be more defensive
+		let heading = anchor.previousElementSibling;
+		this.setFontProp(heading, anchor);
+
+		if(this.supportsAnchorPosition) {
+			// quit early
+			return;
+		}
+
+		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
+		if(placeholder) {
+			anchor.style.setProperty("--ha_offsetx", `${placeholder.offsetLeft}px`);
+			anchor.style.setProperty("--ha_offsety", `${placeholder.offsetTop}px`);
+		}
+	}
+
+	setFontProp(heading, anchor) {
+		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
+		if(placeholder) {
+			let style = getComputedStyle(placeholder);
+			let props = ["font-weight", "font-size", "line-height", "font-family"];
+			let font = props.map(name => style.getPropertyValue(name));
+			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
+		}
+	}
+
+	getAccessibleTextPrefix() {
+		// Useful for i18n
+		return this.getAttribute(HeadingAnchors.attributes.prefix) || "Jump to section titled";
+	}
+
+	getContent() {
+		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
+			return this.getAttribute(HeadingAnchors.attributes.content);
+		}
+		return "#";
+	}
+
+	// Placeholder nests inside of heading
+	getPlaceholderElement() {
+		let ph = document.createElement("span");
+		ph.setAttribute("aria-hidden", true);
+		ph.classList.add(HeadingAnchors.classes.placeholder);
+		let content = this.getContent();
+		if(content) {
+			ph.textContent = content;
+		}
+
+		ph.addEventListener("mouseover", (e) => {
+			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
+			if(placeholder) {
+				this.positionAnchorFromPlaceholder(placeholder);
+			}
+		});
+
+		return ph;
+	}
+
+	getAnchorElement(heading) {
+		let anchor = document.createElement("a");
+		anchor.href = `#${heading.id}`;
+		anchor.classList.add(HeadingAnchors.classes.anchor);
+
+		let content = this.getContent();
+		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
+
+		anchor.addEventListener("focus", e => {
+			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
+			if(anchor) {
+				this.positionAnchor(anchor);
+			}
+		});
+
+		anchor.addEventListener("mouseover", (e) => {
+			// when CSS anchor positioning is supported, this is only used to set the font
+			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
+			this.positionAnchor(anchor);
+		});
+
+		return anchor;
+	}
+
+	get headings() {
+		return this.querySelectorAll(this.selector.split(",").map(entry => `${entry.trim()}[id]`));
+	}
+
+	get selector() {
+		return this.getAttribute("selector") || HeadingAnchors.defaultSelector;
+	}
+}
+
+HeadingAnchors.register();
+
+export { HeadingAnchors }
+
+    </script>
+
+<link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
+</head>
+<body>
+<a href="#skip" class="visually-hidden">Skip to main content</a>
+<header>
+
+<nav id="menu">
+<h2 class="visually-hidden">Top level navigation menu</h2>
+<div class="menu-inner">
+<input type="checkbox" id="menu-toggle" hidden="">
+<label for="menu-toggle" class="menu-icon">☰</label>
+<div class="menu-left"></div>
+<ul class="nav-links">
+<li>
+<a href="/">home</a>
+</li>
+
+<li>
+<a href="/blog/">archive</a>
+</li>
+
+<li>
+<a href="/tags/">tags</a>
+</li>
+
+<li>
+<a href="/about/">about</a>
+</li>
+
+<li>
+<a href="/feed/feed.xml">feed</a>
+</li>
+
+</ul>
+<div class="menu-right">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path>
+<path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path>
+<path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path>
+<path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path>
+<path d="m19.07 4.93-1.41 1.41"></path>
+</svg>
+<input type="checkbox" id="theme-toggle-checkbox" onclick="toggleTheme()">
+<label for="theme-toggle-checkbox" id="theme-toggle-label"></label>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+</svg>
+</div>
+</div>
+</nav>
+</header>
+<script>
+			(function() {
+				const storedTheme = localStorage.getItem('theme');
+				const isDark = storedTheme ? storedTheme === "dark"	: window.matchMedia('(prefers-color-scheme: dark)').matches;
+				document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+				const themeCheckbox = document.getElementById('theme-toggle-checkbox');
+				if (themeCheckbox) {
+				themeCheckbox.checked = isDark;
+				}
+			})();
+</script>
+<main id="skip">
+<heading-anchors>
+
+<h1>wikilinks + image embeds in 11ty via plugin</h1>
+<dl class="post-metadata">
+  <dt>posted:</dt>
+  <dd>
+    <time datetime="2025-05-29" aria-label="Published on 29 May 2025">2025.05.29</time>
+  </dd>
+  
+    <dt>modified:</dt>
+    <dd>
+      <time datetime="2025-05-29" aria-label="Updated on 29 May 2025">2025.05.29</time>
+    </dd>
+  
+  <dt>tags:</dt>
+  <dd>
+    <ul class="tags-list">
+        <li>
+          <a href="/tags/11ty/
+        " class="post-tag">11ty</a>
+        </li>
+        <li>
+          <a href="/tags/blog/
+        " class="post-tag">blog</a>
+        </li>
+        <li>
+          <a href="/tags/embeds/
+        " class="post-tag">embeds</a>
+        </li>
+        <li>
+          <a href="/tags/markdown/
+        " class="post-tag">markdown</a>
+        </li>
+        <li>
+          <a href="/tags/markdown-it/
+        " class="post-tag">markdown-it</a>
+        </li>
+        <li>
+          <a href="/tags/obsidian/
+        " class="post-tag">obsidian</a>
+        </li>
+        <li>
+          <a href="/tags/plugin/
+        " class="post-tag">plugin</a>
+        </li>
+        <li>
+          <a href="/tags/wikilinks/
+        " class="post-tag">wikilinks</a>
+        </li>
+    </ul>
+  </dd>
+</dl>
+<article class="post-content">
+  <nav class="table-of-contents">
+    
+  </nav>
+  <div class="photoswipe-gallery"><p>Contents:</p>
+<nav class="table-of-contents"><ul><li><a href="#the-situation">the situation</a></li><li><a href="#the-format">the format</a><ul><li><a href="#about-pipes">about pipes</a></li></ul></li><li><a href="#features">features</a><ul><li><a href="#default-alt-text">default alt text</a></li></ul></li><li><a href="#options">options</a></li><li><a href="#my-use">my use</a></li><li><a href="#final-thoughts">final thoughts</a></li></ul></nav><hr>
+<p>hey <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_peek.png" alt="emoji: neocat_peek" class="custom-emoji--img"></span> i did a thing again: <a href="https://github.com/actuallysomecat/markdown-it-wikilinks-plus" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-wikilinks-plus</a></p>
+<p>it's another plugin for <a href="https://11ty.dev" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty</a> with markdown-it!</p>
+<h2 id="the-situation" tabindex="-1"><a class="header-anchor" href="#the-situation" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the situation</h2>
+<p>so this blog is made with 11ty and i use <a href="https://obsidian.md" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Obsidian</a> as my cms basically.<br>
+i write posts in obsidian and my obsidian vault is part of the 11ty environment. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_comfy.png" alt="emoji: neocat_comfy" class="custom-emoji--img"></span></p>
+<p>in obsidian, i use the default <code class="language-text">shortest path when possible</code> option for new links (in obsidian <code class="language-text">settings &gt; Files and links &gt; New link format</code>) and my filenaming conventions for posts and image embeds means i never really have to worry about duplicate filenames so my links and image embeds are always just <code class="language-text">[[name of note]]</code> and <code class="language-text">![[name of image .png]]</code> or whatever, simple. it works for me.</p>
+<p>at first i was using two 11ty/markdown-it plugins for handling wikilinks and image embeds, but they were both doing regex on somewhat-similar things so hmm <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span></p>
+<p>so this is a plugin that uses the <a href="https://markdown-it.github.io/markdown-it/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it api</a> (token and parsing stuff) rather than regex to detect  wikilinks and image embeds and convert them to html, with some options! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_approve.png" alt="emoji: neocat_approve" class="custom-emoji--img"></span></p>
+<h2 id="the-format" tabindex="-1"><a class="header-anchor" href="#the-format" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the format</h2>
+<p>in obsidian, wikilinks can have a <strong>link label</strong> (the text of the link) by putting it after a pipe in the link.<br>
+also, image embeds can have <strong>alt text</strong> and/or <strong>display dimensions</strong> by putting a pipe after the image filename:</p>
+
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+</div>
+<div class="callout-title-inner">examples</div>
+</div>
+<div class="callout-content"><p></p>
+<ul>
+<li><code class="language-text">[[some page|see here]]</code>
+<ul>
+<li>link to <code class="language-text">some page</code> with link text <code class="language-text">see here</code></li>
+</ul>
+</li>
+<li><code class="language-text">![[image.png|some cat]]</code>
+<ul>
+<li>image embed with alt text <code class="language-text">some cat</code></li>
+</ul>
+</li>
+<li><code class="language-text">![[image.png|200x200]]</code>
+<ul>
+<li>image embed with display dimensions 200x200 (in obsidian)</li>
+</ul>
+</li>
+<li><code class="language-text">![[image.png|some cat|200x200]]</code>
+<ul>
+<li><em>combo!</em> alt text and dimensions!</li>
+</ul>
+</li>
+</ul>
+</div></div><h3 id="about-pipes" tabindex="-1"><a class="header-anchor" href="#about-pipes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> about pipes</h3>
+<blockquote>
+<p><span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span> "but cat, what about if i wanna put some pipes in my link label?"</p>
+</blockquote>
+<p>go ahead! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_approve.png" alt="emoji: neocat_approve" class="custom-emoji--img"></span></p>
+<p>for wikilinks, this plugin uses the <em>first</em> pipe as a divider between the link target and the link label and includes any other pipes (if any) as part of the link label text!</p>
+
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+</div>
+<div class="callout-title-inner">example</div>
+</div>
+<div class="callout-content"><p>for a wikilink like <code class="language-text">[[some page|label | with | pipes]]</code>:</p>
+<ul>
+<li>link label would be <code class="language-text">label | with | pipes</code></li>
+</ul>
+</div></div><blockquote>
+<p><span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_thinking.png" alt="emoji: neocat_thinking" class="custom-emoji--img"></span> "but cat, what about--"</p>
+</blockquote>
+<p>you can put them in the image embed alt text too! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_approve.png" alt="emoji: neocat_approve" class="custom-emoji--img"></span></p>
+<p>the plugin checks the <em>last</em> pipe section in image embeds to see if it's dimensions or not.</p>
+<p>if the last pipe section is <strong>not</strong> dimensions, everything <em>after</em> the <em>first</em> pipe is the alt text!<br>
+if the last pipe section <strong>is</strong> dimensions, everything <em>between</em> the first and last pipe is the alt text!</p>
+
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+</div>
+<div class="callout-title-inner">example</div>
+</div>
+<div class="callout-content"><p>for an image embed like <code class="language-text">[[image.png|alt | with | pipes|200x200]]</code>:</p>
+<ul>
+<li>`alt="alt | with | pipes"</li>
+<li><code class="language-text">style="width: 200px; height: 200px;"</code></li>
+</ul>
+</div></div><h2 id="features" tabindex="-1"><a class="header-anchor" href="#features" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> features</h2>
+<p>the plugin can convert wikilinks to <code class="language-text">&lt;a&gt;</code> links (with link label) and convert image embeds to <code class="language-text">&lt;img&gt;</code> (with <strong>alt text</strong> and/or <strong>dimensions</strong>, if either or both are included).<br>
+dimensions get used as an inline <code class="language-text">style</code> attribute (<code class="language-text">width</code> and <code class="language-text">height</code>) on the <code class="language-text">&lt;img&gt;</code>.</p>
+<p>it can also insert an <strong>alt text</strong> attribute for image embeds that don't have any! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_laptop_notice.png" alt="emoji: neocat_laptop_notice" class="custom-emoji--img"></span></p>
+<h3 id="default-alt-text" tabindex="-1"><a class="header-anchor" href="#default-alt-text" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> default alt text</h3>
+<p>the <code class="language-text">imageEmbed.defaultAltText</code> option can be either a <strong>boolean</strong> or a <strong>string</strong>.</p>
+<p>if it's <code class="language-text">true</code>, any image embeds that are <em>missing</em> alt text will get the image name as the alt text. not a great placeholder tbh.</p>
+<p>if it's a <code class="language-text">string</code>, any image embeds that are <em>missing</em> alt text will get the provided string as the alt text. this might be useful if you want some easy to find placeholder to do stuff with. this also means it can take an empty string (<code class="language-text">''</code>) to give image embeds with no alt text an <code class="language-text">alt=""</code>, which could be useful. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span></p>
+<h2 id="options" tabindex="-1"><a class="header-anchor" href="#options" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> options</h2>
+<p>yep! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_happy.png" alt="emoji: neocat_happy" class="custom-emoji--img"></span></p>
+<p>for wikilinks and/or image embeds, there are <a href="https://github.com/actuallysomecat/markdown-it-wikilinks-plus?tab=readme-ov-file#options" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">options</a> for, among other things:</p>
+<ul>
+<li>setting the absolute base URL and relative base URL</li>
+<li>forcing all the links/embeds to be absolute pathing</li>
+<li>doing custom post processing of targets and link labels and alt text</li>
+<li>adding a uri suffix</li>
+<li>adding custom html attributes</li>
+<li>allowing link label formatting
+<ul>
+<li>like <code class="language-text">[[some page|a *neat* link]]</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="my-use" tabindex="-1"><a class="header-anchor" href="#my-use" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> my use</h2>
+<p>in my options, i force all links and image embeds to be absolute pathing and give my absolute base URL (<code class="language-text">/blog/</code> for wikilinks, <code class="language-text">/blog/assets/images/</code> for image embeds), give the wikilinks a <code class="language-text">class: 'internal-link'</code> and image embeds a <code class="language-text">class: 'image-embed'</code>, and give image embeds a <code class="language-text">defaultAltText: ''</code> so any images without alt text get a <code class="language-text">alt=""</code> attribute.<br>
+works for me <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_comfy.png" alt="emoji: neocat_comfy" class="custom-emoji--img"></span></p>
+<h2 id="final-thoughts" tabindex="-1"><a class="header-anchor" href="#final-thoughts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> final thoughts</h2>
+<p>meow <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_heart.png" alt="emoji: neocat_heart" class="custom-emoji--img"></span></p>
+</div>
+</article>
+    <ul class="links-nextprev">
+        <li class="links-nextprev-prev">
+          ← previous
+          <br>
+          <a href="/blog/2025-05-18 - custom emoji shortcodes in 11ty with a plugin/">custom emoji in 11ty with a plugin</a>
+        </li>
+      
+    </ul>
+<!-- photoswipe -->
+<script type="module">
+	import PhotoSwipeLightbox from '/assets/photoswipe/photoswipe-lightbox.esm.js';
+	import PhotoSwipe from '/assets/photoswipe/photoswipe.esm.js';
+	
+	const lightbox = new PhotoSwipeLightbox({
+		gallery: ".photoswipe-gallery",
+		children: "a.photoswipe-item",
+		showHideAnimationType: 'none',
+		pswpModule: PhotoSwipe,
+	});
+
+	lightbox.init();
+</script>
+
+</heading-anchors>
+</main>
+<footer>
+<p>
+<em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em>
+</p>
+</footer>
+<!-- This page `/blog/2025-05-29 - wikilinks + image embeds in 11ty via plugin/` was built on 2025-05-29T19:03:11.244Z -->
+
+<script>
+			function toggleTheme() {
+				const themeCheckbox = document.getElementById("theme-toggle-checkbox");
+				const newTheme = themeCheckbox.checked ? "dark" : "light";
+				document.documentElement.setAttribute('data-theme', newTheme);
+				localStorage.setItem('theme', newTheme);
+			}
+</script>
+
+
+</body></html>
