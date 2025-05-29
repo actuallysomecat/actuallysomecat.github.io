@@ -94,7 +94,7 @@ if the last pipe section &lt;strong&gt;is&lt;/strong&gt; dimensions, everything 
 &lt;/div&gt;
 &lt;div class=&quot;callout-content&quot;&gt;&lt;p&gt;for an image embed like &lt;code class=&quot;language-text&quot;&gt;[[image.png|alt | with | pipes|200x200]]&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;`alt=&quot;alt | with | pipes&quot;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;alt=&quot;alt | with | pipes&quot;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;style=&quot;width: 200px; height: 200px;&quot;&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;h2 id=&quot;features&quot; tabindex=&quot;-1&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;https://actuallysomecat.github.io/blog/2025-05-29%20-%20wikilinks%20+%20image%20embeds%20in%2011ty%20via%20plugin/#features&quot; aria-hidden=&quot;true&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-link-icon lucide-link&quot;&gt;&lt;path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt; features&lt;/h2&gt;
