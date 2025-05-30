@@ -18,236 +18,7 @@
     
     <meta property="og:image" content="/og-images/6edd2c89.png">
     
-    <script type="module">
-      // Thank you to https://github.com/daviddarnes/heading-anchors
-// Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-
-let globalInstanceIndex = 0;
-
-class HeadingAnchors extends HTMLElement {
-	static register(tagName) {
-		if ("customElements" in window) {
-			customElements.define(tagName || "heading-anchors", HeadingAnchors);
-		}
-	}
-
-	static attributes = {
-		exclude: "data-ha-exclude",
-		prefix: "prefix",
-		content: "content",
-	}
-
-	static classes = {
-		anchor: "ha",
-		placeholder: "ha-placeholder",
-		srOnly: "ha-visualhide",
-	}
-
-	static defaultSelector = "h2,h3,h4,h5,h6";
-
-	static css = `
-.${HeadingAnchors.classes.srOnly} {
-	clip: rect(0 0 0 0);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	width: 1px;
-}
-.${HeadingAnchors.classes.anchor} {
-	position: absolute;
-	left: var(--ha_offsetx);
-	top: var(--ha_offsety);
-	text-decoration: none;
-	opacity: 0;
-}
-.${HeadingAnchors.classes.placeholder} {
-	opacity: .3;
-}
-.${HeadingAnchors.classes.anchor}:is(:focus-within, :hover) {
-	opacity: 1;
-}
-.${HeadingAnchors.classes.anchor},
-.${HeadingAnchors.classes.placeholder} {
-	display: inline-block;
-	padding: 0 .25em;
-
-	/* Disable selection of visually hidden label */
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-@supports (anchor-name: none) {
-	.${HeadingAnchors.classes.anchor} {
-		position: absolute;
-		left: anchor(left);
-		top: anchor(top);
-	}
-}`;
-
-	get supports() {
-		return "replaceSync" in CSSStyleSheet.prototype;
-	}
-
-	get supportsAnchorPosition() {
-		return CSS.supports("anchor-name: none");
-	}
-
-	constructor() {
-		super();
-
-		if(!this.supports) {
-			return;
-		}
-
-		let sheet = new CSSStyleSheet();
-		sheet.replaceSync(HeadingAnchors.css);
-		document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-
-		this.headingStyles = {};
-		this.instanceIndex = globalInstanceIndex++;
-	}
-
-	connectedCallback() {
-		if (!this.supports) {
-			return;
-		}
-
-		this.headings.forEach((heading, index) => {
-			if(!heading.hasAttribute(HeadingAnchors.attributes.exclude)) {
-				let anchor = this.getAnchorElement(heading);
-				let placeholder = this.getPlaceholderElement();
-
-				// Prefers anchor position approach for better accessibility
-				// https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-				if(this.supportsAnchorPosition) {
-					let anchorName = `--ha_${this.instanceIndex}_${index}`;
-					placeholder.style.setProperty("anchor-name", anchorName);
-					anchor.style.positionAnchor = anchorName;
-				}
-
-				heading.appendChild(placeholder);
-				heading.after(anchor);
-			}
-		});
-	}
-
-	// Polyfill-only
-	positionAnchorFromPlaceholder(placeholder) {
-		if(!placeholder) {
-			return;
-		}
-
-		let heading = placeholder.closest("h1,h2,h3,h4,h5,h6");
-		if(!heading.nextElementSibling) {
-			return;
-		}
-
-		// TODO next element could be more defensive
-		this.positionAnchor(heading.nextElementSibling);
-	}
-
-	// Polyfill-only
-	positionAnchor(anchor) {
-		if(!anchor || !anchor.previousElementSibling) {
-			return;
-		}
-
-		// TODO previous element could be more defensive
-		let heading = anchor.previousElementSibling;
-		this.setFontProp(heading, anchor);
-
-		if(this.supportsAnchorPosition) {
-			// quit early
-			return;
-		}
-
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			anchor.style.setProperty("--ha_offsetx", `${placeholder.offsetLeft}px`);
-			anchor.style.setProperty("--ha_offsety", `${placeholder.offsetTop}px`);
-		}
-	}
-
-	setFontProp(heading, anchor) {
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			let style = getComputedStyle(placeholder);
-			let props = ["font-weight", "font-size", "line-height", "font-family"];
-			let font = props.map(name => style.getPropertyValue(name));
-			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
-		}
-	}
-
-	getAccessibleTextPrefix() {
-		// Useful for i18n
-		return this.getAttribute(HeadingAnchors.attributes.prefix) || "Jump to section titled";
-	}
-
-	getContent() {
-		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
-			return this.getAttribute(HeadingAnchors.attributes.content);
-		}
-		return "#";
-	}
-
-	// Placeholder nests inside of heading
-	getPlaceholderElement() {
-		let ph = document.createElement("span");
-		ph.setAttribute("aria-hidden", true);
-		ph.classList.add(HeadingAnchors.classes.placeholder);
-		let content = this.getContent();
-		if(content) {
-			ph.textContent = content;
-		}
-
-		ph.addEventListener("mouseover", (e) => {
-			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
-			if(placeholder) {
-				this.positionAnchorFromPlaceholder(placeholder);
-			}
-		});
-
-		return ph;
-	}
-
-	getAnchorElement(heading) {
-		let anchor = document.createElement("a");
-		anchor.href = `#${heading.id}`;
-		anchor.classList.add(HeadingAnchors.classes.anchor);
-
-		let content = this.getContent();
-		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
-
-		anchor.addEventListener("focus", e => {
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			if(anchor) {
-				this.positionAnchor(anchor);
-			}
-		});
-
-		anchor.addEventListener("mouseover", (e) => {
-			// when CSS anchor positioning is supported, this is only used to set the font
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			this.positionAnchor(anchor);
-		});
-
-		return anchor;
-	}
-
-	get headings() {
-		return this.querySelectorAll(this.selector.split(",").map(entry => `${entry.trim()}[id]`));
-	}
-
-	get selector() {
-		return this.getAttribute("selector") || HeadingAnchors.defaultSelector;
-	}
-}
-
-HeadingAnchors.register();
-
-export { HeadingAnchors }
-
-    </script>
+    
     
     <link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
   </head>
@@ -319,10 +90,10 @@ export { HeadingAnchors }
       <heading-anchors>
       
 
-<h1 id="about" tabindex="-1"><a class="header-anchor" href="#about" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> about</h1>
-<h2 id="me" tabindex="-1"><a class="header-anchor" href="#me" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> me</h2>
+<h1 id="about" tabindex="0"><a class="header-anchor" href="#about" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> about</h1>
+<h2 id="me" tabindex="0"><a class="header-anchor" href="#me" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> me</h2>
 <p>i am some cat that writes stuff and makes stuff and does stuff. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_peek.png" alt="emoji: neocat_peek" class="custom-emoji--img"></span></p>
-<h2 id="this-site" tabindex="-1"><a class="header-anchor" href="#this-site" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> this site</h2>
+<h2 id="this-site" tabindex="0"><a class="header-anchor" href="#this-site" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> this site</h2>
 
 <div class="callout" data-callout="tip">
 <div class="callout-title">
@@ -354,7 +125,7 @@ export { HeadingAnchors }
 </li>
 <li>is using <a href="https://github.com/dimsemenov/photoswipe" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">photoswipe</a> for lightbox stuff</li>
 </ul>
-<h2 id="web-buttons" tabindex="-1"><a class="header-anchor" href="#web-buttons" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> web buttons</h2>
+<h2 id="web-buttons" tabindex="0"><a class="header-anchor" href="#web-buttons" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> web buttons</h2>
 <div class="web-buttons">
 <a href="https://11ty.dev/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): 11ty website"><img src="/blog/assets/images/buttons/built-with-eleventy.png" alt="web button for 11ty" style="width:88px; height:31px;"></a>
 <a href="https://vscodium.com/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): vscodium website"><img src="/blog/assets/images/buttons/vscodium.png" alt="web button for vscodium" style="width:88px; height:31px;"></a>
@@ -367,14 +138,14 @@ export { HeadingAnchors }
 <a href="https://melvian.net/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): melvian website"><img src="/blog/assets/images/buttons/2025badge_2.png" alt="web button for melvian" style="width:88px; height:31px;"></a>
 <a href="https://https://smolderg.xyz/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): smolderg (therra) website"><img src="/blog/assets/images/buttons/theysosmall_by_liah.png" alt="web button for smolderg (therra)" style="width:88px; height:31px;"></a>
 </div>
-<h3 id="mine" tabindex="-1"><a class="header-anchor" href="#mine" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> mine</h3>
+<h3 id="mine" tabindex="0"><a class="header-anchor" href="#mine" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> mine</h3>
 <p>(i made more but meh. ... i should make some more.)</p>
 <div class="web-buttons">
 <a href="https://actuallysomecat.github.io/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): some cat website"><img src="/blog/assets/images/buttons/88x31_test_somecatblog_3.png" alt="web button for some cat" style="width:88px; height:31px;"></a>
 <a href="https://actuallysomecat.github.io/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): some cat website"><img src="/blog/assets/images/buttons/88x31_fediverse2.gif" alt="web button fediverse" style="width:88px; height:31px;"></a>
 <a href="https://actuallysomecat.github.io/" class="web-button external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab): some cat website"><img src="/blog/assets/images/buttons/88x31_sampler.png" alt="web button sampler" style="width:88px; height:31px;"></a>
 </div>
-<h2 id="meow" tabindex="-1"><a class="header-anchor" href="#meow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> meow</h2>
+<h2 id="meow" tabindex="0"><a class="header-anchor" href="#meow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> meow</h2>
 <p>meow <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_heart.png" alt="emoji: neocat_heart" class="custom-emoji--img"></span></p>
 
 
@@ -385,7 +156,7 @@ export { HeadingAnchors }
         <em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em>
       </p>
     </footer>
-    <!-- This page `/about/` was built on 2025-05-29T21:05:13.899Z -->
+    <!-- This page `/about/` was built on 2025-05-30T00:45:04.909Z -->
     
     <script>
 			function toggleTheme() {

@@ -18,236 +18,7 @@
     
     <meta property="og:image" content="/og-images/2f334cc2.png">
     
-    <script type="module">
-      // Thank you to https://github.com/daviddarnes/heading-anchors
-// Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-
-let globalInstanceIndex = 0;
-
-class HeadingAnchors extends HTMLElement {
-	static register(tagName) {
-		if ("customElements" in window) {
-			customElements.define(tagName || "heading-anchors", HeadingAnchors);
-		}
-	}
-
-	static attributes = {
-		exclude: "data-ha-exclude",
-		prefix: "prefix",
-		content: "content",
-	}
-
-	static classes = {
-		anchor: "ha",
-		placeholder: "ha-placeholder",
-		srOnly: "ha-visualhide",
-	}
-
-	static defaultSelector = "h2,h3,h4,h5,h6";
-
-	static css = `
-.${HeadingAnchors.classes.srOnly} {
-	clip: rect(0 0 0 0);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	width: 1px;
-}
-.${HeadingAnchors.classes.anchor} {
-	position: absolute;
-	left: var(--ha_offsetx);
-	top: var(--ha_offsety);
-	text-decoration: none;
-	opacity: 0;
-}
-.${HeadingAnchors.classes.placeholder} {
-	opacity: .3;
-}
-.${HeadingAnchors.classes.anchor}:is(:focus-within, :hover) {
-	opacity: 1;
-}
-.${HeadingAnchors.classes.anchor},
-.${HeadingAnchors.classes.placeholder} {
-	display: inline-block;
-	padding: 0 .25em;
-
-	/* Disable selection of visually hidden label */
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-@supports (anchor-name: none) {
-	.${HeadingAnchors.classes.anchor} {
-		position: absolute;
-		left: anchor(left);
-		top: anchor(top);
-	}
-}`;
-
-	get supports() {
-		return "replaceSync" in CSSStyleSheet.prototype;
-	}
-
-	get supportsAnchorPosition() {
-		return CSS.supports("anchor-name: none");
-	}
-
-	constructor() {
-		super();
-
-		if(!this.supports) {
-			return;
-		}
-
-		let sheet = new CSSStyleSheet();
-		sheet.replaceSync(HeadingAnchors.css);
-		document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-
-		this.headingStyles = {};
-		this.instanceIndex = globalInstanceIndex++;
-	}
-
-	connectedCallback() {
-		if (!this.supports) {
-			return;
-		}
-
-		this.headings.forEach((heading, index) => {
-			if(!heading.hasAttribute(HeadingAnchors.attributes.exclude)) {
-				let anchor = this.getAnchorElement(heading);
-				let placeholder = this.getPlaceholderElement();
-
-				// Prefers anchor position approach for better accessibility
-				// https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-				if(this.supportsAnchorPosition) {
-					let anchorName = `--ha_${this.instanceIndex}_${index}`;
-					placeholder.style.setProperty("anchor-name", anchorName);
-					anchor.style.positionAnchor = anchorName;
-				}
-
-				heading.appendChild(placeholder);
-				heading.after(anchor);
-			}
-		});
-	}
-
-	// Polyfill-only
-	positionAnchorFromPlaceholder(placeholder) {
-		if(!placeholder) {
-			return;
-		}
-
-		let heading = placeholder.closest("h1,h2,h3,h4,h5,h6");
-		if(!heading.nextElementSibling) {
-			return;
-		}
-
-		// TODO next element could be more defensive
-		this.positionAnchor(heading.nextElementSibling);
-	}
-
-	// Polyfill-only
-	positionAnchor(anchor) {
-		if(!anchor || !anchor.previousElementSibling) {
-			return;
-		}
-
-		// TODO previous element could be more defensive
-		let heading = anchor.previousElementSibling;
-		this.setFontProp(heading, anchor);
-
-		if(this.supportsAnchorPosition) {
-			// quit early
-			return;
-		}
-
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			anchor.style.setProperty("--ha_offsetx", `${placeholder.offsetLeft}px`);
-			anchor.style.setProperty("--ha_offsety", `${placeholder.offsetTop}px`);
-		}
-	}
-
-	setFontProp(heading, anchor) {
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			let style = getComputedStyle(placeholder);
-			let props = ["font-weight", "font-size", "line-height", "font-family"];
-			let font = props.map(name => style.getPropertyValue(name));
-			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
-		}
-	}
-
-	getAccessibleTextPrefix() {
-		// Useful for i18n
-		return this.getAttribute(HeadingAnchors.attributes.prefix) || "Jump to section titled";
-	}
-
-	getContent() {
-		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
-			return this.getAttribute(HeadingAnchors.attributes.content);
-		}
-		return "#";
-	}
-
-	// Placeholder nests inside of heading
-	getPlaceholderElement() {
-		let ph = document.createElement("span");
-		ph.setAttribute("aria-hidden", true);
-		ph.classList.add(HeadingAnchors.classes.placeholder);
-		let content = this.getContent();
-		if(content) {
-			ph.textContent = content;
-		}
-
-		ph.addEventListener("mouseover", (e) => {
-			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
-			if(placeholder) {
-				this.positionAnchorFromPlaceholder(placeholder);
-			}
-		});
-
-		return ph;
-	}
-
-	getAnchorElement(heading) {
-		let anchor = document.createElement("a");
-		anchor.href = `#${heading.id}`;
-		anchor.classList.add(HeadingAnchors.classes.anchor);
-
-		let content = this.getContent();
-		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
-
-		anchor.addEventListener("focus", e => {
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			if(anchor) {
-				this.positionAnchor(anchor);
-			}
-		});
-
-		anchor.addEventListener("mouseover", (e) => {
-			// when CSS anchor positioning is supported, this is only used to set the font
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			this.positionAnchor(anchor);
-		});
-
-		return anchor;
-	}
-
-	get headings() {
-		return this.querySelectorAll(this.selector.split(",").map(entry => `${entry.trim()}[id]`));
-	}
-
-	get selector() {
-		return this.getAttribute("selector") || HeadingAnchors.defaultSelector;
-	}
-}
-
-HeadingAnchors.register();
-
-export { HeadingAnchors }
-
-    </script>
+    
     
     <link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
   </head>
@@ -352,7 +123,7 @@ export { HeadingAnchors }
   <nav class="table-of-contents">
     
   </nav>
-  <div class="photoswipe-gallery"><nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#quickadd-setup">QuickAdd setup</a></li><li><a href="#new-draft-template">new draft template</a><ul><li><a href="#title">title</a></li><li><a href="#date">date</a></li><li><a href="#modified">modified</a></li><li><a href="#description">description</a></li><li><a href="#tags">tags</a></li><li><a href="#frontmatter-result">frontmatter result</a></li></ul></li><li><a href="#promoting-drafts-to-posts">promoting drafts to posts</a></li><li><a href="#outro">outro</a></li><li><a href="#links">links</a></li></ul></nav><h2 id="intro" tabindex="-1"><a class="header-anchor" href="#intro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> intro</h2>
+  <div class="photoswipe-gallery"><nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#quickadd-setup">QuickAdd setup</a></li><li><a href="#new-draft-template">new draft template</a><ul><li><a href="#title">title</a></li><li><a href="#date">date</a></li><li><a href="#modified">modified</a></li><li><a href="#description">description</a></li><li><a href="#tags">tags</a></li><li><a href="#frontmatter-result">frontmatter result</a></li></ul></li><li><a href="#promoting-drafts-to-posts">promoting drafts to posts</a></li><li><a href="#outro">outro</a></li><li><a href="#links">links</a></li></ul></nav><h2 id="intro" tabindex="0"><a class="header-anchor" href="#intro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> intro</h2>
 <p>by using the obsidian plugins <a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">QuickAdd</a> and <a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Templater</a>, i can quickly make draft posts and later promote them to regular blog posts.</p>
 
 <div class="callout" data-callout="warning">
@@ -363,14 +134,14 @@ export { HeadingAnchors }
 <div class="callout-title-inner">warning</div>
 </div>
 <div class="callout-content"><p>this is my "opinionated" way to do it, a bit silly, and there are other ways to do it, but <em>c'est la vie</em>.</p>
-</div></div><h2 id="quickadd-setup" tabindex="-1"><a class="header-anchor" href="#quickadd-setup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> QuickAdd setup</h2>
+</div></div><h2 id="quickadd-setup" tabindex="0"><a class="header-anchor" href="#quickadd-setup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> QuickAdd setup</h2>
 <p>in QuickAdd i use a template (detailed below) with the following options:<br>
 <a href="/blog/assets/images/obsidian-quickadd-draft.png" class="photoswipe-item" data-pswp-width="571" data-pswp-height="727"><picture><source type="image/avif" srcset="/img/-yZ7zSO-wj-571.avif 571w"><source type="image/webp" srcset="/img/-yZ7zSO-wj-571.webp 571w"><img loading="lazy" decoding="async" src="/img/-yZ7zSO-wj-571.png" class="image-embed" data-pswp-original="/blog/assets/images/obsidian-quickadd-draft.png" alt="cropped screenshot of a QuickAdd action setup for making my drafts" width="571" height="727"></picture></a></p>
 <p>this creates a new draft in <code class="language-text">/blog/drafts/</code>, using a template creatively named <code class="language-text">_obsidian_templates/blog_post_draft.md</code>.</p>
 <p>executing this action prompts for a filename (the bit after the date and separator), resulting in something like <code class="language-text">/blog/drafts/2025-05-05 - some post.md</code>.</p>
 <p>the draft opens in a new focused tab in obsidian, after some prompts.</p>
 <p>the filename then gets used by the template to determine the frontmatter <code class="language-text">title</code> (more information in the next section).</p>
-<h2 id="new-draft-template" tabindex="-1"><a class="header-anchor" href="#new-draft-template" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> new draft template</h2>
+<h2 id="new-draft-template" tabindex="0"><a class="header-anchor" href="#new-draft-template" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> new draft template</h2>
 <p>this template (<code class="language-text">blog_post_draft.md</code>) used by QuickAdd (above) has the following frontmatter block:</p>
 <pre class="language-js"><code class="language-js"><span class="token operator">--</span><span class="token operator">-</span>
 <span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span>title<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">&gt;</span>
@@ -385,7 +156,7 @@ export { HeadingAnchors }
 <span class="token operator">--</span><span class="token operator">-</span>
 </code></pre>
 <p>breaking it down:</p>
-<h3 id="title" tabindex="-1"><a class="header-anchor" href="#title" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> title</h3>
+<h3 id="title" tabindex="0"><a class="header-anchor" href="#title" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> title</h3>
 <p><code class="language-js"><span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>file<span class="token punctuation">.</span>title<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">" - "</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">&gt;</span></code></p>
 <p>this takes the filename and turns it into the <code class="language-text">title</code>.<br>
 the split and slice and join is to split it all by instances of <code class="language-text">-</code> (space dash space), slice off the first section, then join the remaining pieces with <code class="language-text">-</code> (space dash space).</p>
@@ -404,16 +175,16 @@ would result in frontmatter like<br>
 <div class="callout-title-inner">what about regex?</div>
 </div>
 <div class="callout-content"><p>no.</p>
-</div></div><h3 id="date" tabindex="-1"><a class="header-anchor" href="#date" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> date</h3>
+</div></div><h3 id="date" tabindex="0"><a class="header-anchor" href="#date" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> date</h3>
 <p><code class="language-js"><span class="token literal-property property">date</span><span class="token operator">:</span> <span class="token operator">&lt;</span><span class="token operator">%</span> tp<span class="token punctuation">.</span>date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token string">'YYYY-MM-DDTHH:mm'</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token operator">&gt;</span></code></p>
 <p>this just inserts the current datetime in the <code class="language-text">date</code> field.</p>
-<h3 id="modified" tabindex="-1"><a class="header-anchor" href="#modified" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> modified</h3>
+<h3 id="modified" tabindex="0"><a class="header-anchor" href="#modified" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> modified</h3>
 <p>this is left null on draft creation.<br>
 it gets populated automatically with the obsidian plugin <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a> as the content of the draft (or published post) is modified over time, in the same format as the <code class="language-text">date</code>.</p>
-<h3 id="description" tabindex="-1"><a class="header-anchor" href="#description" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> description</h3>
+<h3 id="description" tabindex="0"><a class="header-anchor" href="#description" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> description</h3>
 <p><code class="language-js"><span class="token literal-property property">description</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token constant">VALUE</span><span class="token operator">:</span>description<span class="token punctuation">}</span><span class="token punctuation">}</span></code></p>
 <p>this is one of the prompted fields, filled in at time of draft creation. just a string.</p>
-<h3 id="tags" tabindex="-1"><a class="header-anchor" href="#tags" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> tags</h3>
+<h3 id="tags" tabindex="0"><a class="header-anchor" href="#tags" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> tags</h3>
 <pre class="language-js"><code class="language-js"><span class="token literal-property property">tags</span><span class="token operator">:</span>
 <span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">*</span>
 	<span class="token keyword">let</span> tagsArray <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">{{VALUE:tags}}</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">tag</span> <span class="token operator">=&gt;</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  - </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>tag<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -428,7 +199,7 @@ it gets populated automatically with the obsidian plugin <a href="https://github
   <span class="token operator">-</span> test
 </code></pre>
 <p>again this is all just personal preference and to ease compatibility and lower friction (read: cause me less hassle) for everything else.</p>
-<h3 id="frontmatter-result" tabindex="-1"><a class="header-anchor" href="#frontmatter-result" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> frontmatter result</h3>
+<h3 id="frontmatter-result" tabindex="0"><a class="header-anchor" href="#frontmatter-result" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> frontmatter result</h3>
 <p>for the draft of this post, the raw frontmatter after creation might be like:</p>
 <pre class="language-text"><code class="language-text">---
 title: blog - obsidian templates and use
@@ -442,7 +213,7 @@ tags:
 ---
 </code></pre>
 <p>(the <code class="language-text">modified</code> value will get automatically updated as the post is worked on)</p>
-<h2 id="promoting-drafts-to-posts" tabindex="-1"><a class="header-anchor" href="#promoting-drafts-to-posts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> promoting drafts to posts</h2>
+<h2 id="promoting-drafts-to-posts" tabindex="0"><a class="header-anchor" href="#promoting-drafts-to-posts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> promoting drafts to posts</h2>
 <p>again, this is all very silly, but:</p>
 <p>with a draft open and focused, i run the following template (<code class="language-text">_move_draft_to_blog.md</code>) via key combo (<code class="language-text">alt + e</code>):</p>
 <pre class="language-js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">*</span>
@@ -477,7 +248,7 @@ tp<span class="token punctuation">.</span>hooks<span class="token punctuation">.
 <div class="callout-title-inner">why not just manually move the file instead of doing this?</div>
 </div>
 <div class="callout-content"><p>i need the filename, <code class="language-text">date</code>, and <code class="language-text">modified</code> to change and don't want to manually do it (read: automatically forget to do it)</p>
-</div></div><h2 id="outro" tabindex="-1"><a class="header-anchor" href="#outro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> outro</h2>
+</div></div><h2 id="outro" tabindex="0"><a class="header-anchor" href="#outro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> outro</h2>
 <p>silly, sure, but a working kind of silly and working in a way i like.</p>
 <p>i launch the QuickAdd action, fill in the info when prompted, start writing the draft.<br>
 i launch the templater action to promote it to a post with updated filename and date.<br>
@@ -493,7 +264,7 @@ that being said:</p>
 <div class="callout-title-inner">Note</div>
 </div>
 <div class="callout-content"><p>this method might change in the future and if so i will make a new post about whatever new silliness i'm doing then.</p>
-</div></div><h2 id="links" tabindex="-1"><a class="header-anchor" href="#links" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> links</h2>
+</div></div><h2 id="links" tabindex="0"><a class="header-anchor" href="#links" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> links</h2>
 <p>obsidian plugins mentioned (github links):</p>
 <ul>
 <li><a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">QuickAdd</a></li>
@@ -538,7 +309,7 @@ that being said:</p>
         <em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em>
       </p>
     </footer>
-    <!-- This page `/blog/2025-05-05 - blog - obsidian templates and use/` was built on 2025-05-29T21:05:13.846Z -->
+    <!-- This page `/blog/2025-05-05 - blog - obsidian templates and use/` was built on 2025-05-30T00:45:04.857Z -->
     
     <script>
 			function toggleTheme() {

@@ -18,236 +18,7 @@
     
     <meta property="og:image" content="/og-images/b91a8957.png">
     
-    <script type="module">
-      // Thank you to https://github.com/daviddarnes/heading-anchors
-// Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-
-let globalInstanceIndex = 0;
-
-class HeadingAnchors extends HTMLElement {
-	static register(tagName) {
-		if ("customElements" in window) {
-			customElements.define(tagName || "heading-anchors", HeadingAnchors);
-		}
-	}
-
-	static attributes = {
-		exclude: "data-ha-exclude",
-		prefix: "prefix",
-		content: "content",
-	}
-
-	static classes = {
-		anchor: "ha",
-		placeholder: "ha-placeholder",
-		srOnly: "ha-visualhide",
-	}
-
-	static defaultSelector = "h2,h3,h4,h5,h6";
-
-	static css = `
-.${HeadingAnchors.classes.srOnly} {
-	clip: rect(0 0 0 0);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	width: 1px;
-}
-.${HeadingAnchors.classes.anchor} {
-	position: absolute;
-	left: var(--ha_offsetx);
-	top: var(--ha_offsety);
-	text-decoration: none;
-	opacity: 0;
-}
-.${HeadingAnchors.classes.placeholder} {
-	opacity: .3;
-}
-.${HeadingAnchors.classes.anchor}:is(:focus-within, :hover) {
-	opacity: 1;
-}
-.${HeadingAnchors.classes.anchor},
-.${HeadingAnchors.classes.placeholder} {
-	display: inline-block;
-	padding: 0 .25em;
-
-	/* Disable selection of visually hidden label */
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-@supports (anchor-name: none) {
-	.${HeadingAnchors.classes.anchor} {
-		position: absolute;
-		left: anchor(left);
-		top: anchor(top);
-	}
-}`;
-
-	get supports() {
-		return "replaceSync" in CSSStyleSheet.prototype;
-	}
-
-	get supportsAnchorPosition() {
-		return CSS.supports("anchor-name: none");
-	}
-
-	constructor() {
-		super();
-
-		if(!this.supports) {
-			return;
-		}
-
-		let sheet = new CSSStyleSheet();
-		sheet.replaceSync(HeadingAnchors.css);
-		document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-
-		this.headingStyles = {};
-		this.instanceIndex = globalInstanceIndex++;
-	}
-
-	connectedCallback() {
-		if (!this.supports) {
-			return;
-		}
-
-		this.headings.forEach((heading, index) => {
-			if(!heading.hasAttribute(HeadingAnchors.attributes.exclude)) {
-				let anchor = this.getAnchorElement(heading);
-				let placeholder = this.getPlaceholderElement();
-
-				// Prefers anchor position approach for better accessibility
-				// https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-				if(this.supportsAnchorPosition) {
-					let anchorName = `--ha_${this.instanceIndex}_${index}`;
-					placeholder.style.setProperty("anchor-name", anchorName);
-					anchor.style.positionAnchor = anchorName;
-				}
-
-				heading.appendChild(placeholder);
-				heading.after(anchor);
-			}
-		});
-	}
-
-	// Polyfill-only
-	positionAnchorFromPlaceholder(placeholder) {
-		if(!placeholder) {
-			return;
-		}
-
-		let heading = placeholder.closest("h1,h2,h3,h4,h5,h6");
-		if(!heading.nextElementSibling) {
-			return;
-		}
-
-		// TODO next element could be more defensive
-		this.positionAnchor(heading.nextElementSibling);
-	}
-
-	// Polyfill-only
-	positionAnchor(anchor) {
-		if(!anchor || !anchor.previousElementSibling) {
-			return;
-		}
-
-		// TODO previous element could be more defensive
-		let heading = anchor.previousElementSibling;
-		this.setFontProp(heading, anchor);
-
-		if(this.supportsAnchorPosition) {
-			// quit early
-			return;
-		}
-
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			anchor.style.setProperty("--ha_offsetx", `${placeholder.offsetLeft}px`);
-			anchor.style.setProperty("--ha_offsety", `${placeholder.offsetTop}px`);
-		}
-	}
-
-	setFontProp(heading, anchor) {
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			let style = getComputedStyle(placeholder);
-			let props = ["font-weight", "font-size", "line-height", "font-family"];
-			let font = props.map(name => style.getPropertyValue(name));
-			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
-		}
-	}
-
-	getAccessibleTextPrefix() {
-		// Useful for i18n
-		return this.getAttribute(HeadingAnchors.attributes.prefix) || "Jump to section titled";
-	}
-
-	getContent() {
-		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
-			return this.getAttribute(HeadingAnchors.attributes.content);
-		}
-		return "#";
-	}
-
-	// Placeholder nests inside of heading
-	getPlaceholderElement() {
-		let ph = document.createElement("span");
-		ph.setAttribute("aria-hidden", true);
-		ph.classList.add(HeadingAnchors.classes.placeholder);
-		let content = this.getContent();
-		if(content) {
-			ph.textContent = content;
-		}
-
-		ph.addEventListener("mouseover", (e) => {
-			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
-			if(placeholder) {
-				this.positionAnchorFromPlaceholder(placeholder);
-			}
-		});
-
-		return ph;
-	}
-
-	getAnchorElement(heading) {
-		let anchor = document.createElement("a");
-		anchor.href = `#${heading.id}`;
-		anchor.classList.add(HeadingAnchors.classes.anchor);
-
-		let content = this.getContent();
-		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
-
-		anchor.addEventListener("focus", e => {
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			if(anchor) {
-				this.positionAnchor(anchor);
-			}
-		});
-
-		anchor.addEventListener("mouseover", (e) => {
-			// when CSS anchor positioning is supported, this is only used to set the font
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			this.positionAnchor(anchor);
-		});
-
-		return anchor;
-	}
-
-	get headings() {
-		return this.querySelectorAll(this.selector.split(",").map(entry => `${entry.trim()}[id]`));
-	}
-
-	get selector() {
-		return this.getAttribute("selector") || HeadingAnchors.defaultSelector;
-	}
-}
-
-HeadingAnchors.register();
-
-export { HeadingAnchors }
-
-    </script>
+    
     
     <link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
   </head>
@@ -376,13 +147,13 @@ export { HeadingAnchors }
 <nav class="table-of-contents"><ul><li><a href="#the-situation">the situation</a></li><li><a href="#the-format">the format</a><ul><li><a href="#about-pipes">about pipes</a></li></ul></li><li><a href="#features">features</a><ul><li><a href="#default-alt-text">default alt text</a></li></ul></li><li><a href="#options">options</a></li><li><a href="#my-use">my use</a></li><li><a href="#final-thoughts">final thoughts</a></li></ul></nav><hr>
 <p>hey <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_peek.png" alt="emoji: neocat_peek" class="custom-emoji--img"></span> i did a thing again: <a href="https://github.com/actuallysomecat/markdown-it-wikilinks-plus" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-wikilinks-plus</a></p>
 <p>it's another plugin for <a href="https://11ty.dev" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty</a> with markdown-it!</p>
-<h2 id="the-situation" tabindex="-1"><a class="header-anchor" href="#the-situation" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the situation</h2>
+<h2 id="the-situation" tabindex="0"><a class="header-anchor" href="#the-situation" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the situation</h2>
 <p>so this blog is made with 11ty and i use <a href="https://obsidian.md" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">Obsidian</a> as my cms basically.<br>
 i write posts in obsidian and my obsidian vault is part of the 11ty environment. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_comfy.png" alt="emoji: neocat_comfy" class="custom-emoji--img"></span></p>
 <p>in obsidian, i use the default <code class="language-text">shortest path when possible</code> option for new links (in obsidian <code class="language-text">settings &gt; Files and links &gt; New link format</code>) and my filenaming conventions for posts and image embeds means i never really have to worry about duplicate filenames so my links and image embeds are always just <code class="language-text">[[name of note]]</code> and <code class="language-text">![[name of image.png]]</code> or whatever, simple. it works for me.</p>
 <p>at first i was using two 11ty/markdown-it plugins for handling wikilinks and image embeds, but they were both doing regex on somewhat-similar things so hmm <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span></p>
 <p>so this is a plugin that uses the <a href="https://markdown-it.github.io/markdown-it/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it api</a> (token and parsing stuff) rather than regex to detect  wikilinks and image embeds and convert them to html, with some options! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_approve.png" alt="emoji: neocat_approve" class="custom-emoji--img"></span></p>
-<h2 id="the-format" tabindex="-1"><a class="header-anchor" href="#the-format" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the format</h2>
+<h2 id="the-format" tabindex="0"><a class="header-anchor" href="#the-format" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> the format</h2>
 <p>in obsidian, wikilinks can have a <strong>link label</strong> (the text of the link) by putting it after a pipe in the link.<br>
 also, image embeds can have <strong>alt text</strong> and/or <strong>display dimensions</strong> by putting a pipe after the image filename:</p>
 
@@ -416,7 +187,7 @@ also, image embeds can have <strong>alt text</strong> and/or <strong>display dim
 </ul>
 </li>
 </ul>
-</div></div><h3 id="about-pipes" tabindex="-1"><a class="header-anchor" href="#about-pipes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> about pipes</h3>
+</div></div><h3 id="about-pipes" tabindex="0"><a class="header-anchor" href="#about-pipes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> about pipes</h3>
 <blockquote>
 <p><span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span> "but cat, what about if i wanna put some pipes in my link label?"</p>
 </blockquote>
@@ -454,15 +225,15 @@ if the last pipe section <strong>is</strong> dimensions, everything <em>between<
 <li><code class="language-text">alt="alt | with | pipes"</code></li>
 <li><code class="language-text">style="width: 200px; height: 200px;"</code></li>
 </ul>
-</div></div><h2 id="features" tabindex="-1"><a class="header-anchor" href="#features" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> features</h2>
+</div></div><h2 id="features" tabindex="0"><a class="header-anchor" href="#features" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> features</h2>
 <p>the plugin can convert wikilinks to <code class="language-text">&lt;a&gt;</code> links (with link label) and convert image embeds to <code class="language-text">&lt;img&gt;</code> (with <strong>alt text</strong> and/or <strong>dimensions</strong>, if either or both are included).<br>
 dimensions get used as an inline <code class="language-text">style</code> attribute (<code class="language-text">width</code> and <code class="language-text">height</code>) on the <code class="language-text">&lt;img&gt;</code>.</p>
 <p>it can also insert an <strong>alt text</strong> attribute for image embeds that don't have any! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_laptop_notice.png" alt="emoji: neocat_laptop_notice" class="custom-emoji--img"></span></p>
-<h3 id="default-alt-text" tabindex="-1"><a class="header-anchor" href="#default-alt-text" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> default alt text</h3>
+<h3 id="default-alt-text" tabindex="0"><a class="header-anchor" href="#default-alt-text" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> default alt text</h3>
 <p>the <code class="language-text">imageEmbed.defaultAltText</code> option can be either a <strong>boolean</strong> or a <strong>string</strong>.</p>
 <p>if it's <code class="language-text">true</code>, any image embeds that are <em>missing</em> alt text will get the image name as the alt text. not a great placeholder tbh.</p>
 <p>if it's a <code class="language-text">string</code>, any image embeds that are <em>missing</em> alt text will get the provided string as the alt text. this might be useful if you want some easy to find placeholder to do stuff with. this also means it can take an empty string (<code class="language-text">''</code>) to give image embeds with no alt text an <code class="language-text">alt=""</code>, which could be useful. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_think.png" alt="emoji: neocat_think" class="custom-emoji--img"></span></p>
-<h2 id="options" tabindex="-1"><a class="header-anchor" href="#options" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> options</h2>
+<h2 id="options" tabindex="0"><a class="header-anchor" href="#options" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> options</h2>
 <p>yep! <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_happy.png" alt="emoji: neocat_happy" class="custom-emoji--img"></span></p>
 <p>for wikilinks and/or image embeds, there are <a href="https://github.com/actuallysomecat/markdown-it-wikilinks-plus?tab=readme-ov-file#options" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">options</a> for, among other things:</p>
 <ul>
@@ -477,10 +248,10 @@ dimensions get used as an inline <code class="language-text">style</code> attrib
 </ul>
 </li>
 </ul>
-<h2 id="my-use" tabindex="-1"><a class="header-anchor" href="#my-use" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> my use</h2>
+<h2 id="my-use" tabindex="0"><a class="header-anchor" href="#my-use" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> my use</h2>
 <p>in my options, i force all links and image embeds to be absolute pathing and give my absolute base URL (<code class="language-text">/blog/</code> for wikilinks, <code class="language-text">/blog/assets/images/</code> for image embeds), give the wikilinks a <code class="language-text">class: 'internal-link'</code> and image embeds a <code class="language-text">class: 'image-embed'</code>, and give image embeds a <code class="language-text">defaultAltText: ''</code> so any images without alt text get a <code class="language-text">alt=""</code> attribute.<br>
 works for me <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_comfy.png" alt="emoji: neocat_comfy" class="custom-emoji--img"></span></p>
-<h2 id="final-thoughts" tabindex="-1"><a class="header-anchor" href="#final-thoughts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> final thoughts</h2>
+<h2 id="final-thoughts" tabindex="0"><a class="header-anchor" href="#final-thoughts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> final thoughts</h2>
 <p>meow <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_heart.png" alt="emoji: neocat_heart" class="custom-emoji--img"></span></p>
 </div>
 </article>
@@ -514,7 +285,7 @@ works for me <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat
         <em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em>
       </p>
     </footer>
-    <!-- This page `/blog/2025-05-29 - wikilinks + image embeds in 11ty/` was built on 2025-05-29T21:05:13.864Z -->
+    <!-- This page `/blog/2025-05-29 - wikilinks + image embeds in 11ty/` was built on 2025-05-30T00:45:04.873Z -->
     
     <script>
 			function toggleTheme() {

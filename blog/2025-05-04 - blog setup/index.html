@@ -18,236 +18,7 @@
     
     <meta property="og:image" content="/og-images/e6b3f1a1.png">
     
-    <script type="module">
-      // Thank you to https://github.com/daviddarnes/heading-anchors
-// Thank you to https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-
-let globalInstanceIndex = 0;
-
-class HeadingAnchors extends HTMLElement {
-	static register(tagName) {
-		if ("customElements" in window) {
-			customElements.define(tagName || "heading-anchors", HeadingAnchors);
-		}
-	}
-
-	static attributes = {
-		exclude: "data-ha-exclude",
-		prefix: "prefix",
-		content: "content",
-	}
-
-	static classes = {
-		anchor: "ha",
-		placeholder: "ha-placeholder",
-		srOnly: "ha-visualhide",
-	}
-
-	static defaultSelector = "h2,h3,h4,h5,h6";
-
-	static css = `
-.${HeadingAnchors.classes.srOnly} {
-	clip: rect(0 0 0 0);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	width: 1px;
-}
-.${HeadingAnchors.classes.anchor} {
-	position: absolute;
-	left: var(--ha_offsetx);
-	top: var(--ha_offsety);
-	text-decoration: none;
-	opacity: 0;
-}
-.${HeadingAnchors.classes.placeholder} {
-	opacity: .3;
-}
-.${HeadingAnchors.classes.anchor}:is(:focus-within, :hover) {
-	opacity: 1;
-}
-.${HeadingAnchors.classes.anchor},
-.${HeadingAnchors.classes.placeholder} {
-	display: inline-block;
-	padding: 0 .25em;
-
-	/* Disable selection of visually hidden label */
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-@supports (anchor-name: none) {
-	.${HeadingAnchors.classes.anchor} {
-		position: absolute;
-		left: anchor(left);
-		top: anchor(top);
-	}
-}`;
-
-	get supports() {
-		return "replaceSync" in CSSStyleSheet.prototype;
-	}
-
-	get supportsAnchorPosition() {
-		return CSS.supports("anchor-name: none");
-	}
-
-	constructor() {
-		super();
-
-		if(!this.supports) {
-			return;
-		}
-
-		let sheet = new CSSStyleSheet();
-		sheet.replaceSync(HeadingAnchors.css);
-		document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-
-		this.headingStyles = {};
-		this.instanceIndex = globalInstanceIndex++;
-	}
-
-	connectedCallback() {
-		if (!this.supports) {
-			return;
-		}
-
-		this.headings.forEach((heading, index) => {
-			if(!heading.hasAttribute(HeadingAnchors.attributes.exclude)) {
-				let anchor = this.getAnchorElement(heading);
-				let placeholder = this.getPlaceholderElement();
-
-				// Prefers anchor position approach for better accessibility
-				// https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/
-				if(this.supportsAnchorPosition) {
-					let anchorName = `--ha_${this.instanceIndex}_${index}`;
-					placeholder.style.setProperty("anchor-name", anchorName);
-					anchor.style.positionAnchor = anchorName;
-				}
-
-				heading.appendChild(placeholder);
-				heading.after(anchor);
-			}
-		});
-	}
-
-	// Polyfill-only
-	positionAnchorFromPlaceholder(placeholder) {
-		if(!placeholder) {
-			return;
-		}
-
-		let heading = placeholder.closest("h1,h2,h3,h4,h5,h6");
-		if(!heading.nextElementSibling) {
-			return;
-		}
-
-		// TODO next element could be more defensive
-		this.positionAnchor(heading.nextElementSibling);
-	}
-
-	// Polyfill-only
-	positionAnchor(anchor) {
-		if(!anchor || !anchor.previousElementSibling) {
-			return;
-		}
-
-		// TODO previous element could be more defensive
-		let heading = anchor.previousElementSibling;
-		this.setFontProp(heading, anchor);
-
-		if(this.supportsAnchorPosition) {
-			// quit early
-			return;
-		}
-
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			anchor.style.setProperty("--ha_offsetx", `${placeholder.offsetLeft}px`);
-			anchor.style.setProperty("--ha_offsety", `${placeholder.offsetTop}px`);
-		}
-	}
-
-	setFontProp(heading, anchor) {
-		let placeholder = heading.querySelector(`.${HeadingAnchors.classes.placeholder}`);
-		if(placeholder) {
-			let style = getComputedStyle(placeholder);
-			let props = ["font-weight", "font-size", "line-height", "font-family"];
-			let font = props.map(name => style.getPropertyValue(name));
-			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
-		}
-	}
-
-	getAccessibleTextPrefix() {
-		// Useful for i18n
-		return this.getAttribute(HeadingAnchors.attributes.prefix) || "Jump to section titled";
-	}
-
-	getContent() {
-		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
-			return this.getAttribute(HeadingAnchors.attributes.content);
-		}
-		return "#";
-	}
-
-	// Placeholder nests inside of heading
-	getPlaceholderElement() {
-		let ph = document.createElement("span");
-		ph.setAttribute("aria-hidden", true);
-		ph.classList.add(HeadingAnchors.classes.placeholder);
-		let content = this.getContent();
-		if(content) {
-			ph.textContent = content;
-		}
-
-		ph.addEventListener("mouseover", (e) => {
-			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
-			if(placeholder) {
-				this.positionAnchorFromPlaceholder(placeholder);
-			}
-		});
-
-		return ph;
-	}
-
-	getAnchorElement(heading) {
-		let anchor = document.createElement("a");
-		anchor.href = `#${heading.id}`;
-		anchor.classList.add(HeadingAnchors.classes.anchor);
-
-		let content = this.getContent();
-		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
-
-		anchor.addEventListener("focus", e => {
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			if(anchor) {
-				this.positionAnchor(anchor);
-			}
-		});
-
-		anchor.addEventListener("mouseover", (e) => {
-			// when CSS anchor positioning is supported, this is only used to set the font
-			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
-			this.positionAnchor(anchor);
-		});
-
-		return anchor;
-	}
-
-	get headings() {
-		return this.querySelectorAll(this.selector.split(",").map(entry => `${entry.trim()}[id]`));
-	}
-
-	get selector() {
-		return this.getAttribute("selector") || HeadingAnchors.defaultSelector;
-	}
-}
-
-HeadingAnchors.register();
-
-export { HeadingAnchors }
-
-    </script>
+    
     
     <link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
   </head>
@@ -360,7 +131,7 @@ export { HeadingAnchors }
   <nav class="table-of-contents">
     
   </nav>
-  <div class="photoswipe-gallery"><nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#11ty">11ty</a><ul><li><a href="#plugins">plugins</a><ul></ul></li><li><a href="#theme">theme</a></li></ul></li><li><a href="#obsidian">obsidian</a><ul><li><a href="#plugins-1">plugins</a><ul></ul></li></ul></li><li><a href="#hosting">hosting</a></li><li><a href="#notes-and-thoughts">notes and thoughts</a></li></ul></nav><h2 id="intro" tabindex="-1"><a class="header-anchor" href="#intro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> intro</h2>
+  <div class="photoswipe-gallery"><nav class="table-of-contents"><ul><li><a href="#intro">intro</a></li><li><a href="#11ty">11ty</a><ul><li><a href="#plugins">plugins</a><ul></ul></li><li><a href="#theme">theme</a></li></ul></li><li><a href="#obsidian">obsidian</a><ul><li><a href="#plugins-1">plugins</a><ul></ul></li></ul></li><li><a href="#hosting">hosting</a></li><li><a href="#notes-and-thoughts">notes and thoughts</a></li></ul></nav><h2 id="intro" tabindex="0"><a class="header-anchor" href="#intro" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> intro</h2>
 <p>i wanted to be able to</p>
 <ul>
 <li>make posts in <a href="https://obsidian.md" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">obsidian</a> in a "normal (for me)" way (wikilinks, image embeds, callouts, etc)</li>
@@ -369,71 +140,71 @@ export { HeadingAnchors }
 </ul>
 <p>at times it felt like this was going to be a "pick two" kind of situation but it's more or less working (for) now, with potentially more future expansion.</p>
 <p>below are some notes and links and explanations about this setup.</p>
-<h2 id="11ty" tabindex="-1"><a class="header-anchor" href="#11ty" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> 11ty</h2>
+<h2 id="11ty" tabindex="0"><a class="header-anchor" href="#11ty" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> 11ty</h2>
 <p>this is an <a href="https://11ty.dev" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty</a> project, based on the <a href="https://github.com/11ty/eleventy-base-blog" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">11ty base blog</a> starter.</p>
-<h3 id="plugins" tabindex="-1"><a class="header-anchor" href="#plugins" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> plugins</h3>
+<h3 id="plugins" tabindex="0"><a class="header-anchor" href="#plugins" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> plugins</h3>
 <p>my style of obsidian use was facilitated through a combination of several markdown-it related plugins (listed here in no particular order):</p>
-<h4 id="markdown-it" tabindex="-1"><a class="header-anchor" href="#markdown-it" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it</h4>
+<h4 id="markdown-it" tabindex="0"><a class="header-anchor" href="#markdown-it" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it</h4>
 <p>github link: <a href="https://github.com/markdown-it/markdown-it" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it</a><br>
 for markdown.</p>
-<h4 id="markdown-it-attrs" tabindex="-1"><a class="header-anchor" href="#markdown-it-attrs" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-attrs</h4>
+<h4 id="markdown-it-attrs" tabindex="0"><a class="header-anchor" href="#markdown-it-attrs" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-attrs</h4>
 <p>github link: <a href="https://github.com/arve0/markdown-it-attrs" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-attrs</a><br>
 for adding attributes to elements via markdown.</p>
-<h4 id="markdown-it-link-attributes" tabindex="-1"><a class="header-anchor" href="#markdown-it-link-attributes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-link-attributes</h4>
+<h4 id="markdown-it-link-attributes" tabindex="0"><a class="header-anchor" href="#markdown-it-link-attributes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-link-attributes</h4>
 <p>github link: <a href="https://github.com/crookedneighbor/markdown-it-link-attributes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-link-attributes</a><br>
 for adding link attributes (<code class="language-text">target="_blank"</code>, classes, etc)<br>
 pretty sure the plugin before this could handle this also, but i think it would require i manually add the attributes to links in obsidian every time (or do some more templating and link processing on the 11ty side) and i do not want to do that.</p>
-<h4 id="markdown-it-obsidian-callouts" tabindex="-1"><a class="header-anchor" href="#markdown-it-obsidian-callouts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-obsidian-callouts</h4>
+<h4 id="markdown-it-obsidian-callouts" tabindex="0"><a class="header-anchor" href="#markdown-it-obsidian-callouts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-obsidian-callouts</h4>
 <p>github link: <a href="https://github.com/ebullient/markdown-it-obsidian-callouts" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-obsidian-callouts</a><br>
 for making the obsidian markdown callouts work, with optional styling via css.<br>
 see also: this test post with some callouts and codeblocks: <a href="/blog/testing" class="internal-link">testing</a></p>
-<h4 id="markdown-it-prism" tabindex="-1"><a class="header-anchor" href="#markdown-it-prism" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-prism</h4>
+<h4 id="markdown-it-prism" tabindex="0"><a class="header-anchor" href="#markdown-it-prism" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-prism</h4>
 <p>github link: <a href="https://github.com/jGleitz/markdown-it-prism" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-prism</a><br>
 for prism syntax highlighting within markdown code fences</p>
-<h4 id="markdown-it-task-checkbox" tabindex="-1"><a class="header-anchor" href="#markdown-it-task-checkbox" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-task-checkbox</h4>
+<h4 id="markdown-it-task-checkbox" tabindex="0"><a class="header-anchor" href="#markdown-it-task-checkbox" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-task-checkbox</h4>
 <p>github link: <a href="https://github.com/linsir/markdown-it-task-checkbox" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-task-checkbox</a><br>
 markdown-it plugin for adding github style task lists with classes and ids.</p>
-<h4 id="markdown-it-mark" tabindex="-1"><a class="header-anchor" href="#markdown-it-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-mark</h4>
+<h4 id="markdown-it-mark" tabindex="0"><a class="header-anchor" href="#markdown-it-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-mark</h4>
 <p>github link: <a href="https://github.com/markdown-it/markdown-it-mark" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-mark</a><br>
 for converting markdown highlights to <code class="language-text">&lt;mark&gt;</code> markup.<br>
 <code class="language-text">==example==</code> becomes <mark>example</mark></p>
-<h4 id="markdown-it-toc-done-right" tabindex="-1"><a class="header-anchor" href="#markdown-it-toc-done-right" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-toc-done-right</h4>
+<h4 id="markdown-it-toc-done-right" tabindex="0"><a class="header-anchor" href="#markdown-it-toc-done-right" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-toc-done-right</h4>
 <p>github link: <a href="https://github.com/nagaozen/markdown-it-toc-done-right" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-toc-done-right</a><br>
 for adding a table of contents into posts, triggered via putting <code class="language-text">[toc]</code> in the markdown of a post.</p>
-<h4 id="markdown-it-emoji-customzier" tabindex="-1"><a class="header-anchor" href="#markdown-it-emoji-customzier" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-emoji-customzier</h4>
+<h4 id="markdown-it-emoji-customzier" tabindex="0"><a class="header-anchor" href="#markdown-it-emoji-customzier" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-emoji-customzier</h4>
 <p>github link: <a href="https://github.com/actuallysomecat/markdown-it-emoji-customizer" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-emoji-customizer</a><br>
 for converting custom emoji shortcodes (<code class="language-text">:neocat:</code> etc) to <code class="language-text">&lt;img&gt;</code> tags, as well as unicode emoji shortcodes (<code class="language-text">:cat:</code> etc) to unicode-emoji-wrapped-in-<code class="language-text">&lt;span&gt;</code>. has options. <span class="custom-emoji--span"><img src="/img/emoji/neocat/neocat_3c.png" alt="emoji: neocat_3c" class="custom-emoji--img"></span><br>
 intended to work with (but doesn't require!) the <code class="language-text">obsidian-icon-shortcodes</code> Obsidian plugin (<a href="#obsidian-icon-shortcodes">mentioned in next section</a>)<br>
 see also: <a href="/blog/2025-05-18 - custom emoji shortcodes in 11ty with a plugin" class="internal-link">this post</a></p>
-<h4 id="markdown-it-wiklinks-plus" tabindex="-1"><a class="header-anchor" href="#markdown-it-wiklinks-plus" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-wiklinks-plus</h4>
+<h4 id="markdown-it-wiklinks-plus" tabindex="0"><a class="header-anchor" href="#markdown-it-wiklinks-plus" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-wiklinks-plus</h4>
 <p>github link: (<em>not yet</em>)*<br>
 diy plugin for converting wikilinks (<code class="language-text">[[some post]]</code>) and wikilinks image embeds (<code class="language-text">![[image.png]]</code>) using markdown-it tokens rather than regex. i was originally using two other existing plugins (which used regex...) for both of those things but they were conflicting with each other so i rolled my own using markdown-it tokens. has many options.<br>
 *(not available yet because i want to do more testing with 11ty/obsidian setups that aren't like mine)</p>
-<h4 id="markdown-it-anchor" tabindex="-1"><a class="header-anchor" href="#markdown-it-anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-anchor</h4>
+<h4 id="markdown-it-anchor" tabindex="0"><a class="header-anchor" href="#markdown-it-anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> markdown-it-anchor</h4>
 <p>github link: <a href="https://github.com/valeriangalliat/markdown-it-anchor" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">markdown-it-anchor</a><br>
 for putting the link icon before headers</p>
-<h3 id="theme" tabindex="-1"><a class="header-anchor" href="#theme" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> theme</h3>
+<h3 id="theme" tabindex="0"><a class="header-anchor" href="#theme" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> theme</h3>
 <p>the theme is using bits of the <a href="https://github.com/catppuccin/palette" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">catppuccin palettes</a> (some latte and mocha) and the <a href="https://github.com/PrismJS/prism-themes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">laserwave prism theme</a> for codeblocks.</p>
-<h2 id="obsidian" tabindex="-1"><a class="header-anchor" href="#obsidian" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> obsidian</h2>
+<h2 id="obsidian" tabindex="0"><a class="header-anchor" href="#obsidian" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> obsidian</h2>
 <p>i really like obsidian and it was important to me that i not have to compromise too much on "my obsidian way" of doing things to make the blog posts. the collection of plugins above for eleventy (plus relevant options configuration) mostly covered that.</p>
-<h3 id="plugins-1" tabindex="-1"><a class="header-anchor" href="#plugins-1" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> plugins</h3>
+<h3 id="plugins-1" tabindex="0"><a class="header-anchor" href="#plugins-1" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> plugins</h3>
 <p>i use a few obsidian plugins to make this all easier or possible. a few of them are strictly "user experience" sort of things that have no relevancy in the actual obsidian to eleventy pipeline, so they will not be listed. the relevant ones, in no particular order, are:</p>
-<h4 id="templater" tabindex="-1"><a class="header-anchor" href="#templater" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> templater</h4>
+<h4 id="templater" tabindex="0"><a class="header-anchor" href="#templater" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> templater</h4>
 <p>github link: <a href="https://github.com/SilentVoid13/Templater" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">templater</a><br>
 templater is very powerful and key to starting my drafts and "publishing" them, combined with QuickAdd (below).<br>
 i have two templater templates: one to create a draft with prompts for the desired frontmatter in place (like title, description, tags) which creates the draft with a filename based on the current date + the prompted title (eg <code class="language-text">2025-01-01 - title</code>), and one to simply move a draft from my <code class="language-text">drafts/</code> folder into the base <code class="language-text">blog/</code> and update the frontmatter date and filename accordingly (eg the previous draft if "published" the next day becomes <code class="language-text">2025-01-02 - title</code> with matching <code class="language-text">date:</code> and a null <code class="language-text">modified:</code> frontmatter).</p>
-<h4 id="quickadd" tabindex="-1"><a class="header-anchor" href="#quickadd" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> quickadd</h4>
+<h4 id="quickadd" tabindex="0"><a class="header-anchor" href="#quickadd" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> quickadd</h4>
 <p>github link: <a href="https://github.com/chhoumann/quickadd" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">quickadd</a><br>
 quickadd uses the template for a new draft to create the file itself and apply the template (which prompts for the data).</p>
-<h4 id="update-modified-date" tabindex="-1"><a class="header-anchor" href="#update-modified-date" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> update modified date</h4>
+<h4 id="update-modified-date" tabindex="0"><a class="header-anchor" href="#update-modified-date" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> update modified date</h4>
 <p>github link: <a href="https://github.com/alangrainger/obsidian-frontmatter-modified-date" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">update modified date</a><br>
 this can automatically update a chosen frontmatter key when the file content has been modified in obsidian. i prefer this over using any kind of actual raw/git file modification timestamps because i only want the <code class="language-text">modified: </code> frontmatter to change when the <em>content</em> of the post changes. going by git/filesystem modified dates could be problematic, for that goal. modified date is nulled when a post is promoted from draft to proper blog post (this way i don't have modified dates on published posts that are prior to publishing date, no modified date, yet i can still keep track of modified dates while in the draft phase, and modified date automatically changes if i edit a post after publishing it).</p>
-<h4 id="obsidian-icon-shortcodes" tabindex="-1"><a class="header-anchor" href="#obsidian-icon-shortcodes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> obsidian-icon-shortcodes</h4>
+<h4 id="obsidian-icon-shortcodes" tabindex="0"><a class="header-anchor" href="#obsidian-icon-shortcodes" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> obsidian-icon-shortcodes</h4>
 <p>github link: <a href="https://github.com/aidenlx/obsidian-icon-shortcodes" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">obsidian-icon-shortcodes</a><br>
 this is for shortcodes in Obsidian (<code class="language-text">:shortcode:</code>). has autocomplete popup, supports custom emoji in 'packs'.</p>
-<h2 id="hosting" tabindex="-1"><a class="header-anchor" href="#hosting" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> hosting</h2>
+<h2 id="hosting" tabindex="0"><a class="header-anchor" href="#hosting" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> hosting</h2>
 <p>i am pushing the built site to a <a href="https://pages.github.com/" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">github pages</a> configured repo, using the <a href="https://github.com/tschaub/gh-pages" class="external-link" target="_blank" rel="noopener noreferrer" aria-label="External link (opens in new tab)">gh-pages</a> npm package.</p>
-<h2 id="notes-and-thoughts" tabindex="-1"><a class="header-anchor" href="#notes-and-thoughts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> notes and thoughts</h2>
+<h2 id="notes-and-thoughts" tabindex="0"><a class="header-anchor" href="#notes-and-thoughts" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a> notes and thoughts</h2>
 <p>there are options for pushing the blog to the repo from within obsidian, triggering a build, etc, such as the various git plugins or the buttons plugin or just shell scripting, but i prefer to have that as a manual separate step.<br>
 i could also use github actions but i do not want to.</p>
 
@@ -489,7 +260,7 @@ i could also use github actions but i do not want to.</p>
         <em>built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em>
       </p>
     </footer>
-    <!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-29T21:05:13.827Z -->
+    <!-- This page `/blog/2025-05-04 - blog setup/` was built on 2025-05-30T00:45:04.836Z -->
     
     <script>
 			function toggleTheme() {
